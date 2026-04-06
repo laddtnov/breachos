@@ -4,7 +4,7 @@
   width: 100%;
   margin-top: 8px;
   background: rgba(157, 0, 255, 0.08);
-  color: #bf7fff;
+  color: #7a3fd1;
   border: 2px solid #9d00ff;
   padding: 12px;
   font-family: 'Courier New', monospace;
@@ -97,7 +97,7 @@
 .daily-hud-value {
   font-size: 14px;
   font-weight: bold;
-  color: #bf7fff;
+  color: #7a3fd1;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -115,7 +115,7 @@ body.daily-mode .game-hud {
 }
 
 body.daily-mode .hud-diff {
-  color: #bf7fff;
+  color: #7a3fd1;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -155,7 +155,7 @@ body.daily-mode .hud-diff {
 
 .daily-win-title {
   font-size: 28px;
-  color: #bf7fff;
+  color: #7a3fd1;
   text-shadow:
     0 0 20px rgba(157, 0, 255, 0.8),
     0 0 40px rgba(157, 0, 255, 0.4);
@@ -225,7 +225,7 @@ body.daily-mode .hud-diff {
 
 #daily-exit-btn {
   background: transparent;
-  color: #bf7fff;
+  color: #7a3fd1;
   border: 2px solid #9d00ff;
   padding: 12px 24px;
   font-family: 'Courier New', monospace;
