@@ -41,7 +41,7 @@
 #sound-theme-btn:hover,
 #donate-btn:hover {
   background: #00f3ff;
-  color: #111;
+  color: #050505;
   box-shadow: 0 0 20px #00f3ff;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .menu-close-btn:hover {
-  color: #c40045;
+  color: #ff5c8a;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
 }
 
@@ -210,7 +210,7 @@
 
 .menu-item:hover,
 .menu-item:active {
-  background: rgba(0, 243, 255, 0.18);
+  background: rgba(0, 243, 255, 0.25);
   border-color: #00f3ff;
   box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 }
@@ -241,6 +241,6 @@
 }
 
 .safe-mode #glitch-toggle {
-  color: #c40045;
-  border-color: #c40045;
+  color: #ff5c8a;
+  border-color: #ff5c8a;
 }

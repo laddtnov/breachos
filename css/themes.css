@@ -200,7 +200,7 @@ body.theme-void .cyber-table::after {
   display: block;
   width: 100%;
   background: transparent;
-  color: #c40045;
+  color: #ff5c8a;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
@@ -215,7 +215,7 @@ body.theme-void .cyber-table::after {
 
 .theme-close-btn:hover {
   background: #ff0055;
-  color: #111;
+  color: #050505;
   box-shadow: 0 0 20px #ff0055;
 }
 
