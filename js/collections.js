@@ -110,9 +110,11 @@ function renderCollectionModal() {
 
   grid.innerHTML = REWARD_CARDS.map(card => {
     const cardUnlocked = isRewardUnlocked(card.rank);
-    const lockLabel = card.rank === '__SURVIVAL_10' ? 'SURVIVE WAVE 10'
-      : card.rank === '__DAILY_30' ? '30-DAY STREAK'
-      : card.rank;
+    const RANK_LABELS = {
+      '__SURVIVAL_10': 'SURVIVE WAVE 10',
+      '__DAILY_30': '30-DAY STREAK'
+    };
+    const lockLabel = RANK_LABELS[card.rank] ?? card.rank;
     return `
       <div class="reward-card reward-card-${card.id} ${cardUnlocked ? 'unlocked' : 'locked'}"
            ${cardUnlocked ? `title="${card.desc}"` : `title="Unlock: ${lockLabel}"`}>

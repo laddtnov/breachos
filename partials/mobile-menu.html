@@ -6,8 +6,8 @@
 </button>
 
 <!-- Menu Overlay (mobile) -->
-<div id="menu-overlay" class="menu-closed" onclick="closeMenuOnBackdrop(event)">
-  <nav class="menu-panel">
+<div id="menu-overlay" class="menu-closed" aria-hidden="true">
+  <nav class="menu-panel" role="dialog" aria-modal="true" aria-label="Game menu">
     <button class="menu-close-btn" onclick="toggleMenu()" aria-label="Close menu">&times;</button>
     <div class="menu-title">SYSTEM MENU</div>
     <div class="menu-divider"></div>

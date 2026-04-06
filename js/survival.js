@@ -25,9 +25,8 @@ function initSurvivalWave() {
 
   // Determine countdown for this wave (loops add time pressure)
   const loopCountdowns = SURVIVAL_CONFIG.loopCountdowns;
-  const countdownBase = gameState.survivalLoop < loopCountdowns.length
-    ? loopCountdowns[gameState.survivalLoop]
-    : loopCountdowns[loopCountdowns.length - 1];
+  const index = Math.min(gameState.survivalLoop, loopCountdowns.length - 1);
+  const countdownBase = loopCountdowns.at(index);
   // Scale countdown by difficulty within loop
   const countdownMultiplier = { easy: 1, medium: 1.5, hard: 2, extreme: 2 }[diffKey];
   const countdown = countdownBase > 0 ? Math.round(countdownBase * countdownMultiplier) : 0;

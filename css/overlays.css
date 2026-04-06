@@ -111,7 +111,7 @@
 }
 
 /* ── Win Particles ── */
-#particles {
+.particles {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
@@ -174,7 +174,7 @@
 }
 
 /* Glitch scanlines on lose */
-#glitch-lines {
+.glitch-lines {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;

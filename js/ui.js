@@ -88,7 +88,6 @@ function updateBlitzTimers() {
     if (isBlitz) {
       desc.textContent = base.pairs * 2 + ' cards — ' + BLITZ_CONFIG[d].countdown + 's';
     } else {
-      const label = base.gridClass.replace('grid-', '');
       const cols = { easy: '3 x 2', medium: '4 x 4', hard: '4 x 6', extreme: '6 x 6' }[d];
       desc.textContent = cols + ' — ' + base.pairs * 2 + ' cards' + (base.countdown ? ' — ' + base.countdown + 's' : '');
     }
@@ -221,9 +220,11 @@ function renderSkinModal() {
     const unlocked = playerStats.unlockedSkins.includes(skin.id);
     const active = playerStats.activeSkin === skin.id;
     const isDisabled = !unlocked;
-    const lockLabel = skin.rank === '__SURVIVAL_5' ? 'Survive Wave 5'
-      : skin.rank === '__DAILY_7' ? '7-Day Streak'
-      : 'Unlock at ' + skin.rank;
+    const LOCK_LABELS = {
+      '__SURVIVAL_5': 'Survive Wave 5',
+      '__DAILY_7': '7-Day Streak'
+    };
+    const lockLabel = LOCK_LABELS[skin.rank] ?? `Unlock at ${skin.rank}`;
     return `
       <button class="skin-item ${unlocked ? 'unlocked' : 'locked'} ${active ? 'active' : ''}"
               onclick="${unlocked ? `selectSkin('${skin.id}')` : ''}"
@@ -267,9 +268,22 @@ function toggleMenu() {
   }
 }
 
-function closeMenuOnBackdrop(e) {
-  if (e.target === e.currentTarget) toggleMenu();
+// Backdrop click and Escape key to close menu
+const menuOverlay = document.getElementById('menu-overlay');
+if (menuOverlay) {
+  menuOverlay.addEventListener('click', (e) => {
+    if (e.target === menuOverlay) toggleMenu();
+  });
 }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('menu-overlay');
+    if (overlay && overlay.classList.contains('menu-open')) {
+      toggleMenu();
+    }
+  }
+});
 
 // ── Best Times on Difficulty Buttons ──
 function updateBestTimes() {

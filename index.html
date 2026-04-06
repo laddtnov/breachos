@@ -64,10 +64,9 @@
   <script src="js/survival.js"></script>
   <script src="js/daily.js"></script>
   <script src="js/ui.js"></script>
-  <script>
-    loadPartials().then(() => {
-      renderSkinModal();
-    });
+  <script type="module">
+    await loadPartials();
+    renderSkinModal();
   </script>
   <script>
     if ('serviceWorker' in navigator) {

@@ -3,11 +3,13 @@
 // Seeded PRNG (mulberry32) — deterministic shuffle from a date string
 function dailySeed(dateStr) {
   let h = 0;
-  for (let i = 0; i < dateStr.length; i++) {
-    h = Math.imul(31, h) + dateStr.charCodeAt(i) | 0;
+  for (const char of dateStr) {
+    const code = char.codePointAt(0);
+    h = Math.trunc(Math.imul(31, h) + code);
   }
   return function () {
-    h |= 0; h = h + 0x6D2B79F5 | 0;
+    h = Math.trunc(h);
+    h = Math.trunc(h + 0x6D2B79F5);
     let t = Math.imul(h ^ h >>> 15, 1 | h);
     t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
@@ -79,7 +81,8 @@ function startDailyChallenge() {
   winOverlay.classList.add('hidden');
   loseOverlay.classList.add('hidden');
   difficultyDisplay.textContent = 'DAILY';
-  particles.innerHTML = '';
+  const dailyParticles = document.getElementById('daily-particles');
+  if (dailyParticles) dailyParticles.innerHTML = '';
 
   const hudItem = movesDisplay.closest('.hud-item');
   hudItem.classList.remove('moves-warning');
@@ -212,11 +215,12 @@ function updateDailyButton() {
   const btn = document.getElementById('daily-btn');
   if (!btn) return;
   const badge = document.getElementById('daily-badge');
-  if (isDailyCompleted()) {
-    if (badge) badge.classList.remove('hidden');
-  } else {
-    if (badge) badge.classList.add('hidden');
+  const completed = isDailyCompleted();
+
+  if (badge) {
+    badge.classList.toggle('hidden', !completed);
   }
+
   const streakEl = document.getElementById('daily-btn-streak');
   if (streakEl) {
     const streak = playerStats.dailyStreak || 0;
