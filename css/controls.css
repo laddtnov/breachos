@@ -164,7 +164,7 @@
 }
 
 .menu-close-btn:hover {
-  color: #fff0f3;
+  color: #fff;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
 }
 
@@ -241,6 +241,6 @@
 }
 
 .safe-mode #glitch-toggle {
-  color: #fff0f3;
-  border-color: #fff0f3;
+  color: #fff;
+  border-color: #fff;
 }
