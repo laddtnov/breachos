@@ -34,7 +34,7 @@
 
 #restart-btn {
   background: transparent;
-  color: #ff5c8a;
+  color: #ffb3c6;
   border: 2px solid #ff0055;
   padding: 8px 20px;
   font-family: 'Courier New', monospace;
@@ -48,7 +48,7 @@
 
 #restart-btn:hover {
   background: #ff0055;
-  color: #050505;
+  color: #000;
   box-shadow: 0 0 20px #ff0055;
 }
 
@@ -104,7 +104,7 @@
 
 .hud-diff {
   font-size: 14px;
-  color: #ff5c8a;
+  color: #ffb3c6;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
 }
 
@@ -115,7 +115,7 @@
 }
 
 .moves-warning .hud-value {
-  color: #ff5c8a;
+  color: #ffb3c6;
   animation: blink-text 0.8s steps(2) infinite;
 }
 
