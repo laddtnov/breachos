@@ -24,22 +24,50 @@ function isSafePartialPath(value) {
   return ALLOWED_PARTIALS.has(path);
 }
 
-function stripDangerousNodes(fragment) {
+function isDangerousUrl(rawValue) {
+  if (typeof rawValue !== 'string') return false;
+
+  const value = rawValue.trim().toLowerCase();
+
+  return (
+    value.startsWith('javascript:') ||
+    value.startsWith('data:text/html')
+  );
+}
+
+function sanitizeFragment(fragment) {
   fragment.querySelectorAll('script').forEach((node) => node.remove());
 
   fragment.querySelectorAll('*').forEach((el) => {
     for (const attr of Array.from(el.attributes)) {
       const name = attr.name.toLowerCase();
-      const value = attr.value.trim().toLowerCase();
 
       if (
         (name === 'href' || name === 'src' || name === 'xlink:href') &&
-        (value.startsWith('javascript:') || value.startsWith('data:text/html'))
+        isDangerousUrl(attr.value)
       ) {
+        el.removeAttribute(attr.name);
+        continue;
+      }
+
+      if (name === 'srcdoc') {
         el.removeAttribute(attr.name);
       }
     }
   });
+
+  return fragment;
+}
+
+function parseHtmlToFragment(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  const fragment = document.createDocumentFragment();
+
+  for (const node of Array.from(doc.body.childNodes)) {
+    fragment.appendChild(node.cloneNode(true));
+  }
 
   return fragment;
 }
@@ -67,11 +95,8 @@ async function loadPartials() {
     }
 
     const html = await res.text();
-
-    const template = document.createElement('template');
-    template.innerHTML = html;
-
-    const safeFragment = stripDangerousNodes(template.content.cloneNode(true));
+    const fragment = parseHtmlToFragment(html);
+    const safeFragment = sanitizeFragment(fragment);
 
     slot.replaceChildren(safeFragment);
   });
