@@ -253,37 +253,30 @@ window.onfocus = () => document.title = "Cyberpunk Memory Match";
 
 // ── Mobile Menu ──
 function toggleMenu() {
-  const overlay = document.getElementById('menu-overlay');
+  const dialog = document.getElementById('menu-dialog');
   const btn = document.getElementById('menu-btn');
-  if (!overlay) return;
-  const isOpen = overlay.classList.contains('menu-open');
-  if (isOpen) {
-    overlay.classList.remove('menu-open');
-    overlay.classList.add('menu-closed');
-    btn.classList.remove('open');
+  if (!dialog) return;
+
+  if (dialog.open) {
+    dialog.close();
+    btn?.classList.remove('open');
   } else {
-    overlay.classList.remove('menu-closed');
-    overlay.classList.add('menu-open');
-    btn.classList.add('open');
+    dialog.showModal();
+    btn?.classList.add('open');
   }
 }
 
-// Backdrop click and Escape key to close menu
-const menuOverlay = document.getElementById('menu-overlay');
-if (menuOverlay) {
-  menuOverlay.addEventListener('click', (e) => {
-    if (e.target === menuOverlay) toggleMenu();
+// Close on backdrop click — attached after partials load via initMenuDialog()
+function initMenuDialog() {
+  const dialog = document.getElementById('menu-dialog');
+  if (!dialog) return;
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) {
+      dialog.close();
+      document.getElementById('menu-btn')?.classList.remove('open');
+    }
   });
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const overlay = document.getElementById('menu-overlay');
-    if (overlay && overlay.classList.contains('menu-open')) {
-      toggleMenu();
-    }
-  }
-});
 
 // ── Best Times on Difficulty Buttons ──
 function updateBestTimes() {

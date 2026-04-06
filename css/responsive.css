@@ -23,8 +23,8 @@
     display: flex;
   }
 
-  #menu-overlay {
-    display: block;
+  #menu-dialog[open] {
+    display: flex;
   }
 }
 

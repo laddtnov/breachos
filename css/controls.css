@@ -99,49 +99,35 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── Mobile Menu Overlay ── */
-#menu-overlay {
-  display: none;
+/* ── Mobile Menu Dialog ── */
+#menu-dialog {
   position: fixed;
-  inset: 0;
-  z-index: 250;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-#menu-overlay.menu-open {
-  opacity: 1;
-}
-
-#menu-overlay.menu-closed {
-  pointer-events: none;
-}
-
-/* ── Menu Panel (slides from right) ── */
-.menu-panel {
-  position: absolute;
   top: 0;
   right: 0;
   width: 280px;
   max-width: 85vw;
   height: 100%;
+  margin: 0;
+  margin-left: auto;
+  border: none;
   background: rgba(5, 5, 20, 0.95);
   border-left: 2px solid rgba(0, 243, 255, 0.3);
   padding: 60px 20px 30px;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  z-index: 250;
+}
+
+#menu-dialog[open] {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
 }
 
-#menu-overlay.menu-open .menu-panel {
-  transform: translateX(0);
+#menu-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* ── Close Button ── */
