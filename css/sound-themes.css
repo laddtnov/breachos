@@ -77,7 +77,7 @@
 }
 
 .sound-theme-desc {
-  font-size: 10px;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1px;
   flex: 1;
@@ -88,7 +88,7 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
   color: #00ff88;
   font-family: 'Courier New', monospace;
-  font-size: 9px;
+  font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
   padding: 4px 10px;
@@ -100,7 +100,7 @@
 
 .sound-theme-preview:hover {
   background: #00ff88;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
 }
 
@@ -108,7 +108,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  color: #ff0055;
+  color: #c40045;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
@@ -123,6 +123,6 @@
 
 .sound-theme-close-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 20px #ff0055;
 }

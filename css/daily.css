@@ -4,7 +4,7 @@
   width: 100%;
   margin-top: 8px;
   background: rgba(157, 0, 255, 0.08);
-  color: #5a2aa8;
+  color: #4a1f8a;
   border: 2px solid #9d00ff;
   padding: 12px;
   font-family: 'Courier New', monospace;
@@ -21,13 +21,13 @@
 
 #daily-btn:hover {
   background: #9d00ff;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 25px #9d00ff;
 }
 
 .daily-btn-desc {
   display: block;
-  font-size: 9px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1px;
   margin-top: 4px;
@@ -36,7 +36,7 @@
 
 #daily-btn-streak {
   display: block;
-  font-size: 9px;
+  font-size: 14px;
   color: #ffff00;
   letter-spacing: 1px;
   margin-top: 2px;
@@ -49,8 +49,8 @@
   top: -8px;
   right: -8px;
   background: #00ff88;
-  color: #000;
-  font-size: 9px;
+  color: #111;
+  font-size: 14px;
   font-weight: bold;
   padding: 3px 8px;
   border-radius: 4px;
@@ -89,7 +89,7 @@
 }
 
 .daily-hud-label {
-  font-size: 9px;
+  font-size: 14px;
   color: rgba(157, 0, 255, 0.6);
   letter-spacing: 2px;
 }
@@ -97,7 +97,7 @@
 .daily-hud-value {
   font-size: 14px;
   font-weight: bold;
-  color: #5a2aa8;
+  color: #4a1f8a;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -115,7 +115,7 @@ body.daily-mode .game-hud {
 }
 
 body.daily-mode .hud-diff {
-  color: #5a2aa8;
+  color: #4a1f8a;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -155,7 +155,7 @@ body.daily-mode .hud-diff {
 
 .daily-win-title {
   font-size: 28px;
-  color: #5a2aa8;
+  color: #4a1f8a;
   text-shadow:
     0 0 20px rgba(157, 0, 255, 0.8),
     0 0 40px rgba(157, 0, 255, 0.4);
@@ -164,7 +164,7 @@ body.daily-mode .hud-diff {
 }
 
 .daily-win-date {
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 3px;
   margin-bottom: 16px;
@@ -195,14 +195,14 @@ body.daily-mode .hud-diff {
 }
 
 .daily-win-streak-label {
-  font-size: 11px;
+  font-size: 13px;
   color: rgba(255, 255, 0, 0.6);
   letter-spacing: 4px;
   margin-bottom: 4px;
 }
 
 .daily-win-streak-bonus {
-  font-size: 11px;
+  font-size: 13px;
   color: rgba(0, 255, 136, 0.7);
   letter-spacing: 1px;
   margin-bottom: 8px;
@@ -225,7 +225,7 @@ body.daily-mode .hud-diff {
 
 #daily-exit-btn {
   background: transparent;
-  color: #5a2aa8;
+  color: #4a1f8a;
   border: 2px solid #9d00ff;
   padding: 12px 24px;
   font-family: 'Courier New', monospace;
@@ -240,7 +240,7 @@ body.daily-mode .hud-diff {
 
 #daily-exit-btn:hover {
   background: #9d00ff;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 25px #9d00ff;
 }
 
@@ -261,6 +261,6 @@ body.daily-mode .hud-diff {
 
 #daily-retry-btn:hover {
   background: #00f3ff;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 25px #00f3ff;
 }

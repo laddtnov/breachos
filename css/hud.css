@@ -20,7 +20,7 @@
 }
 
 .hud-label {
-  font-size: 11px;
+  font-size: 13px;
   color: rgba(0, 243, 255, 0.6);
   letter-spacing: 2px;
 }
@@ -34,7 +34,7 @@
 
 #restart-btn {
   background: transparent;
-  color: #ff0055;
+  color: #c40045;
   border: 2px solid #ff0055;
   padding: 8px 20px;
   font-family: 'Courier New', monospace;
@@ -48,7 +48,7 @@
 
 #restart-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 20px #ff0055;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .rank-xp-text {
-  font-size: 9px;
+  font-size: 14px;
   color: rgba(0, 243, 255, 0.5);
   letter-spacing: 1px;
 }
@@ -104,7 +104,7 @@
 
 .hud-diff {
   font-size: 14px;
-  color: #ff0055;
+  color: #c40045;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
 }
 
@@ -115,7 +115,7 @@
 }
 
 .moves-warning .hud-value {
-  color: #ff0055;
+  color: #c40045;
   animation: blink-text 0.8s steps(2) infinite;
 }
 

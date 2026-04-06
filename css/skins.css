@@ -256,7 +256,7 @@
 
 .skin-item.active {
   border-color: #00f3ff;
-  background: rgba(0, 243, 255, 0.1);
+  background: rgba(0, 243, 255, 0.18);
   box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
 }
 
@@ -332,14 +332,14 @@
 }
 
 .skin-name {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
   color: #00f3ff;
   letter-spacing: 1px;
 }
 
 .skin-desc {
-  font-size: 9px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
 }
@@ -348,7 +348,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  color: #ff0055;
+  color: #c40045;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
@@ -363,6 +363,6 @@
 
 .skin-close-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 20px #ff0055;
 }

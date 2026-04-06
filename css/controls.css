@@ -24,7 +24,7 @@
   padding: 8px 16px;
   font-family: 'Courier New', monospace;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.3s ease;
@@ -41,7 +41,7 @@
 #sound-theme-btn:hover,
 #donate-btn:hover {
   background: #00f3ff;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 20px #00f3ff;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .menu-close-btn:hover {
-  color: #ff0055;
+  color: #c40045;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
 }
 
@@ -210,7 +210,7 @@
 
 .menu-item:hover,
 .menu-item:active {
-  background: rgba(0, 243, 255, 0.1);
+  background: rgba(0, 243, 255, 0.18);
   border-color: #00f3ff;
   box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 }
@@ -241,6 +241,6 @@
 }
 
 .safe-mode #glitch-toggle {
-  color: #ff0055;
-  border-color: #ff0055;
+  color: #c40045;
+  border-color: #c40045;
 }

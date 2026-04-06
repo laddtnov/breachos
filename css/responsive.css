@@ -11,7 +11,7 @@
   }
 
   .card-name {
-    font-size: 10px;
+    font-size: 13px;
   }
 
   /* Hide desktop controls, show hamburger menu (covers iPad) */
@@ -77,12 +77,12 @@
   }
 
   .hud-label {
-    font-size: 9px;
+    font-size: 14px;
   }
 
   #restart-btn {
     padding: 6px 12px;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .card-symbol {
@@ -90,7 +90,7 @@
   }
 
   .card-name {
-    font-size: 9px;
+    font-size: 14px;
     letter-spacing: 1px;
   }
 
@@ -118,7 +118,7 @@
   }
 
   .card-name {
-    font-size: 8px;
+    font-size: 13px;
   }
 
   .card-back::before {

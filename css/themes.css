@@ -184,14 +184,14 @@ body.theme-void .cyber-table::after {
 }
 
 .theme-name {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.8);
 }
 
 .theme-desc {
-  font-size: 9px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1px;
 }
@@ -200,7 +200,7 @@ body.theme-void .cyber-table::after {
   display: block;
   width: 100%;
   background: transparent;
-  color: #ff0055;
+  color: #c40045;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
@@ -215,7 +215,7 @@ body.theme-void .cyber-table::after {
 
 .theme-close-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #111;
   box-shadow: 0 0 20px #ff0055;
 }
 
