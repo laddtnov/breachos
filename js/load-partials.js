@@ -24,15 +24,9 @@ function isSafePartialPath(value) {
   return ALLOWED_PARTIALS.has(path);
 }
 
-function isDangerousUrl(rawValue) {
-  if (typeof rawValue !== 'string') return false;
-
-  const value = rawValue.trim().toLowerCase();
-
-  return (
-    value.startsWith('javascript:') ||
-    value.startsWith('data:text/html')
-  );
+function normalizeAttrValue(value) {
+  if (typeof value !== 'string') return '';
+  return value.trim().toLowerCase();
 }
 
 function sanitizeFragment(fragment) {
@@ -41,10 +35,15 @@ function sanitizeFragment(fragment) {
   fragment.querySelectorAll('*').forEach((el) => {
     for (const attr of Array.from(el.attributes)) {
       const name = attr.name.toLowerCase();
+      const value = normalizeAttrValue(attr.value);
 
       if (
         (name === 'href' || name === 'src' || name === 'xlink:href') &&
-        isDangerousUrl(attr.value)
+        (
+          value.startsWith('javascript:') ||
+          value.startsWith('data:') ||
+          value.startsWith('vbscript:')
+        )
       ) {
         el.removeAttribute(attr.name);
         continue;
