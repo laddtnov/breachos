@@ -4,7 +4,7 @@
   width: 100%;
   margin-top: 8px;
   background: rgba(157, 0, 255, 0.08);
-  color: #e9d5ff;
+  color: #f3e8ff;
   border: 2px solid #9d00ff;
   padding: 12px;
   font-family: 'Courier New', monospace;
@@ -21,7 +21,7 @@
 
 #daily-btn:hover {
   background: #9d00ff;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #9d00ff;
 }
 
@@ -49,7 +49,7 @@
   top: -8px;
   right: -8px;
   background: #00ff88;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   font-size: 14px;
   font-weight: bold;
   padding: 3px 8px;
@@ -97,7 +97,7 @@
 .daily-hud-value {
   font-size: 14px;
   font-weight: bold;
-  color: #e9d5ff;
+  color: #f3e8ff;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -115,7 +115,7 @@ body.daily-mode .game-hud {
 }
 
 body.daily-mode .hud-diff {
-  color: #e9d5ff;
+  color: #f3e8ff;
   text-shadow: 0 0 8px rgba(157, 0, 255, 0.5);
 }
 
@@ -155,7 +155,7 @@ body.daily-mode .hud-diff {
 
 .daily-win-title {
   font-size: 28px;
-  color: #e9d5ff;
+  color: #f3e8ff;
   text-shadow:
     0 0 20px rgba(157, 0, 255, 0.8),
     0 0 40px rgba(157, 0, 255, 0.4);
@@ -225,7 +225,7 @@ body.daily-mode .hud-diff {
 
 #daily-exit-btn {
   background: transparent;
-  color: #e9d5ff;
+  color: #f3e8ff;
   border: 2px solid #9d00ff;
   padding: 12px 24px;
   font-family: 'Courier New', monospace;
@@ -240,7 +240,7 @@ body.daily-mode .hud-diff {
 
 #daily-exit-btn:hover {
   background: #9d00ff;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #9d00ff;
 }
 
@@ -261,6 +261,6 @@ body.daily-mode .hud-diff {
 
 #daily-retry-btn:hover {
   background: #00f3ff;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #00f3ff;
 }

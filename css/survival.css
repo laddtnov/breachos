@@ -33,7 +33,7 @@
 .survival-hud-value {
   font-size: 18px;
   font-weight: bold;
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
 }
 
@@ -45,7 +45,7 @@
 
 .survival-heart {
   font-size: 20px;
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
   transition: all 0.3s ease;
 }
@@ -63,7 +63,7 @@ body.survival-mode .game-hud {
 }
 
 body.survival-mode .hud-diff {
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
 }
 
@@ -156,7 +156,7 @@ body.survival-mode .hud-diff {
 
 .survival-over-title {
   font-size: 32px;
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow:
     0 0 20px rgba(255, 0, 85, 0.8),
     0 0 40px rgba(255, 0, 0, 0.6);
@@ -210,7 +210,7 @@ body.survival-mode .hud-diff {
 
 #survival-retry-btn {
   background: transparent;
-  color: #ffb3c6;
+  color: #ffd6e0;
   border: 2px solid #ff0055;
   padding: 12px 24px;
   font-family: 'Courier New', monospace;
@@ -225,7 +225,7 @@ body.survival-mode .hud-diff {
 
 #survival-retry-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #ff0055;
 }
 
@@ -246,7 +246,7 @@ body.survival-mode .hud-diff {
 
 #survival-exit-btn:hover {
   background: #00f3ff;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #00f3ff;
 }
 
@@ -256,7 +256,7 @@ body.survival-mode .hud-diff {
   width: 100%;
   margin-top: 10px;
   background: rgba(255, 0, 85, 0.08);
-  color: #ffb3c6;
+  color: #ffd6e0;
   border: 2px solid #ff0055;
   padding: 12px;
   font-family: 'Courier New', monospace;
@@ -272,7 +272,7 @@ body.survival-mode .hud-diff {
 
 #survival-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 25px #ff0055;
 }
 

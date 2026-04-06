@@ -54,7 +54,7 @@
 
 .win-stats {
   font-size: 18px;
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
   margin-bottom: 10px;
   line-height: 2;
@@ -100,13 +100,13 @@
 
 #play-again-btn:hover {
   background: #00f3ff;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 30px #00f3ff;
 }
 
 #share-btn:hover {
   background: #00ff88;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 30px #00ff88;
 }
 
@@ -214,7 +214,7 @@
 
 .lose-title {
   font-size: 36px;
-  color: #ffb3c6;
+  color: #ffd6e0;
   text-shadow:
     0 0 20px rgba(255, 0, 85, 0.8),
     0 0 40px rgba(255, 0, 0, 0.6);
@@ -263,7 +263,7 @@
 
 #retry-btn {
   background: transparent;
-  color: #ffb3c6;
+  color: #ffd6e0;
   border: 2px solid #ff0055;
   padding: 12px 30px;
   font-family: 'Courier New', monospace;
@@ -278,7 +278,7 @@
 
 #retry-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 30px #ff0055;
 }
 

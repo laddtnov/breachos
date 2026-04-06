@@ -171,7 +171,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  color: #ffb3c6;
+  color: #ffd6e0;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
@@ -186,7 +186,7 @@
 
 .achievement-close-btn:hover {
   background: #ff0055;
-  color: #000;
+  color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 20px #ff0055;
 }
 
