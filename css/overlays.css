@@ -54,7 +54,7 @@
 
 .win-stats {
   font-size: 18px;
-  color: #ffd6e0;
+  color: #fff0f3;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
   margin-bottom: 10px;
   line-height: 2;
@@ -214,7 +214,7 @@
 
 .lose-title {
   font-size: 36px;
-  color: #ffd6e0;
+  color: #fff0f3;
   text-shadow:
     0 0 20px rgba(255, 0, 85, 0.8),
     0 0 40px rgba(255, 0, 0, 0.6);
@@ -263,7 +263,7 @@
 
 #retry-btn {
   background: transparent;
-  color: #ffd6e0;
+  color: #fff0f3;
   border: 2px solid #ff0055;
   padding: 12px 30px;
   font-family: 'Courier New', monospace;

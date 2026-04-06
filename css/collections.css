@@ -167,7 +167,7 @@
 /* SPECIALIST reward: INFERNO — red destroyer */
 .reward-card-inferno {
   border-color: rgba(255, 0, 85, 0.5);
-  color: #ffd6e0;
+  color: #fff0f3;
   background:
     radial-gradient(circle at 50% 30%, rgba(255, 0, 85, 0.08) 0%, transparent 60%),
     rgba(5, 5, 8, 0.95);
@@ -218,7 +218,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  color: #ffd6e0;
+  color: #fff0f3;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;

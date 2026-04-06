@@ -87,7 +87,7 @@
 /* ── Difficulty Table ── */
 .dos-section-title {
   font-size: 13px;
-  color: #ffd6e0;
+  color: #fff0f3;
   letter-spacing: 3px;
   margin-bottom: 10px;
   text-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
@@ -121,8 +121,8 @@
 }
 
 .dos-easy { color: #00f3ff; }
-.dos-medium { color: #ffd6e0; }
-.dos-hard { color: #ffd6e0; text-shadow: 0 0 8px rgba(255, 0, 85, 0.4); }
+.dos-medium { color: #fff0f3; }
+.dos-hard { color: #fff0f3; text-shadow: 0 0 8px rgba(255, 0, 85, 0.4); }
 .dos-extreme { color: #ff0000; text-shadow: 0 0 8px rgba(255, 0, 0, 0.6); }
 
 /* ── Close Button ── */
@@ -130,7 +130,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  color: #ffd6e0;
+  color: #fff0f3;
   border: 2px solid #ff0055;
   padding: 10px;
   font-family: 'Courier New', monospace;
