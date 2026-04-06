@@ -292,7 +292,6 @@ function updateBestTimes() {
   });
 }
 
-// ── Init rank HUD + best times + daily badge on load ──
-updateRankHUD();
-updateBestTimes();
-if (typeof updateDailyButton === 'function') updateDailyButton();
+// ── Init rank HUD + best times + daily badge ──
+// NOTE: These are called from index.html after loadPartials() completes,
+// since DOM elements live in partials and aren't available at script load time.

@@ -24,26 +24,34 @@ const gameState = {
 // ── Player Stats (loaded from localStorage) ──
 let playerStats = loadStats();
 
-// ── DOM References ──
-const board = document.getElementById('game-board');
-const movesDisplay = document.getElementById('moves-counter');
-const movesLimit = document.getElementById('moves-limit');
-const timerDisplay = document.getElementById('timer');
-const winOverlay = document.getElementById('win-overlay');
-const winMoves = document.getElementById('win-moves');
-const winTime = document.getElementById('win-time');
-const loseOverlay = document.getElementById('lose-overlay');
-const losePairs = document.getElementById('lose-pairs');
-const loseTotal = document.getElementById('lose-total');
-const loseMovesStat = document.getElementById('lose-moves');
-const loseSubtitle = document.querySelector('.lose-subtitle');
-const rulesModal = document.getElementById('rules-modal');
-const difficultyDisplay = document.getElementById('difficulty-display');
-const particles = document.getElementById('win-particles');
-const rankDisplay = document.getElementById('rank-display');
-const rankProgress = document.getElementById('rank-progress');
-const rankXP = document.getElementById('rank-xp');
-const skinModal = document.getElementById('skin-modal');
+// ── DOM References (populated after partials load via initDOMRefs) ──
+let board, movesDisplay, movesLimit, timerDisplay;
+let winOverlay, winMoves, winTime;
+let loseOverlay, losePairs, loseTotal, loseMovesStat, loseSubtitle;
+let rulesModal, difficultyDisplay, particles;
+let rankDisplay, rankProgress, rankXP, skinModal;
+
+function initDOMRefs() {
+  board = document.getElementById('game-board');
+  movesDisplay = document.getElementById('moves-counter');
+  movesLimit = document.getElementById('moves-limit');
+  timerDisplay = document.getElementById('timer');
+  winOverlay = document.getElementById('win-overlay');
+  winMoves = document.getElementById('win-moves');
+  winTime = document.getElementById('win-time');
+  loseOverlay = document.getElementById('lose-overlay');
+  losePairs = document.getElementById('lose-pairs');
+  loseTotal = document.getElementById('lose-total');
+  loseMovesStat = document.getElementById('lose-moves');
+  loseSubtitle = document.querySelector('.lose-subtitle');
+  rulesModal = document.getElementById('rules-modal');
+  difficultyDisplay = document.getElementById('difficulty-display');
+  particles = document.getElementById('win-particles');
+  rankDisplay = document.getElementById('rank-display');
+  rankProgress = document.getElementById('rank-progress');
+  rankXP = document.getElementById('rank-xp');
+  skinModal = document.getElementById('skin-modal');
+}
 
 // ── Shuffle (Fisher-Yates) ──
 function secureRandomInt(max) {

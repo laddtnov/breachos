@@ -66,8 +66,12 @@
   <script src="js/ui.js"></script>
   <script type="module">
     await loadPartials();
+    initDOMRefs();
     renderSkinModal();
     initMenuDialog();
+    updateRankHUD();
+    updateBestTimes();
+    if (typeof updateDailyButton === 'function') updateDailyButton();
   </script>
   <script>
     if ('serviceWorker' in navigator) {
