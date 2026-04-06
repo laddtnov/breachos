@@ -1,0 +1,65 @@
+<!-- Rules Modal -->
+<div id="rules-modal">
+  <div class="rules-content">
+    <h2 class="rules-title">MISSION BRIEFING</h2>
+    <div class="rules-divider"></div>
+    <div class="rules-section">
+      <h3 class="rules-heading">&gt; OBJECTIVE</h3>
+      <p>Find all matching pairs of cyber operatives hidden behind the cards. Clear the board to complete your mission.</p>
+    </div>
+    <div class="rules-section">
+      <h3 class="rules-heading">&gt; HOW TO PLAY</h3>
+      <ul class="rules-list">
+        <li>Click a card to reveal the operative</li>
+        <li>Click a second card to find its match</li>
+        <li>Matched pairs stay revealed</li>
+        <li>Mismatched cards flip back after 1s</li>
+        <li>Match all pairs to complete the mission</li>
+      </ul>
+    </div>
+    <div class="rules-section">
+      <h3 class="rules-heading">&gt; GAME MODE</h3>
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="classic" onclick="setGameMode('classic')">CLASSIC</button>
+        <button class="mode-btn" data-mode="blitz" onclick="setGameMode('blitz')">⚡ BLITZ</button>
+      </div>
+      <p class="mode-desc" id="mode-desc">Standard rules — limited moves, no timer (except EXTREME).</p>
+    </div>
+    <div class="rules-section">
+      <h3 class="rules-heading">&gt; SELECT DIFFICULTY</h3>
+      <div class="difficulty-select">
+        <button class="diff-btn" data-difficulty="easy" onclick="startWithDifficulty('easy')">
+          <span class="diff-name">EASY</span>
+          <span class="diff-desc">3 x 2 — 6 cards</span>
+          <span class="diff-best" id="best-easy"></span>
+        </button>
+        <button class="diff-btn active" data-difficulty="medium" onclick="startWithDifficulty('medium')">
+          <span class="diff-name">MEDIUM</span>
+          <span class="diff-desc">4 x 4 — 16 cards</span>
+          <span class="diff-best" id="best-medium"></span>
+        </button>
+        <button class="diff-btn" data-difficulty="hard" onclick="startWithDifficulty('hard')">
+          <span class="diff-name">HARD</span>
+          <span class="diff-desc">4 x 6 — 24 cards</span>
+          <span class="diff-best" id="best-hard"></span>
+        </button>
+        <button class="diff-btn" data-difficulty="extreme" onclick="startWithDifficulty('extreme')">
+          <span class="diff-name">EXTREME</span>
+          <span class="diff-desc">6 x 6 — 36 cards — 60s</span>
+          <span class="diff-best" id="best-extreme"></span>
+        </button>
+      </div>
+    </div>
+    <button id="survival-btn" onclick="startSurvivalMode()">
+      SURVIVAL MODE
+      <span class="survival-btn-desc">Endless waves. 3 lives. How far can you go?</span>
+    </button>
+    <button id="daily-btn" onclick="startDailyChallenge()">
+      DAILY CHALLENGE
+      <span class="daily-badge hidden" id="daily-badge">DONE</span>
+      <span class="daily-btn-desc">Same puzzle for everyone. New challenge every day.</span>
+      <span id="daily-btn-streak">No streak yet</span>
+    </button>
+    <button id="back-to-game-btn" class="hidden" onclick="closeDifficultySelect()">BACK TO GAME</button>
+  </div>
+</div>

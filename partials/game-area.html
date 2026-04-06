@@ -1,0 +1,141 @@
+<div class="game-hud">
+  <div class="hud-item">
+    <span class="hud-label">MOVES</span>
+    <span id="moves-counter" class="hud-value">0<span id="moves-limit" class="moves-limit"></span></span>
+  </div>
+  <button class="hud-item hud-difficulty" onclick="showDifficultySelect()">
+    <span class="hud-label">DIFFICULTY</span>
+    <span id="difficulty-display" class="hud-value hud-diff">MEDIUM</span>
+  </button>
+  <div class="hud-item hud-rank">
+    <span class="hud-label">RANK</span>
+    <span id="rank-display" class="hud-value rank-value">ROOKIE</span>
+    <div class="rank-bar">
+      <div class="rank-bar-fill" id="rank-progress"></div>
+    </div>
+    <span class="rank-xp-text" id="rank-xp">0/100 XP</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">TIME</span>
+    <span id="timer" class="hud-value">00:00</span>
+  </div>
+  <button id="restart-btn" onclick="restartGame()">&#8635; RESTART</button>
+</div>
+
+<!-- Survival HUD -->
+<div id="survival-hud" class="hidden">
+  <div class="survival-hud-item">
+    <span class="survival-hud-label">LIVES</span>
+    <div id="survival-lives"></div>
+  </div>
+  <div class="survival-hud-item">
+    <span class="survival-hud-label">WAVE</span>
+    <span class="survival-hud-value" id="survival-wave">1</span>
+  </div>
+  <div class="survival-hud-item">
+    <span class="survival-hud-label">SCORE</span>
+    <span class="survival-hud-value" id="survival-score">0</span>
+  </div>
+</div>
+
+<!-- Daily HUD -->
+<div id="daily-hud" class="hidden">
+  <div class="daily-hud-item">
+    <span class="daily-hud-label">DATE</span>
+    <span class="daily-hud-value" id="daily-date"></span>
+  </div>
+  <div class="daily-hud-item">
+    <span class="daily-hud-label">DIFFICULTY</span>
+    <span class="daily-hud-value" id="daily-diff"></span>
+  </div>
+  <div class="daily-hud-item">
+    <span class="daily-hud-label">STREAK</span>
+    <span class="daily-hud-streak" id="daily-streak">0</span>
+  </div>
+</div>
+
+<div id="combo-display" class="hidden"></div>
+<main id="game-board"></main>
+
+<!-- Win Overlay -->
+<div id="win-overlay" class="hidden">
+  <div class="win-content">
+    <h2 class="win-title">MISSION COMPLETE</h2>
+    <p class="win-stats">
+      MOVES: <span id="win-moves">0</span><br>
+      TIME: <span id="win-time">00:00</span><br>
+      BEST COMBO: <span id="win-combo">0</span>x
+    </p>
+    <p class="win-xp" id="win-xp">+0 XP</p>
+    <div class="win-actions">
+      <button id="share-btn" onclick="shareResult()">SHARE</button>
+      <button id="play-again-btn" onclick="restartGame()">PLAY AGAIN</button>
+    </div>
+  </div>
+  <div id="particles"></div>
+</div>
+
+<!-- Lose Overlay -->
+<div id="lose-overlay" class="hidden">
+  <div class="lose-content">
+    <h2 class="lose-title">MISSION FAILED</h2>
+    <p class="lose-subtitle">SYSTEM COMPROMISED</p>
+    <p class="lose-stats">
+      PAIRS FOUND: <span id="lose-pairs">0</span> / <span id="lose-total">0</span><br>
+      MOVES USED: <span id="lose-moves">0</span>
+    </p>
+    <p class="lose-xp" id="lose-xp">+0 XP</p>
+    <button id="retry-btn" onclick="restartGame()">RETRY MISSION</button>
+  </div>
+  <div id="glitch-lines"></div>
+</div>
+
+<!-- Wave Clear Overlay (Survival) -->
+<div id="wave-clear-overlay" class="hidden">
+  <div class="wave-clear-content">
+    <p class="wave-clear-label">WAVE CLEAR</p>
+    <p class="wave-clear-num" id="wave-clear-num">1</p>
+    <p class="wave-clear-points" id="wave-clear-points">+30 PTS</p>
+    <p class="wave-clear-next" id="wave-clear-next">NEXT: MEDIUM</p>
+  </div>
+</div>
+
+<!-- Survival Game Over Overlay -->
+<div id="survival-over-overlay" class="hidden">
+  <div class="survival-over-content">
+    <h2 class="survival-over-title">TERMINATED</h2>
+    <p class="survival-over-subtitle">SIGNAL LOST</p>
+    <p class="survival-over-stats">
+      WAVE REACHED: <span id="survival-over-wave">1</span><br>
+      TOTAL SCORE: <span id="survival-over-score">0</span>
+    </p>
+    <p class="survival-over-best">BEST WAVE: <span id="survival-over-best">1</span></p>
+    <p class="survival-over-xp" id="survival-over-xp">+0 XP</p>
+    <div class="survival-over-actions">
+      <button id="survival-retry-btn" onclick="retrySurvival()">RETRY</button>
+      <button id="survival-exit-btn" onclick="exitSurvival()">EXIT</button>
+    </div>
+  </div>
+  <div id="glitch-lines"></div>
+</div>
+
+<!-- Daily Win Overlay -->
+<div id="daily-win-overlay" class="hidden">
+  <div class="daily-win-content">
+    <h2 class="daily-win-title">DAILY COMPLETE</h2>
+    <p class="daily-win-date" id="daily-win-date"></p>
+    <p class="daily-win-stats">
+      MOVES: <span id="daily-win-moves">0</span><br>
+      TIME: <span id="daily-win-time">00:00</span>
+    </p>
+    <p class="daily-win-streak-label">DAY STREAK</p>
+    <p class="daily-win-streak-display" id="daily-win-streak">1</p>
+    <p class="daily-win-streak-bonus" id="daily-win-streak-bonus"></p>
+    <p class="daily-win-xp" id="daily-win-xp">+0 XP</p>
+    <div class="daily-win-actions">
+      <button id="daily-retry-btn" onclick="retryDaily()">RETRY</button>
+      <button id="daily-exit-btn" onclick="exitDaily()">EXIT</button>
+    </div>
+  </div>
+  <div id="particles"></div>
+</div>

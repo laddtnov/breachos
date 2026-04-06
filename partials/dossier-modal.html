@@ -1,0 +1,57 @@
+<!-- Dossier Modal -->
+<div id="dossier-modal" class="hidden">
+  <div class="dossier-content">
+    <h3 class="dossier-title">DOSSIER</h3>
+    <p class="dossier-subtitle">OPERATIVE PROFILE</p>
+    <div class="rules-divider"></div>
+
+    <div class="dos-stat-grid">
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-games-played">0</span>
+        <span class="dos-stat-label">MISSIONS</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-games-won">0</span>
+        <span class="dos-stat-label">COMPLETED</span>
+      </div>
+      <div class="dos-stat dos-stat-highlight">
+        <span class="dos-stat-value" id="dos-win-rate">0%</span>
+        <span class="dos-stat-label">WIN RATE</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-total-xp">0</span>
+        <span class="dos-stat-label">TOTAL XP</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-rank">ROOKIE</span>
+        <span class="dos-stat-label">RANK</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-best-combo">0x</span>
+        <span class="dos-stat-label">BEST COMBO</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-total-matches">0</span>
+        <span class="dos-stat-label">PAIRS FOUND</span>
+      </div>
+      <div class="dos-stat">
+        <span class="dos-stat-value" id="dos-achievements">0/6</span>
+        <span class="dos-stat-label">ACHIEVEMENTS</span>
+      </div>
+    </div>
+
+    <h4 class="dos-section-title">> DIFFICULTY BREAKDOWN</h4>
+    <table class="dos-table">
+      <thead>
+        <tr>
+          <th>DIFFICULTY</th>
+          <th>WINS</th>
+          <th>BEST TIME</th>
+        </tr>
+      </thead>
+      <tbody id="dos-diff-body"></tbody>
+    </table>
+
+    <button class="dossier-close-btn" onclick="toggleDossierModal()">CLOSE</button>
+  </div>
+</div>
