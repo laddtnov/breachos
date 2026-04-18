@@ -2,7 +2,7 @@
 
 A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript. Match pairs of sci-fi operatives across multiple game modes, earn XP, unlock ranks, collect card skins, and climb the achievement ladder.
 
-**[Play Now](https://netrunner.laddtnov.xyz/)**
+**[Play Now](https://breachos.laddtnov.xyz//)**
 
 ## Tech Stack
 
