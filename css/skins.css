@@ -193,6 +193,147 @@
   100% { background-position: 100% 100%; filter: hue-rotate(0deg); }
 }
 
+/* Plasma Burn skin — electric violet-blue plasma */
+.skin-plasma .card-back {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(157, 0, 255, 0.2), transparent 55%),
+    radial-gradient(ellipse at 80% 50%, rgba(0, 100, 255, 0.15), transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(157, 0, 255, 0.06) 0px,
+      transparent 2px,
+      transparent 6px
+    ),
+    rgba(2, 0, 10, 0.95);
+  border-color: rgba(157, 0, 255, 0.7);
+  box-shadow:
+    0 0 20px rgba(157, 0, 255, 0.5),
+    0 0 40px rgba(0, 100, 255, 0.2),
+    inset 0 0 12px rgba(157, 0, 255, 0.15);
+  animation: plasma-pulse 1.5s ease-in-out infinite;
+}
+
+.skin-plasma .card-back::before {
+  color: rgba(191, 127, 255, 0.6);
+  content: "\26A1";
+  text-shadow: 0 0 15px rgba(157, 0, 255, 0.8);
+}
+
+.skin-plasma .card:hover .card-back {
+  border-color: #bf7fff;
+  box-shadow:
+    0 0 30px rgba(157, 0, 255, 0.7),
+    0 0 60px rgba(0, 100, 255, 0.3),
+    inset 0 0 18px rgba(157, 0, 255, 0.25);
+}
+
+@keyframes plasma-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(157, 0, 255, 0.5), 0 0 40px rgba(0, 100, 255, 0.2), inset 0 0 12px rgba(157, 0, 255, 0.15); }
+  50% { box-shadow: 0 0 30px rgba(157, 0, 255, 0.7), 0 0 55px rgba(0, 180, 255, 0.3), inset 0 0 18px rgba(157, 0, 255, 0.25); filter: hue-rotate(20deg); }
+}
+
+/* Acid Rain skin — toxic green drip */
+.skin-acid .card-back {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 65, 0.07) 0px,
+      transparent 2px,
+      transparent 5px
+    ),
+    radial-gradient(ellipse at 50% 0%, rgba(0, 255, 65, 0.15), transparent 60%),
+    rgba(0, 8, 0, 0.95);
+  border-color: rgba(0, 255, 65, 0.6);
+  box-shadow:
+    0 0 15px rgba(0, 255, 65, 0.4),
+    0 0 30px rgba(0, 200, 50, 0.15),
+    inset 0 0 10px rgba(0, 255, 65, 0.1);
+  animation: acid-drip 2s ease-in-out infinite;
+}
+
+.skin-acid .card-back::before {
+  color: rgba(0, 255, 65, 0.5);
+  content: "\2623";
+  text-shadow: 0 0 12px rgba(0, 255, 65, 0.6);
+}
+
+.skin-acid .card:hover .card-back {
+  border-color: #00ff41;
+  box-shadow:
+    0 0 25px rgba(0, 255, 65, 0.6),
+    0 0 50px rgba(0, 200, 50, 0.25),
+    inset 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+@keyframes acid-drip {
+  0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 65, 0.4), 0 0 30px rgba(0, 200, 50, 0.15), inset 0 0 10px rgba(0, 255, 65, 0.1); }
+  50% { box-shadow: 0 0 22px rgba(0, 255, 65, 0.55), 0 0 40px rgba(0, 200, 50, 0.22), inset 0 0 14px rgba(0, 255, 65, 0.18); }
+}
+
+/* Shadow Protocol skin — dark silver ghost */
+.skin-shadow .card-back {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(180, 180, 200, 0.06), transparent 65%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(180, 180, 200, 0.04) 0px,
+      transparent 1px,
+      transparent 4px
+    ),
+    rgba(3, 3, 6, 0.97);
+  border-color: rgba(160, 160, 185, 0.4);
+  box-shadow:
+    0 0 12px rgba(180, 180, 200, 0.2),
+    inset 0 0 8px rgba(180, 180, 200, 0.06);
+  animation: shadow-flicker 3s ease-in-out infinite;
+}
+
+.skin-shadow .card-back::before {
+  color: rgba(180, 180, 200, 0.35);
+  content: "\25CA";
+  text-shadow: 0 0 12px rgba(200, 200, 220, 0.4);
+}
+
+.skin-shadow .card:hover .card-back {
+  border-color: rgba(210, 210, 230, 0.7);
+  box-shadow:
+    0 0 20px rgba(180, 180, 200, 0.35),
+    inset 0 0 12px rgba(180, 180, 200, 0.12);
+}
+
+@keyframes shadow-flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.9; }
+  50% { opacity: 0.85; box-shadow: 0 0 8px rgba(180, 180, 200, 0.15), inset 0 0 5px rgba(180, 180, 200, 0.04); }
+  55% { opacity: 0.95; }
+}
+
+/* ── Skin Previews for new skins ── */
+.skin-preview-plasma {
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(157, 0, 255, 0.4), transparent 55%),
+    radial-gradient(ellipse at 70% 50%, rgba(0, 100, 255, 0.3), transparent 55%),
+    rgba(2, 0, 10, 0.95);
+  border-color: rgba(157, 0, 255, 0.6);
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.4);
+}
+
+.skin-preview-acid {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 255, 65, 0.3), transparent 60%),
+    rgba(0, 8, 0, 0.95);
+  border-color: rgba(0, 255, 65, 0.5);
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.skin-preview-shadow {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(180, 180, 200, 0.12), transparent 65%),
+    rgba(3, 3, 6, 0.97);
+  border-color: rgba(160, 160, 185, 0.4);
+  box-shadow: 0 0 8px rgba(180, 180, 200, 0.15);
+}
+
 /* ── Skin Modal ── */
 #skin-modal {
   position: fixed;

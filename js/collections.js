@@ -65,13 +65,52 @@ const REWARD_CARDS = [
     desc: 'Time-locked entity. Manifested after 30 days of devotion.',
     rarity: 'MYTHIC',
   },
+  // ── Skill & Milestone Reward Cards ──
+  {
+    id: 'tempest',
+    name: 'TEMPEST',
+    symbol: '\u26A1',
+    color: 'pink',
+    rank: '__WINS_20',
+    desc: 'Storm-born operative. Victory is its natural state.',
+    rarity: 'RARE',
+  },
+  {
+    id: 'architect',
+    name: 'ARCHITECT',
+    symbol: '\u229E',
+    color: 'cyan',
+    rank: '__MATCHES_200',
+    desc: 'Designs the net from the inside. Every pattern memorized.',
+    rarity: 'EPIC',
+  },
+  {
+    id: 'overclocked',
+    name: 'OVERCLOCKED',
+    symbol: '\u231A',
+    color: 'pink',
+    rank: '__COMBO_7',
+    desc: 'CPU running at 700%. Impossible reflexes, impossible memory.',
+    rarity: 'LEGENDARY',
+  },
+  {
+    id: 'entropy',
+    name: 'ENTROPY',
+    symbol: '\u221E',
+    color: 'cyan',
+    rank: '__WAVE_15',
+    desc: 'The final state of all systems. Survives what others cannot.',
+    rarity: 'MYTHIC',
+  },
 ];
 
 function isRewardUnlocked(rewardRank) {
-  // Survival milestone rewards
   if (rewardRank === '__SURVIVAL_10') return (playerStats.bestWave || 0) >= 10;
-  // Daily streak rewards
-  if (rewardRank === '__DAILY_30') return (playerStats.dailyStreak || 0) >= 30;
+  if (rewardRank === '__DAILY_30')    return (playerStats.dailyCompleted || 0) >= 30;
+  if (rewardRank === '__WINS_20')     return (playerStats.gamesWon || 0) >= 20;
+  if (rewardRank === '__MATCHES_200') return (playerStats.totalMatches || 0) >= 200;
+  if (rewardRank === '__COMBO_7')     return (playerStats.bestCombo || 0) >= 7;
+  if (rewardRank === '__WAVE_15')     return (playerStats.bestWave || 0) >= 15;
 
   const rankOrder = RANKS.map(r => r.name);
   const playerRankIdx = rankOrder.indexOf(playerStats.rank);
@@ -112,7 +151,11 @@ function renderCollectionModal() {
     const cardUnlocked = isRewardUnlocked(card.rank);
     const RANK_LABELS = {
       '__SURVIVAL_10': 'SURVIVE WAVE 10',
-      '__DAILY_30': '30-DAY STREAK'
+      '__DAILY_30':    '30-DAY STREAK',
+      '__WINS_20':     'WIN 20 GAMES',
+      '__MATCHES_200': '200 TOTAL MATCHES',
+      '__COMBO_7':     '7x COMBO',
+      '__WAVE_15':     'SURVIVE WAVE 15',
     };
     const lockLabel = RANK_LABELS[card.rank] ?? card.rank;
     return `

@@ -190,7 +190,8 @@ function checkMatch() {
 
 // ── Timer ──
 function startTimer() {
-  const config = difficulties[gameState.difficulty];
+  const isBlitz = gameState.mode === 'blitz';
+  const config = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : difficulties[gameState.difficulty];
   const isCountdown = !!config.countdown;
 
   if (isCountdown) {

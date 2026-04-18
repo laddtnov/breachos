@@ -81,6 +81,41 @@ const ACHIEVEMENTS = [
     desc: 'Win a Blitz game on Hard or Extreme',
     check: (state) => state.won && state.isBlitz && (state.difficulty === 'hard' || state.difficulty === 'extreme'),
   },
+  {
+    id: 'combo_king',
+    name: 'COMBO KING',
+    symbol: '\u265B',
+    desc: 'Get a 10x combo in a single game',
+    check: (state) => state.maxCombo >= 10,
+  },
+  {
+    id: 'speed_demon',
+    name: 'SPEED DEMON',
+    symbol: '\u26A1',
+    desc: 'Win a game in under 10 seconds',
+    check: (state) => state.won && state.seconds < 10,
+  },
+  {
+    id: 'veteran',
+    name: 'VETERAN',
+    symbol: '\u2726',
+    desc: 'Play 100 games total',
+    check: (state, stats) => (stats.gamesPlayed || 0) >= 100,
+  },
+  {
+    id: 'no_mercy',
+    name: 'NO MERCY',
+    symbol: '\u221E',
+    desc: 'Win on EXTREME with zero mismatches',
+    check: (state) => state.won && state.difficulty === 'extreme' && state.moves === state.matchedPairs,
+  },
+  {
+    id: 'daily_devotee',
+    name: 'DAILY DEVOTEE',
+    symbol: '\u262F',
+    desc: 'Complete 7 Daily Challenges',
+    check: (state, stats) => (stats.dailyCompleted || 0) >= 7,
+  },
 ];
 
 function loadAchievements() {

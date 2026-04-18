@@ -6,6 +6,9 @@ const TABLE_THEMES = [
   { id: 'matrix', name: 'MATRIX',       desc: 'Green terminal' },
   { id: 'solar',  name: 'SOLAR FLARE',  desc: 'Gold amber warmth' },
   { id: 'void',   name: 'VOID',         desc: 'Ultraviolet purple' },
+  { id: 'ice',    name: 'ICE COLD',     desc: 'Arctic blue-white freeze' },
+  { id: 'toxic',  name: 'TOXIC WASTE',  desc: 'Radioactive lime acid' },
+  { id: 'ember',  name: 'EMBER CORE',   desc: 'Deep orange inferno' },
 ];
 
 function applyTheme(themeId) {

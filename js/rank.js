@@ -54,5 +54,17 @@ function getUnlockedSkins(xp) {
   if ((playerStats.dailyStreak || 0) >= 7 && !skins.includes('chrono')) {
     skins.push('chrono');
   }
+  // Plasma: 20 total wins
+  if ((playerStats.gamesWon || 0) >= 20 && !skins.includes('plasma')) {
+    skins.push('plasma');
+  }
+  // Acid: reach 7x combo
+  if ((playerStats.bestCombo || 0) >= 7 && !skins.includes('acid')) {
+    skins.push('acid');
+  }
+  // Shadow: play 100 games
+  if ((playerStats.gamesPlayed || 0) >= 100 && !skins.includes('shadow')) {
+    skins.push('shadow');
+  }
   return skins;
 }

@@ -184,7 +184,7 @@ function closeDifficultySelect() {
 
 // ── Card Skins ──
 function applySkin(skinName) {
-  board.classList.remove('skin-default', 'skin-hologram', 'skin-corrupted', 'skin-gold', 'skin-elite', 'skin-survivor', 'skin-chrono');
+  board.classList.remove('skin-default', 'skin-hologram', 'skin-corrupted', 'skin-gold', 'skin-elite', 'skin-survivor', 'skin-chrono', 'skin-plasma', 'skin-acid', 'skin-shadow');
   board.classList.add('skin-' + skinName);
 }
 
@@ -214,6 +214,9 @@ function renderSkinModal() {
     { id: 'elite',     name: 'ELITE NEON',    rank: 'NETRUNNER_ELITE', desc: 'Ultimate neon glow' },
     { id: 'survivor',  name: 'SURVIVOR',      rank: '__SURVIVAL_5',    desc: 'Blood-red crackling aura' },
     { id: 'chrono',    name: 'CHRONO',        rank: '__DAILY_7',       desc: 'Purple time-warp shimmer' },
+    { id: 'plasma',    name: 'PLASMA BURN',   rank: '__WINS_20',       desc: 'Electric violet plasma waves' },
+    { id: 'acid',      name: 'ACID RAIN',     rank: '__COMBO_7',       desc: 'Toxic neon green drip' },
+    { id: 'shadow',    name: 'SHADOW PROTOCOL', rank: '__PLAYED_100',  desc: 'Dark silver ghost shimmer' },
   ];
 
   grid.innerHTML = skins.map(skin => {
@@ -222,7 +225,10 @@ function renderSkinModal() {
     const isDisabled = !unlocked;
     const LOCK_LABELS = {
       '__SURVIVAL_5': 'Survive Wave 5',
-      '__DAILY_7': '7-Day Streak'
+      '__DAILY_7': '7-Day Streak',
+      '__WINS_20': 'Win 20 Games',
+      '__COMBO_7': '7x Combo',
+      '__PLAYED_100': 'Play 100 Games',
     };
     const lockLabel = LOCK_LABELS[skin.rank] ?? `Unlock at ${skin.rank}`;
     return `

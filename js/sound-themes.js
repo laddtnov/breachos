@@ -46,6 +46,33 @@ const SOUND_THEMES = {
     win: { type: 'sine', notes: [440, 550, 660, 880], gain: 0.08, spacing: 0.18 },
     tick: { type: 'sine', freq: 500, warnFreq: 700, gain: 0.03 },
   },
+  horror: {
+    name: 'HORROR',
+    desc: 'Dark unsettling dread',
+    flip: { type: 'noise', filterFreq: 400, filterQ: 0.5, gain: 0.12, dur: 0.1 },
+    match: { type: 'triangle', freqs: [110, 165], ramp: 0.5, gain: 0.1, dur: 0.5 },
+    error: { type: 'sawtooth', freq: 55, detune: 30, gain: 0.14, dur: 0.4 },
+    win: { type: 'triangle', notes: [220, 261.63, 329.63, 440], gain: 0.1, spacing: 0.2 },
+    tick: { type: 'triangle', freq: 300, warnFreq: 180, gain: 0.06 },
+  },
+  jazz: {
+    name: 'JAZZ RUNNER',
+    desc: 'Smooth late-night vibes',
+    flip: { type: 'noise', filterFreq: 800, filterQ: 0.6, gain: 0.07, dur: 0.06 },
+    match: { type: 'sine', freqs: [370, 466], ramp: 0.8, gain: 0.08, dur: 0.4 },
+    error: { type: 'triangle', freq: 233, detune: 5, gain: 0.07, dur: 0.25 },
+    win: { type: 'sine', notes: [392, 466.16, 587.33, 783.99], gain: 0.09, spacing: 0.14 },
+    tick: { type: 'sine', freq: 440, warnFreq: 587, gain: 0.04 },
+  },
+  rave: {
+    name: 'RAVE CORE',
+    desc: 'High-energy floor bangers',
+    flip: { type: 'noise', filterFreq: 8000, filterQ: 8, gain: 0.18, dur: 0.02 },
+    match: { type: 'square', freqs: [880, 1320], ramp: 6, gain: 0.09, dur: 0.1 },
+    error: { type: 'sawtooth', freq: 40, detune: 80, gain: 0.18, dur: 0.2 },
+    win: { type: 'square', notes: [440, 880, 1320, 1760], gain: 0.09, spacing: 0.06 },
+    tick: { type: 'square', freq: 1800, warnFreq: 2400, gain: 0.05 },
+  },
 };
 
 // Apply sound theme to engine
