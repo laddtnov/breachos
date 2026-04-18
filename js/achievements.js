@@ -116,6 +116,13 @@ const ACHIEVEMENTS = [
     desc: 'Complete 7 Daily Challenges',
     check: (state, stats) => (stats.dailyCompleted || 0) >= 7,
   },
+  {
+    id: 'inner_circle',
+    name: 'INNER CIRCLE',
+    symbol: '\u25C8',
+    desc: 'Discover the hidden protocol',
+    check: (state) => !!state.konamiActivated,
+  },
 ];
 
 function loadAchievements() {

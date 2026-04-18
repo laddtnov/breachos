@@ -29,6 +29,8 @@ function activateKonami() {
 
   SoundEngine.win();
 
+  checkAchievements({ konamiActivated: true });
+
   const overlay = document.createElement('div');
   overlay.id = 'konami-overlay';
   overlay.innerHTML = `
