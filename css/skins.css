@@ -352,6 +352,8 @@
 
 .skin-modal-content {
   max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
   width: 90%;
   padding: 30px;
   background: rgba(10, 10, 25, 0.95);
