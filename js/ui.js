@@ -277,7 +277,7 @@ function initMenuDialog() {
   const dialog = document.getElementById('menu-dialog');
   if (!dialog) return;
   dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) {
+    if (!e.target.closest('.menu-panel')) {
       dialog.close();
       document.getElementById('menu-btn')?.classList.remove('open');
     }

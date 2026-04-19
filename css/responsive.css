@@ -24,7 +24,7 @@
   }
 
   #menu-dialog[open] {
-    display: flex;
+    display: block;
   }
 }
 
