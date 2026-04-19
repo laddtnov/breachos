@@ -341,7 +341,10 @@
   background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
   z-index: 250;
   backdrop-filter: blur(8px);
 }
@@ -352,9 +355,8 @@
 
 .skin-modal-content {
   max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
   width: 90%;
+  margin: 0 auto;
   padding: 30px;
   background: rgba(10, 10, 25, 0.95);
   border: 2px solid #00f3ff;
