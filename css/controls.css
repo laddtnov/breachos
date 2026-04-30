@@ -227,6 +227,21 @@
   box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
 }
 
+/* ── Sound OFF state (mobile menu) ── */
+#sound-toggle-mobile.sound-off {
+  color: rgba(0, 243, 255, 0.4);
+  border-color: rgba(0, 243, 255, 0.15);
+  text-decoration: line-through;
+}
+
+#sound-toggle-mobile.sound-off:hover,
+#sound-toggle-mobile.sound-off:active {
+  background: rgba(255, 0, 85, 0.1);
+  border-color: rgba(255, 0, 85, 0.4);
+  color: #ff0055;
+  text-decoration: none;
+}
+
 /* ── Safe Mode ── */
 .safe-mode .card-inner,
 .safe-mode .card-back,

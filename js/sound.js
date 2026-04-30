@@ -190,7 +190,13 @@ const SoundEngine = {
 
   toggle() {
     this.enabled = !this.enabled;
+    const label = this.enabled ? 'SOUND: ON' : 'SOUND: OFF';
     const btn = document.getElementById('sound-toggle');
-    if (btn) btn.textContent = this.enabled ? 'SOUND: ON' : 'SOUND: OFF';
+    if (btn) btn.textContent = label;
+    const btnMobile = document.getElementById('sound-toggle-mobile');
+    if (btnMobile) {
+      btnMobile.textContent = label;
+      btnMobile.classList.toggle('sound-off', !this.enabled);
+    }
   }
 };
