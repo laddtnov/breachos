@@ -359,7 +359,7 @@
 /* WINS_50 reward: ECLIPSE — deep void violet */
 .reward-card-eclipse {
   border-color: rgba(120, 0, 200, 0.5);
-  color: #9933ff;
+  color: #bb66ff;
   background:
     radial-gradient(circle at 50% 50%, rgba(120, 0, 200, 0.1) 0%, transparent 65%),
     rgba(5, 5, 8, 0.95);
