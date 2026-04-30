@@ -262,6 +262,16 @@ function winGame() {
   if (!playerStats.winsPerDifficulty) playerStats.winsPerDifficulty = { easy: 0, medium: 0, hard: 0, extreme: 0 };
   playerStats.winsPerDifficulty[diff] = (playerStats.winsPerDifficulty[diff] || 0) + 1;
 
+  // Blitz wins
+  if (gameState.mode === 'blitz') {
+    playerStats.blitzWins = (playerStats.blitzWins || 0) + 1;
+  }
+
+  // Perfect wins (no wrong flips — moves equals exactly totalPairs)
+  if (gameState.moves === gameState.totalPairs) {
+    playerStats.perfectWins = (playerStats.perfectWins || 0) + 1;
+  }
+
   // Best time tracking
   if (!playerStats.bestTimes[diff] || gameState.seconds < playerStats.bestTimes[diff]) {
     playerStats.bestTimes[diff] = gameState.seconds;

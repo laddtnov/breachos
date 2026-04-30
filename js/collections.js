@@ -102,6 +102,52 @@ const REWARD_CARDS = [
     desc: 'The final state of all systems. Survives what others cannot.',
     rarity: 'MYTHIC',
   },
+  // \u2500\u2500 Extended Milestone Cards \u2500\u2500
+  {
+    id: 'phantom',
+    name: 'PHANTOM',
+    symbol: '\u25C7',
+    color: 'cyan',
+    rank: '__PLAYED_50',
+    desc: 'Fifty runs deep. The net knows your shadow by heart.',
+    rarity: 'RARE',
+  },
+  {
+    id: 'wraith',
+    name: 'WRAITH',
+    symbol: '\u263D',
+    color: 'pink',
+    rank: '__SURVIVAL_20',
+    desc: 'Outlasted wave 20. Ghost of a machine that refuses to die.',
+    rarity: 'LEGENDARY',
+  },
+  {
+    id: 'cipher',
+    name: 'CIPHER',
+    symbol: '\u2726',
+    color: 'cyan',
+    rank: '__DAILY_14',
+    desc: 'Two weeks decoded. Every day another layer of the protocol.',
+    rarity: 'EPIC',
+  },
+  {
+    id: 'catalyst',
+    name: 'CATALYST',
+    symbol: '\u2295',
+    color: 'pink',
+    rank: '__BLITZ_10',
+    desc: 'Speed is identity. Ten blitz victories, zero hesitation.',
+    rarity: 'LEGENDARY',
+  },
+  {
+    id: 'eclipse',
+    name: 'ECLIPSE',
+    symbol: '\u25C9',
+    color: 'cyan',
+    rank: '__WINS_50',
+    desc: 'Fifty victories cast a long shadow. You are the dark star.',
+    rarity: 'MYTHIC',
+  },
 ];
 
 function isRewardUnlocked(rewardRank) {
@@ -111,6 +157,11 @@ function isRewardUnlocked(rewardRank) {
   if (rewardRank === '__MATCHES_200') return (playerStats.totalMatches || 0) >= 200;
   if (rewardRank === '__COMBO_7')     return (playerStats.bestCombo || 0) >= 7;
   if (rewardRank === '__WAVE_15')     return (playerStats.bestWave || 0) >= 15;
+  if (rewardRank === '__PLAYED_50')   return (playerStats.gamesPlayed || 0) >= 50;
+  if (rewardRank === '__SURVIVAL_20') return (playerStats.bestWave || 0) >= 20;
+  if (rewardRank === '__DAILY_14')    return (playerStats.dailyCompleted || 0) >= 14;
+  if (rewardRank === '__BLITZ_10')    return (playerStats.blitzWins || 0) >= 10;
+  if (rewardRank === '__WINS_50')     return (playerStats.gamesWon || 0) >= 50;
 
   const rankOrder = RANKS.map(r => r.name);
   const playerRankIdx = rankOrder.indexOf(playerStats.rank);
@@ -156,6 +207,11 @@ function renderCollectionModal() {
       '__MATCHES_200': '200 TOTAL MATCHES',
       '__COMBO_7':     '7x COMBO',
       '__WAVE_15':     'SURVIVE WAVE 15',
+      '__PLAYED_50':   'PLAY 50 GAMES',
+      '__SURVIVAL_20': 'SURVIVE WAVE 20',
+      '__DAILY_14':    '14-DAY STREAK',
+      '__BLITZ_10':    'WIN 10 BLITZ GAMES',
+      '__WINS_50':     'WIN 50 GAMES',
     };
     const lockLabel = RANK_LABELS[card.rank] ?? card.rank;
     return `

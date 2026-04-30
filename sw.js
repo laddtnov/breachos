@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cybermatch-v15';
+const CACHE_NAME = 'cybermatch-v16';
 const ASSETS = [
   './',
   './index.html',

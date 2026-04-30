@@ -73,6 +73,33 @@ const SOUND_THEMES = {
     win: { type: 'square', notes: [440, 880, 1320, 1760], gain: 0.09, spacing: 0.06 },
     tick: { type: 'square', freq: 1800, warnFreq: 2400, gain: 0.05 },
   },
+  ambient: {
+    name: 'AMBIENT VOID',
+    desc: 'Floating space station drones',
+    flip: { type: 'noise', filterFreq: 600, filterQ: 0.3, gain: 0.06, dur: 0.12 },
+    match: { type: 'sine', freqs: [220, 277], ramp: 0.4, gain: 0.07, dur: 0.6 },
+    error: { type: 'triangle', freq: 90, detune: 8, gain: 0.06, dur: 0.5 },
+    win: { type: 'sine', notes: [261.63, 329.63, 392, 523.25], gain: 0.08, spacing: 0.22 },
+    tick: { type: 'sine', freq: 380, warnFreq: 280, gain: 0.03 },
+  },
+  arcade: {
+    name: 'ARCADE',
+    desc: 'Classic pinball machine tones',
+    flip: { type: 'noise', filterFreq: 5000, filterQ: 6, gain: 0.14, dur: 0.025 },
+    match: { type: 'square', freqs: [600, 900], ramp: 5, gain: 0.1, dur: 0.12 },
+    error: { type: 'square', freq: 100, detune: 20, gain: 0.13, dur: 0.18 },
+    win: { type: 'square', notes: [523.25, 659.25, 783.99, 1046.5], gain: 0.1, spacing: 0.09 },
+    tick: { type: 'square', freq: 1200, warnFreq: 1600, gain: 0.06 },
+  },
+  neonbass: {
+    name: 'NEON BASS',
+    desc: 'Deep sub-bass neon vibrations',
+    flip: { type: 'noise', filterFreq: 300, filterQ: 2, gain: 0.16, dur: 0.07 },
+    match: { type: 'sine', freqs: [55, 110], ramp: 0.6, gain: 0.14, dur: 0.4 },
+    error: { type: 'sawtooth', freq: 35, detune: 25, gain: 0.16, dur: 0.35 },
+    win: { type: 'sine', notes: [110, 138.59, 164.81, 220], gain: 0.13, spacing: 0.18 },
+    tick: { type: 'sine', freq: 160, warnFreq: 120, gain: 0.07 },
+  },
 };
 
 // Apply sound theme to engine

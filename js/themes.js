@@ -8,7 +8,10 @@ const TABLE_THEMES = [
   { id: 'void',   name: 'VOID',         desc: 'Ultraviolet purple' },
   { id: 'ice',    name: 'ICE COLD',     desc: 'Arctic blue-white freeze' },
   { id: 'toxic',  name: 'TOXIC WASTE',  desc: 'Radioactive lime acid' },
-  { id: 'ember',  name: 'EMBER CORE',   desc: 'Deep orange inferno' },
+  { id: 'ember',    name: 'EMBER CORE',   desc: 'Deep orange inferno' },
+  { id: 'midnight', name: 'MIDNIGHT',     desc: 'Deep indigo electric' },
+  { id: 'sakura',   name: 'SAKURA',       desc: 'Cherry blossom pink' },
+  { id: 'storm',    name: 'STORM SURGE',  desc: 'Electric silver lightning' },
 ];
 
 function applyTheme(themeId) {

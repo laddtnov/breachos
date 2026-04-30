@@ -294,6 +294,81 @@ body.theme-ember .cyber-table::after {
   box-shadow: inset 0 0 10px rgba(255, 106, 0, 0.2);
 }
 
+.theme-preview-midnight {
+  background: radial-gradient(circle, #000018, #000);
+  border-color: rgba(80, 80, 255, 0.4);
+  box-shadow: inset 0 0 10px rgba(80, 80, 255, 0.2);
+}
+
+.theme-preview-sakura {
+  background: radial-gradient(circle, #180010, #000);
+  border-color: rgba(255, 130, 185, 0.4);
+  box-shadow: inset 0 0 10px rgba(255, 130, 185, 0.2);
+}
+
+.theme-preview-storm {
+  background: radial-gradient(circle, #050515, #000);
+  border-color: rgba(180, 200, 255, 0.4);
+  box-shadow: inset 0 0 10px rgba(180, 200, 255, 0.2);
+}
+
+/* ── MIDNIGHT — deep indigo electric ── */
+body.theme-midnight {
+  background: radial-gradient(circle at center, #000018 0%, #000000 100%);
+}
+
+body.theme-midnight .cyber-table {
+  border-color: #5050ff;
+  box-shadow:
+    0 0 20px rgba(80, 80, 255, 0.5),
+    inset 0 0 30px rgba(80, 80, 255, 0.3),
+    0 0 60px rgba(60, 60, 200, 0.2);
+}
+
+body.theme-midnight .cyber-table::after {
+  background-image:
+    linear-gradient(rgba(80, 80, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80, 80, 255, 0.05) 1px, transparent 1px);
+}
+
+/* ── SAKURA — cherry blossom pink ── */
+body.theme-sakura {
+  background: radial-gradient(circle at center, #180010 0%, #000000 100%);
+}
+
+body.theme-sakura .cyber-table {
+  border-color: #ff82b9;
+  box-shadow:
+    0 0 20px rgba(255, 130, 185, 0.5),
+    inset 0 0 30px rgba(255, 130, 185, 0.3),
+    0 0 60px rgba(220, 80, 150, 0.2);
+}
+
+body.theme-sakura .cyber-table::after {
+  background-image:
+    linear-gradient(rgba(255, 130, 185, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 130, 185, 0.05) 1px, transparent 1px);
+}
+
+/* ── STORM SURGE — electric silver lightning ── */
+body.theme-storm {
+  background: radial-gradient(circle at center, #050515 0%, #000000 100%);
+}
+
+body.theme-storm .cyber-table {
+  border-color: #b4c8ff;
+  box-shadow:
+    0 0 20px rgba(180, 200, 255, 0.5),
+    inset 0 0 30px rgba(180, 200, 255, 0.3),
+    0 0 60px rgba(140, 170, 255, 0.2);
+}
+
+body.theme-storm .cyber-table::after {
+  background-image:
+    linear-gradient(rgba(180, 200, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 200, 255, 0.05) 1px, transparent 1px);
+}
+
 /* ── Responsive ── */
 @media (max-width: 480px) {
   #theme-grid {

@@ -279,6 +279,102 @@
   75% { border-color: rgba(255, 0, 85, 0.4); }
 }
 
+/* PLAYED_50 reward: PHANTOM — silver ghost shimmer */
+.reward-card-phantom {
+  border-color: rgba(200, 210, 230, 0.4);
+  color: #c8d2e6;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(200, 210, 230, 0.06) 0%, transparent 60%),
+    rgba(5, 5, 8, 0.95);
+}
+
+.reward-card-phantom.unlocked {
+  box-shadow: 0 0 15px rgba(200, 210, 230, 0.2), inset 0 0 10px rgba(200, 210, 230, 0.05);
+  animation: phantom-fade 3s ease-in-out infinite;
+}
+
+@keyframes phantom-fade {
+  0%, 100% { opacity: 1; border-color: rgba(200, 210, 230, 0.4); }
+  50%       { opacity: 0.65; border-color: rgba(200, 210, 230, 0.15); }
+}
+
+/* SURVIVAL_20 reward: WRAITH — ghostly blue mist */
+.reward-card-wraith {
+  border-color: rgba(100, 160, 255, 0.4);
+  color: #64a0ff;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(100, 160, 255, 0.07) 0%, transparent 60%),
+    rgba(5, 5, 8, 0.95);
+}
+
+.reward-card-wraith.unlocked {
+  box-shadow: 0 0 15px rgba(100, 160, 255, 0.2), inset 0 0 10px rgba(100, 160, 255, 0.05);
+  animation: wraith-drift 4s ease-in-out infinite;
+}
+
+@keyframes wraith-drift {
+  0%, 100% { border-color: rgba(100, 160, 255, 0.4); box-shadow: 0 0 15px rgba(100, 160, 255, 0.2); }
+  50%       { border-color: rgba(157, 0, 255, 0.3);  box-shadow: 0 0 20px rgba(157, 0, 255, 0.15); }
+}
+
+/* DAILY_14 reward: CIPHER — teal green matrix decode */
+.reward-card-cipher {
+  border-color: rgba(0, 220, 180, 0.5);
+  color: #00dcb4;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(0, 220, 180, 0.08) 0%, transparent 60%),
+    rgba(5, 5, 8, 0.95);
+}
+
+.reward-card-cipher.unlocked {
+  box-shadow: 0 0 15px rgba(0, 220, 180, 0.2), inset 0 0 10px rgba(0, 220, 180, 0.05);
+  animation: cipher-scan 2s linear infinite;
+}
+
+@keyframes cipher-scan {
+  0%   { text-shadow: 0 0 8px #00dcb4; }
+  50%  { text-shadow: 0 0 20px #00ffcc, 0 0 40px rgba(0, 220, 180, 0.4); }
+  100% { text-shadow: 0 0 8px #00dcb4; }
+}
+
+/* BLITZ_10 reward: CATALYST — electric yellow charged */
+.reward-card-catalyst {
+  border-color: rgba(255, 220, 0, 0.5);
+  color: #ffdc00;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 220, 0, 0.08) 0%, transparent 60%),
+    rgba(5, 5, 8, 0.95);
+}
+
+.reward-card-catalyst.unlocked {
+  box-shadow: 0 0 15px rgba(255, 220, 0, 0.25), inset 0 0 10px rgba(255, 220, 0, 0.08);
+  animation: catalyst-charge 0.8s ease-in-out infinite;
+}
+
+@keyframes catalyst-charge {
+  0%, 100% { border-color: rgba(255, 220, 0, 0.5); box-shadow: 0 0 15px rgba(255, 220, 0, 0.25); }
+  50%       { border-color: rgba(255, 140, 0, 0.7); box-shadow: 0 0 25px rgba(255, 180, 0, 0.4); }
+}
+
+/* WINS_50 reward: ECLIPSE — deep void violet */
+.reward-card-eclipse {
+  border-color: rgba(120, 0, 200, 0.5);
+  color: #9933ff;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(120, 0, 200, 0.1) 0%, transparent 65%),
+    rgba(5, 5, 8, 0.95);
+}
+
+.reward-card-eclipse.unlocked {
+  box-shadow: 0 0 20px rgba(120, 0, 200, 0.3), inset 0 0 15px rgba(120, 0, 200, 0.1);
+  animation: eclipse-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes eclipse-pulse {
+  0%, 100% { border-color: rgba(120, 0, 200, 0.5); box-shadow: 0 0 20px rgba(120, 0, 200, 0.3); }
+  50%       { border-color: rgba(0, 243, 255, 0.3); box-shadow: 0 0 30px rgba(0, 0, 80, 0.8), 0 0 15px rgba(120, 0, 200, 0.4); }
+}
+
 /* ── Collection Close Button ── */
 .collection-close-btn {
   display: block;
