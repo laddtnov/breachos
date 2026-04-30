@@ -5,7 +5,10 @@
   background: rgba(0, 0, 0, 0.92);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
   z-index: 250;
   backdrop-filter: blur(8px);
 }
@@ -16,9 +19,8 @@
 
 .collection-modal-content {
   max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
   width: 92%;
+  margin: 0 auto;
   padding: 30px;
   background: rgba(10, 10, 25, 0.95);
   border: 2px solid #00f3ff;
@@ -291,6 +293,7 @@
 .reward-card-phantom.unlocked {
   box-shadow: 0 0 15px rgba(200, 210, 230, 0.2), inset 0 0 10px rgba(200, 210, 230, 0.05);
   animation: phantom-fade 3s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes phantom-fade {
@@ -414,17 +417,54 @@
 }
 
 /* ── Responsive for Collections ── */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .collection-modal-content {
+    padding: 20px 16px;
+  }
+
   #collection-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 12px;
   }
 
   .reward-symbol {
-    font-size: 28px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .collection-modal-content {
+    padding: 16px 12px;
+  }
+
+  #collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .reward-symbol {
+    font-size: 26px;
   }
 
   .reward-name {
-    font-size: 13px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .reward-rank {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reward-card-phantom,
+  .reward-card-wraith,
+  .reward-card-cipher,
+  .reward-card-catalyst,
+  .reward-card-eclipse,
+  .reward-card-nexus,
+  .reward-card-overclocked,
+  .reward-card-entropy {
+    animation: none !important;
   }
 }

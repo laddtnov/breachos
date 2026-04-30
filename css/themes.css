@@ -140,7 +140,10 @@ body.theme-ember .cyber-table::after {
   background: rgba(0, 0, 0, 0.92);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
   z-index: 250;
   backdrop-filter: blur(8px);
 }
@@ -151,9 +154,8 @@ body.theme-ember .cyber-table::after {
 
 .theme-modal-content {
   max-width: 520px;
-  max-height: 90vh;
-  overflow-y: auto;
   width: 92%;
+  margin: 0 auto;
   padding: 30px;
   background: rgba(10, 10, 25, 0.95);
   border: 2px solid #00f3ff;
@@ -370,7 +372,27 @@ body.theme-storm .cyber-table::after {
 }
 
 /* ── Responsive ── */
+@media (max-width: 768px) {
+  .theme-modal-content {
+    padding: 20px 16px;
+  }
+
+  #theme-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  .theme-modal-title {
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+}
+
 @media (max-width: 480px) {
+  .theme-modal-content {
+    padding: 16px 12px;
+  }
+
   #theme-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
@@ -378,5 +400,14 @@ body.theme-storm .cyber-table::after {
 
   .theme-preview {
     height: 30px;
+  }
+
+  .theme-name {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .theme-desc {
+    font-size: 11px;
   }
 }
