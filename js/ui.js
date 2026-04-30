@@ -269,6 +269,13 @@ function toggleMenu() {
   } else {
     dialog.showModal();
     btn?.classList.add('open');
+    // Sync sound button state each time menu opens
+    const soundBtn = document.getElementById('sound-toggle-mobile');
+    if (soundBtn) {
+      const on = SoundEngine.enabled;
+      soundBtn.textContent = on ? 'SOUND: ON' : 'SOUND: OFF';
+      soundBtn.classList.toggle('sound-off', !on);
+    }
   }
 }
 
