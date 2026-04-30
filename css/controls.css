@@ -236,9 +236,9 @@
 
 #sound-toggle-mobile.sound-off:hover,
 #sound-toggle-mobile.sound-off:active {
-  background: rgba(255, 0, 85, 0.1);
-  border-color: rgba(255, 0, 85, 0.4);
-  color: #ff0055;
+  background: rgba(100, 0, 30, 0.9);
+  border-color: rgba(255, 0, 85, 0.6);
+  color: #ff6699;
   text-decoration: none;
 }
 
