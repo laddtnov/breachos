@@ -37,7 +37,9 @@ async function sendThankYou() {
   const error   = document.getElementById('thankyou-error');
   const email   = input?.value.trim();
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const at  = email.indexOf('@');
+  const dot = at > 0 ? email.lastIndexOf('.') : -1;
+  if (!email || !(at > 0 && dot > at + 1 && dot < email.length - 1 && email.length <= 254)) {
     input?.classList.add('input-error');
     setTimeout(() => input?.classList.remove('input-error'), 800);
     return;

@@ -9,7 +9,11 @@ export default async function handler(req, res) {
 
   const { email } = req.body;
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const at = typeof email === 'string' ? email.indexOf('@') : -1;
+  const dot = at > 0 ? email.lastIndexOf('.') : -1;
+  const isValidEmail = at > 0 && dot > at + 1 && dot < email.length - 1 && email.length <= 254;
+
+  if (!isValidEmail) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 
