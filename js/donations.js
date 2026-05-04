@@ -29,3 +29,42 @@ function copyAddr(id) {
     }, 1500);
   });
 }
+
+async function sendThankYou() {
+  const input  = document.getElementById('thankyou-email');
+  const sendBtn = document.querySelector('.donate-send-btn');
+  const success = document.getElementById('thankyou-success');
+  const error   = document.getElementById('thankyou-error');
+  const email   = input?.value.trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    input?.classList.add('input-error');
+    setTimeout(() => input?.classList.remove('input-error'), 800);
+    return;
+  }
+
+  sendBtn.textContent = 'SENDING...';
+  sendBtn.disabled = true;
+  success.classList.add('hidden');
+  error.classList.add('hidden');
+
+  try {
+    const res = await fetch('/api/thank-you', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      input.value = '';
+      success.classList.remove('hidden');
+      sendBtn.textContent = 'SENT ✔';
+    } else {
+      throw new Error('server error');
+    }
+  } catch {
+    error.classList.remove('hidden');
+    sendBtn.textContent = 'SEND';
+    sendBtn.disabled = false;
+  }
+}

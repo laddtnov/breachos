@@ -43,6 +43,18 @@
       </div>
     </div>
 
+    <!-- Thank You Email Form -->
+    <div class="donate-thankyou-section">
+      <div class="donate-thankyou-label">DONATED? CLAIM YOUR TRANSMISSION</div>
+      <div class="donate-thankyou-form" id="thankyou-form">
+        <input type="email" id="thankyou-email" class="donate-email-input"
+               placeholder="ENTER YOUR EMAIL" autocomplete="email" />
+        <button class="donate-send-btn" onclick="sendThankYou()">SEND</button>
+      </div>
+      <p class="donate-thankyou-msg hidden" id="thankyou-success">✔ TRANSMISSION SENT — CHECK YOUR INBOX</p>
+      <p class="donate-thankyou-msg donate-thankyou-error hidden" id="thankyou-error">✖ SIGNAL LOST — TRY AGAIN</p>
+    </div>
+
     <button class="donate-close-btn" onclick="toggleDonateModal()">CLOSE</button>
   </div>
 </div>
