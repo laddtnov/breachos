@@ -135,30 +135,58 @@ function updateAuthUI() {
   }
 }
 
+// ── Debug toast (temporary — remove after root cause found) ──
+function _dbg(msg) {
+  let el = document.getElementById('_auth_dbg');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = '_auth_dbg';
+    el.style.cssText = 'position:fixed;bottom:10px;left:10px;right:10px;z-index:99999;background:#000;color:#0f0;font:12px monospace;padding:8px;border:1px solid #0f0;border-radius:4px;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  el.textContent = '[AUTH] ' + msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.remove(), 6000);
+}
+
 function toggleAuthModal() {
   const modal = document.getElementById('auth-modal');
+  _dbg('called. modal=' + (modal ? 'found' : 'NULL'));
   if (!modal) return;
 
   if (modal.open) {
+    _dbg('closing open modal');
     modal.close();
     return;
   }
 
   const menuDialog = document.getElementById('menu-dialog');
+  _dbg('menuDialog.open=' + (menuDialog?.open));
+
   if (menuDialog?.open) {
-    // Wait for the menu dialog's own 'close' event — guaranteed to fire
-    // only after it's fully removed from the top layer on all browsers
     const onMenuClose = () => {
       menuDialog.removeEventListener('close', onMenuClose);
+      _dbg('menu closed — calling showModal');
       renderAuthModal();
-      modal.showModal();
+      try {
+        modal.showModal();
+        _dbg('showModal() OK — modal.open=' + modal.open);
+      } catch(e) {
+        _dbg('showModal() ERROR: ' + e.message);
+      }
     };
     menuDialog.addEventListener('close', onMenuClose);
+    _dbg('closing menu...');
     menuDialog.close();
     document.getElementById('menu-btn')?.classList.remove('open');
   } else {
     renderAuthModal();
-    modal.showModal();
+    try {
+      modal.showModal();
+      _dbg('showModal() OK (no menu) modal.open=' + modal.open);
+    } catch(e) {
+      _dbg('showModal() ERROR: ' + e.message);
+    }
   }
 }
 
