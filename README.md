@@ -1,8 +1,10 @@
-# Cyberpunk Memory Match
+# Cyberpunk Memory Match — BreachOS
 
-A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript. Match pairs of sci-fi operatives across multiple game modes, earn XP, unlock ranks, collect card skins, and climb the achievement ladder.
+A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript. Match pairs of sci-fi operatives across multiple game modes, earn XP, unlock ranks, collect card skins, and sync your progress across all devices.
 
-**[Play Now](https://breachos.laddtnov.xyz//)**
+**[Play Now →](https://breachos.laddtnov.xyz/)**
+
+---
 
 ## Tech Stack
 
@@ -10,11 +12,15 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
-- **HTML5** — Semantic markup, data attributes, PWA manifest
-- **CSS3** — 3D transforms, keyframe animations, CSS Grid, `backdrop-filter`, conic gradients
-- **JavaScript (ES6+)** — Web Audio API, seeded PRNG, localStorage persistence, service worker
-- **Zero dependencies** — No frameworks, no bundler, no libraries
+- **Frontend** — Vanilla HTML5/CSS3/JS, zero frameworks, zero bundler
+- **Backend** — Vercel serverless functions (Node.js)
+- **Database** — Supabase (Postgres + Auth)
+- **Email** — Resend API
+- **PWA** — Service worker, offline support, installable
+
+---
 
 ## Screenshots
 
@@ -26,126 +32,148 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 |:---:|:---:|
 | ![Gameplay](screenshots/03-gameplay.png) | ![Mission Complete](screenshots/04-mission-complete.png) |
 
-| Mission Failed |
-|:---:|
-| ![Mission Failed](screenshots/05-mission-failed.png) |
+---
 
 ## Game Modes
 
 | Mode | Description |
 |------|-------------|
 | **Classic** | Standard rules — limited moves, no timer (except Extreme) |
-| **Blitz** | Race the clock! Every difficulty has a countdown, no move limits |
-| **Survival** | Endless escalating waves with 3 lives. Difficulty cycles Easy > Medium > Hard > Extreme and loops with increasing time pressure |
-| **Daily Challenge** | Seeded daily puzzle — same cards for everyone. Difficulty rotates by day of the week. Track your streak |
+| **Blitz** | Race the clock — every difficulty has a countdown, no move limits |
+| **Survival** | Endless escalating waves with 3 lives |
+| **Daily Challenge** | Seeded daily puzzle — same cards for everyone, tracks streaks |
+
+---
 
 ## Features
 
 ### Core Gameplay
-- **4 Difficulty Levels** — Easy (3x2), Medium (4x4), Hard (4x6), Extreme (6x6)
-- **18 Cyber Operatives** — NETRUNNER, ANDROID, MECH PILOT, GHOST, SAMURAI, MEDIC, SNIPER, VIRUS, CYBORG, DRONE, PHANTOM, REAPER, HACKER, SYNTH, BLADE, ORACLE, WRAITH, GLITCH
-- **Combo System** — Chain consecutive matches for bonus XP with escalating visual feedback
-- **Move Limit** — Strategic pressure per difficulty (Blitz removes this, adds countdown instead)
+- **4 Difficulty Levels** — Easy (3×2), Medium (4×4), Hard (4×6), Extreme (6×6)
+- **18 Cyber Operatives** to match
+- **Combo System** — chain consecutive matches for bonus XP
+- **Move + Time Limits** — strategic pressure per mode and difficulty
 
-### Progression System
-- **5 Ranks** — ROOKIE > AGENT > SPECIALIST > GHOST > NETRUNNER ELITE
-- **XP Calculation** — Based on difficulty, move efficiency, speed, and combo chains
-- **7 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono
-- **7 Collection Cards** — SENTINEL, SPECTER, INFERNO, ZERO, NEXUS, PHOENIX, ORACLE PRIME
-- **11 Achievements** — Zero Errors, Speedrunner, Combo Master, Extreme Survivor, Perfectionist, Grinder, Wave Rider, Unkillable, Devoted, Daily Warrior, Blitz Ace
+### Progression
+- **5 Ranks** — ROOKIE → AGENT → SPECIALIST → GHOST → NETRUNNER ELITE
+- **XP Calculation** — difficulty × move efficiency × speed × combo chains
+- **10 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono, Plasma Burn, Acid Rain, Shadow Protocol
+- **16 Collection Cards** — unlocked by rank, survival waves, daily streaks, win milestones, blitz wins and more
+- **16 Achievements** — spanning gameplay, speed, combos, survival, daily challenges and hidden secrets
 
-### Reward Unlocks
+### Unlock Conditions
 
-| Reward | Type | How to Unlock |
-|--------|------|---------------|
-| Hologram skin | Card Skin | Reach AGENT rank |
-| Corrupted skin | Card Skin | Reach SPECIALIST rank |
-| Gold Circuit skin | Card Skin | Reach GHOST rank |
-| Elite Neon skin | Card Skin | Reach NETRUNNER ELITE rank |
-| Survivor skin | Card Skin | Survive to Wave 5 |
-| Chrono skin | Card Skin | 7-day Daily streak |
-| PHOENIX card | Collection | Survive to Wave 10 |
-| ORACLE PRIME card | Collection | 30-day Daily streak |
+| Reward | How to Unlock |
+|--------|---------------|
+| Hologram skin | Reach AGENT rank |
+| Corrupted skin | Reach SPECIALIST rank |
+| Gold Circuit skin | Reach GHOST rank |
+| Elite Neon skin | Reach NETRUNNER ELITE rank |
+| Survivor skin | Survive wave 5 |
+| Chrono skin | 7-day daily streak |
+| Plasma Burn skin | Win 20 games |
+| Acid Rain skin | Reach 7× combo |
+| Shadow Protocol skin | Play 100 games |
+| PHOENIX card | Survive wave 10 |
+| ORACLE PRIME card | 30-day daily streak |
+| TEMPEST card | Win 20 games |
+| ARCHITECT card | 200 total matches |
+| OVERCLOCKED card | 7× combo |
+| ENTROPY card | Survive wave 15 |
+| PHANTOM card | Play 50 games |
+| WRAITH card | Survive wave 20 |
+| CIPHER card | 14-day daily streak |
+| CATALYST card | Win 10 blitz games |
+| ECLIPSE card | Win 50 games |
 
 ### Audio & Visuals
-- **Procedural Sound Engine** — Web Audio API synthesized sounds (flip, match, error, win, lose, countdown ticks)
-- **5 Sound Themes** — Cyber, Retro, Minimal, Vapor, Dark
-- **5 Table Themes** — Swappable board aesthetics
-- **Win Effects** — Neon particle rain, scanline sweep, glitch animations
-- **Lose Effects** — Red glitch overlay, screen shake on countdown
-- **Combo Display** — Color-escalating combo counter with pop animation
+- **11 Sound Themes** — Cyber, Retro 8-Bit, Synthwave, Glitch, Minimal, Horror, Jazz Runner, Rave Core, Ambient Void, Arcade, Neon Bass
+- **11 Table Themes** — Cyber, Blood Circuit, Matrix, Solar Flare, Void, Ice Cold, Toxic Waste, Ember Core, Midnight, Sakura, Storm Surge
+- **Particle effects**, scanline animations, glitch overlays, rank-up cinematic
+
+### Cross-Device Sync
+- **Account system** — register / log in via the SYNC button
+- **Auto-sync** — progress pushes to Supabase on every game save
+- **Merge strategy** — always takes the highest value across devices
+- **Welcome email** — cyberpunk greeting sent on signup via Resend
+- **Re-engagement email** — "SIGNAL LOST" email sent after 14 days of inactivity
 
 ### Quality of Life
-- **Player Dossier** — Full stats dashboard (games played, win rate, best times, best combo)
-- **Share Card** — Canvas-generated result image for sharing
-- **Cyber Mode / Safe Mode** — Toggle to disable animations for accessibility
+- **Player Dossier** — full stats dashboard
+- **Share Card** — Canvas-generated result image
+- **Cyber / Safe Mode** — toggle animations for accessibility
 - **Respects `prefers-reduced-motion`**
-- **Mobile-first** — Hamburger menu on tablet/mobile, responsive grid layouts
-- **PWA** — Installable, works offline via service worker
-- **Konami Code** — Easter egg
+- **Mobile-first** — hamburger menu, responsive grid layouts
+- **PWA** — installable, works offline
+- **Konami Code** — hidden easter egg with achievement
+
+---
 
 ## Project Structure
 
 ```
-Playing-Cards/
-  index.html          # Single-page app
-  manifest.json       # PWA manifest
-  sw.js               # Service worker (cache-first)
-  css/
-    base.css          # Reset, variables, body, typography
-    hud.css           # Game HUD bar
-    cards.css         # Card flip, match, error animations
-    skins.css         # 7 card back skins + skin selector modal
-    modals.css        # Rules/briefing modal
-    overlays.css      # Win/lose overlays
-    controls.css      # Desktop controls + mobile hamburger menu
-    combo.css         # Combo counter display
-    achievements.css  # Achievement popup + modal
-    collections.css   # Card collection modal
-    dossier.css       # Player stats dossier
-    donations.css     # Donation page
-    themes.css        # Table theme styles
-    konami.css        # Easter egg styles
-    sound-themes.css  # Sound theme selector
-    survival.css      # Survival mode HUD + overlays
-    daily.css         # Daily challenge HUD + overlays
-    responsive.css    # Breakpoints (1024/768/480px) + reduced motion
-  js/
-    data.js           # Characters, difficulties, ranks, constants
-    sound.js          # Web Audio API procedural sound engine
-    rank.js           # XP, rank calculation, skin unlocks
-    game.js           # Core game loop, state, card matching, timer
-    collections.js    # Reward cards + collection modal
-    achievements.js   # 11 achievements + unlock checks
-    survival.js       # Survival mode (waves, lives, scoring)
-    daily.js          # Daily challenge (seeded PRNG, streaks)
-    dossier.js        # Player stats dossier panel
-    share.js          # Canvas share card generator
-    themes.js         # Table theme switcher
-    sound-themes.js   # Sound theme switcher
-    konami.js         # Konami code easter egg
-    donations.js      # Donation modal
-    ui.js             # UI helpers, skin modal, menu, init
-  screenshots/        # README screenshots
+breachos/
+├── index.html              # Single-page app shell
+├── manifest.json           # PWA manifest
+├── sw.js                   # Service worker (cache-first, v22)
+├── vercel.json             # Cron job schedule
+├── css/                    # Modular stylesheets
+├── js/                     # Game logic (vanilla ES6+)
+│   ├── auth.js             # Auth state, sync, panel navigation
+│   ├── game.js             # Core game loop
+│   ├── rank.js             # XP, ranks, saveStats
+│   ├── achievements.js     # 16 achievements
+│   ├── collections.js      # 16 collection cards
+│   ├── survival.js         # Survival mode
+│   ├── daily.js            # Daily challenge + streaks
+│   └── ...
+├── api/
+│   ├── auth/
+│   │   ├── register.js     # Create account + welcome email
+│   │   └── login.js        # Authenticate + return JWT
+│   ├── sync/
+│   │   ├── save.js         # Push playerStats to Supabase
+│   │   └── load.js         # Pull + merge from Supabase
+│   ├── cron/
+│   │   └── re-engage.js    # Daily re-engagement email job
+│   └── thank-you.js        # Post-donation thank you email
+├── lib/
+│   ├── db.js               # Supabase client (single instance)
+│   └── emails.js           # Shared HTML email templates
+├── partials/               # HTML fragments loaded at runtime
+└── supabase-*.sql          # Database schema + migrations
 ```
+
+---
 
 ## How to Play
 
-1. Select a game mode and difficulty from the Mission Briefing screen
-2. Click cards to reveal hidden cyber operatives
-3. Find matching pairs before running out of moves (or time in Blitz/Daily)
-4. Chain consecutive matches for combo bonuses
-5. Earn XP to rank up, unlock skins, and collect reward cards
+1. Open [breachos.laddtnov.xyz](https://breachos.laddtnov.xyz/)
+2. Select a mode and difficulty from the briefing screen
+3. Flip cards to find matching pairs
+4. Chain matches for combo bonuses
+5. Earn XP, rank up, unlock skins and collection cards
+6. Hit **SYNC** to register and keep your progress across all devices
+
+---
 
 ## Run Locally
 
 ```bash
 git clone https://github.com/laddtnov/cyberpunk-memory-match.git
 cd cyberpunk-memory-match
+npm install
 python3 -m http.server 8080
 ```
 
-Open `http://localhost:8080` in your browser.
+Open `http://localhost:8080`. Note: API routes require Vercel dev or environment variables to function.
+
+---
+
+## Roadmap
+
+See [`ROADMAP.md`](ROADMAP.md) for planned features.
+
+---
 
 ## License
 
