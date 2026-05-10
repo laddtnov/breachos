@@ -17,6 +17,7 @@
 #dossier-btn,
 #theme-btn,
 #sound-theme-btn,
+#sync-btn,
 #donate-btn {
   background: rgba(0, 0, 0, 0.8);
   color: #00f3ff;
@@ -39,6 +40,7 @@
 #dossier-btn:hover,
 #theme-btn:hover,
 #sound-theme-btn:hover,
+#sync-btn:hover,
 #donate-btn:hover {
   background: #00f3ff;
   color: #000; /* NOSONAR - hover state has bright background */
@@ -211,6 +213,18 @@
 .menu-item:hover,
 .menu-item:active {
   background: rgba(0, 243, 255, 0.4);
+  border-color: #00f3ff;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
+}
+
+.menu-item-sync {
+  color: #00f3ff;
+  border-color: rgba(0, 243, 255, 0.35);
+}
+
+.menu-item-sync:hover,
+.menu-item-sync:active {
+  background: rgba(0, 243, 255, 0.15);
   border-color: #00f3ff;
   box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 }

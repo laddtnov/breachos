@@ -1,0 +1,303 @@
+/* ── Auth / Sync Modal ── */
+#auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 0;
+}
+
+#auth-modal.hidden {
+  display: none;
+}
+
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: -1;
+}
+
+.auth-modal-content {
+  position: relative;
+  width: 92%;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(10, 10, 25, 0.98);
+  border: 2px solid #00f3ff;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 20px rgba(0, 243, 255, 0.05);
+  font-family: 'Courier New', monospace;
+}
+
+/* ── Header ── */
+.auth-modal-title {
+  font-size: 22px;
+  color: #00f3ff;
+  text-align: center;
+  letter-spacing: 4px;
+  margin: 0 0 4px;
+  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.auth-modal-sub {
+  font-size: 11px;
+  color: rgba(0, 243, 255, 0.5);
+  text-align: center;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.auth-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00f3ff, transparent);
+  margin-bottom: 20px;
+}
+
+/* ── Tabs ── */
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(0, 243, 255, 0.5);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+  border-color: #00f3ff;
+  color: #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.auth-tab:hover:not(.active) {
+  border-color: rgba(0, 243, 255, 0.4);
+  color: rgba(0, 243, 255, 0.7);
+}
+
+/* ── Fields ── */
+.auth-field {
+  margin-bottom: 14px;
+}
+
+.auth-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(0, 243, 255, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 6px;
+  color: #00f3ff;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.auth-input::placeholder {
+  color: rgba(0, 243, 255, 0.25);
+  letter-spacing: 2px;
+}
+
+.auth-input:focus {
+  border-color: #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.15);
+}
+
+/* ── Error ── */
+.auth-error {
+  min-height: 18px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #ff6699;
+  text-transform: uppercase;
+  margin: 4px 0 10px;
+}
+
+/* ── Submit button ── */
+.auth-submit-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 2px solid #00f3ff;
+  border-radius: 6px;
+  color: #00f3ff;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  margin-top: 4px;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background: #00f3ff;
+  color: #000; /* NOSONAR - hover has bright background */
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── Notice ── */
+.auth-notice {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 12px 0 0;
+  line-height: 1.6;
+}
+
+/* ── Logged In state ── */
+.auth-operative-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: rgba(0, 243, 255, 0.4);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 6px;
+}
+
+.auth-username-display {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #00f3ff;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+.auth-sync-note {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0 0 20px;
+}
+
+.auth-sync-now-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 2px solid #00ff88;
+  border-radius: 6px;
+  color: #00ff88;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.auth-sync-now-btn:hover:not(:disabled) {
+  background: #00ff88;
+  color: #000; /* NOSONAR */
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+}
+
+.auth-sync-now-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.auth-logout-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 0, 85, 0.4);
+  border-radius: 6px;
+  color: rgba(255, 0, 85, 0.7);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.auth-logout-btn:hover {
+  border-color: #ff0055;
+  color: #ff6699;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+}
+
+/* ── Close button ── */
+.auth-close-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  margin-top: 6px;
+}
+
+.auth-close-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff; /* NOSONAR */
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .auth-modal-content {
+    padding: 20px 16px;
+  }
+
+  .auth-modal-title {
+    font-size: 18px;
+  }
+}
