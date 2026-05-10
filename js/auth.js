@@ -138,12 +138,20 @@ function updateAuthUI() {
 function toggleAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
-  // Close mobile menu dialog first — it sits in the top layer above everything
+
   const menuDialog = document.getElementById('menu-dialog');
   if (menuDialog?.open) {
     menuDialog.close();
     document.getElementById('menu-btn')?.classList.remove('open');
+    // iOS Safari keeps the dialog in the top layer for one paint cycle —
+    // defer the modal open until the dialog is fully dismissed
+    requestAnimationFrame(() => {
+      modal.classList.remove('hidden');
+      renderAuthModal();
+    });
+    return;
   }
+
   modal.classList.toggle('hidden');
   if (!modal.classList.contains('hidden')) renderAuthModal();
 }
