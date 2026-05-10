@@ -139,7 +139,6 @@ function toggleAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
 
-  // If auth modal is already open, close it
   if (modal.open) {
     modal.close();
     return;
@@ -147,12 +146,16 @@ function toggleAuthModal() {
 
   const menuDialog = document.getElementById('menu-dialog');
   if (menuDialog?.open) {
-    // Close menu dialog first, then open auth dialog in next event loop
-    // tick — Android Chrome won't open a new dialog while another is
-    // still in its closing cycle
+    // Wait for the menu dialog's own 'close' event — guaranteed to fire
+    // only after it's fully removed from the top layer on all browsers
+    const onMenuClose = () => {
+      menuDialog.removeEventListener('close', onMenuClose);
+      renderAuthModal();
+      modal.showModal();
+    };
+    menuDialog.addEventListener('close', onMenuClose);
     menuDialog.close();
     document.getElementById('menu-btn')?.classList.remove('open');
-    setTimeout(() => { renderAuthModal(); modal.showModal(); }, 0);
   } else {
     renderAuthModal();
     modal.showModal();
