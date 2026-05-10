@@ -13,8 +13,9 @@ export default async function handler(req, res) {
   if (!stats || typeof stats !== 'object' || Array.isArray(stats))
     return res.status(400).json({ error: 'Invalid stats payload' });
 
+  const now = new Date().toISOString();
   const { error: upsertError } = await supabase.from('profiles').upsert(
-    { user_id: user.id, stats, updated_at: new Date().toISOString() },
+    { user_id: user.id, stats, updated_at: now, last_seen: now },
     { onConflict: 'user_id' }
   );
 
