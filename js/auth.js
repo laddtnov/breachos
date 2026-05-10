@@ -119,13 +119,20 @@ function authLogout() {
 
 // ── UI helpers ──
 function updateAuthUI() {
-  const label = isLoggedIn()
-    ? `SYNC: ${authState.user?.username || 'ON'}`
-    : 'SYNC';
-  document.getElementById('sync-btn')?.textContent !== undefined &&
-    (document.getElementById('sync-btn').textContent = label);
-  document.getElementById('sync-btn-mobile')?.textContent !== undefined &&
-    (document.getElementById('sync-btn-mobile').textContent = label);
+  const loggedIn = isLoggedIn();
+  const label    = loggedIn ? `SYNC: ${authState.user?.username || 'ON'}` : 'SYNC';
+
+  const desktop = document.getElementById('sync-btn');
+  if (desktop) {
+    desktop.textContent = label;
+    desktop.classList.toggle('sync-active', loggedIn);
+  }
+
+  const mobile = document.getElementById('sync-btn-mobile');
+  if (mobile) {
+    mobile.textContent = label;
+    mobile.classList.toggle('sync-active', loggedIn);
+  }
 }
 
 function toggleAuthModal() {
