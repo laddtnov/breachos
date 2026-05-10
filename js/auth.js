@@ -83,13 +83,6 @@ async function syncLoad() {
   }
 }
 
-// ── Patch saveStats to auto-push after every local save ──
-const _origSaveStats = saveStats;
-function saveStats(stats) {        // eslint-disable-line no-redeclare
-  _origSaveStats(stats);
-  if (isLoggedIn()) syncSave().catch(() => {});
-}
-
 // ── API calls ──
 async function authRegister(email, password, username) {
   const res  = await fetch('/api/auth/register', {

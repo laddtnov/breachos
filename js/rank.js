@@ -15,6 +15,8 @@ function loadStats() {
 
 function saveStats(stats) {
   localStorage.setItem('cyberpunk_match_stats', JSON.stringify(stats));
+  // Push to server if user is logged in (auth.js loads after rank.js)
+  if (typeof syncSave === 'function') syncSave().catch(() => {});
 }
 
 function getRankForXP(xp) {
