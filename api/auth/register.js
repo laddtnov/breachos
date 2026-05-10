@@ -14,13 +14,16 @@ function isValidEmail(str) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email, password, username } = req.body || {};
+  const body     = req.body || {};
+  const email    = typeof body.email    === 'string' ? body.email.trim()    : '';
+  const password = typeof body.password === 'string' ? body.password        : '';
+  const username = typeof body.username === 'string' ? body.username.trim() : '';
 
   if (!isValidEmail(email))
     return res.status(400).json({ error: 'Invalid email' });
-  if (!password || password.length < 6)
-    return res.status(400).json({ error: 'Password must be at least 6 characters' });
-  if (!username || username.length < 2 || username.length > 20)
+  if (password.length < 8)
+    return res.status(400).json({ error: 'Password must be at least 8 characters' });
+  if (username.length < 2 || username.length > 20)
     return res.status(400).json({ error: 'Username must be 2–20 characters' });
 
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({

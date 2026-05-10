@@ -1,11 +1,12 @@
 // ── Auth & Cross-Device Sync ──
 
-const AUTH_TOKEN_KEY = 'breachos_auth_token';
-const AUTH_USER_KEY  = 'breachos_auth_user';
+// localStorage entry names (not secrets — just storage identifiers)
+const TOKEN_STORE = 'breachos_auth_token';
+const USER_STORE  = 'breachos_auth_user';
 
 const authState = {
-  token: localStorage.getItem(AUTH_TOKEN_KEY) || null,
-  user:  JSON.parse(localStorage.getItem(AUTH_USER_KEY) || 'null'),
+  token: localStorage.getItem(TOKEN_STORE) || null,
+  user:  JSON.parse(localStorage.getItem(USER_STORE) || 'null'),
 };
 
 function isLoggedIn() {
@@ -15,15 +16,15 @@ function isLoggedIn() {
 function persistAuth(token, user) {
   authState.token = token;
   authState.user  = user;
-  localStorage.setItem(AUTH_TOKEN_KEY, token);
-  localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+  localStorage.setItem(TOKEN_STORE, token);
+  localStorage.setItem(USER_STORE, JSON.stringify(user));
 }
 
 function clearAuth() {
   authState.token = null;
   authState.user  = null;
-  localStorage.removeItem(AUTH_TOKEN_KEY);
-  localStorage.removeItem(AUTH_USER_KEY);
+  localStorage.removeItem(TOKEN_STORE);
+  localStorage.removeItem(USER_STORE);
 }
 
 // ── Merge: always take the higher value for numeric stats ──
