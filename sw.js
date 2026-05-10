@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cybermatch-v19';
+const CACHE_NAME = 'cybermatch-v21';
 const ASSETS = [
   './',
   './index.html',
@@ -21,6 +21,8 @@ const ASSETS = [
   './css/survival.css',
   './css/daily.css',
   './css/responsive.css',
+  './css/auth.css',
+  './js/load-partials.js',
   './js/sound.js',
   './js/data.js',
   './js/rank.js',
@@ -36,6 +38,19 @@ const ASSETS = [
   './js/survival.js',
   './js/daily.js',
   './js/ui.js',
+  './js/auth.js',
+  './partials/rules-modal.html',
+  './partials/mobile-menu.html',
+  './partials/controls.html',
+  './partials/skin-modal.html',
+  './partials/dossier-modal.html',
+  './partials/theme-modal.html',
+  './partials/sound-theme-modal.html',
+  './partials/donate-modal.html',
+  './partials/achievement-modal.html',
+  './partials/collection-modal.html',
+  './partials/auth-modal.html',
+  './partials/game-area.html',
 ];
 
 // Install — cache all assets
