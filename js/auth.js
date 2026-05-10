@@ -139,15 +139,20 @@ function toggleAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
 
-  // Close mobile menu first if open
-  const menuDialog = document.getElementById('menu-dialog');
-  if (menuDialog?.open) {
-    menuDialog.close();
-    document.getElementById('menu-btn')?.classList.remove('open');
-  }
-
+  // If auth modal is already open, close it
   if (modal.open) {
     modal.close();
+    return;
+  }
+
+  const menuDialog = document.getElementById('menu-dialog');
+  if (menuDialog?.open) {
+    // Close menu dialog first, then open auth dialog in next event loop
+    // tick — Android Chrome won't open a new dialog while another is
+    // still in its closing cycle
+    menuDialog.close();
+    document.getElementById('menu-btn')?.classList.remove('open');
+    setTimeout(() => { renderAuthModal(); modal.showModal(); }, 0);
   } else {
     renderAuthModal();
     modal.showModal();
