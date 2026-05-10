@@ -41,7 +41,6 @@ function mergeStats(local, remote) {
   merged.unlockedSkins = [
     ...new Set([...(local.unlockedSkins || []), ...(remote.unlockedSkins || [])]),
   ];
-  // keep local preferences
   merged.activeSkin       = local.activeSkin;
   merged.activeTheme      = local.activeTheme;
   merged.activeSoundTheme = local.activeSoundTheme;
@@ -72,7 +71,7 @@ async function syncLoad() {
       headers: { 'Authorization': `Bearer ${authState.token}` },
     });
     if (res.status === 401) { clearAuth(); updateAuthUI(); return; }
-    if (!res.ok) return;
+    if (!res.ok) throw new Error('Server error');
     const { stats } = await res.json();
     const merged = mergeStats(playerStats, stats);
     playerStats = merged;
@@ -80,6 +79,7 @@ async function syncLoad() {
     if (typeof updateRankHUD === 'function') updateRankHUD();
   } catch (e) {
     console.warn('[SYNC] Load failed', e?.message);
+    throw e;
   }
 }
 
@@ -94,7 +94,6 @@ async function authRegister(email, password, username) {
   if (!res.ok) throw new Error(data.error || 'Registration failed');
   persistAuth(data.token, data.user);
   updateAuthUI();
-  await syncLoad();
   return data;
 }
 
@@ -108,16 +107,134 @@ async function authLogin(email, password) {
   if (!res.ok) throw new Error(data.error || 'Login failed');
   persistAuth(data.token, data.user);
   updateAuthUI();
-  await syncLoad();
   return data;
 }
 
 function authLogout() {
   clearAuth();
   updateAuthUI();
+  showAuthPanel('choose');
 }
 
-// ── UI helpers ──
+// ── Panel navigation ──
+function showAuthPanel(name) {
+  ['choose','signup','emailsent','login','syncing','loggedin'].forEach(p => {
+    document.getElementById('auth-panel-' + p)?.classList.add('hidden');
+  });
+  document.getElementById('auth-panel-' + name)?.classList.remove('hidden');
+}
+
+// ── Modal open/close ──
+function toggleAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return;
+
+  if (modal.open) {
+    modal.close();
+    return;
+  }
+
+  // Show correct starting panel
+  if (isLoggedIn()) {
+    showAuthPanel('syncing');
+    _runSync();
+  } else {
+    showAuthPanel('choose');
+  }
+
+  const menuDialog = document.getElementById('menu-dialog');
+  if (menuDialog?.open) {
+    const onMenuClose = () => {
+      menuDialog.removeEventListener('close', onMenuClose);
+      modal.showModal();
+    };
+    menuDialog.addEventListener('close', onMenuClose);
+    menuDialog.close();
+    document.getElementById('menu-btn')?.classList.remove('open');
+  } else {
+    modal.showModal();
+  }
+}
+
+// ── Sync with status display ──
+async function _runSync() {
+  const title   = document.getElementById('sync-status-title');
+  const msg     = document.getElementById('sync-status-msg');
+  const spinner = document.getElementById('sync-spinner');
+  const retry   = document.getElementById('sync-retry-btn');
+  const modal   = document.getElementById('auth-modal');
+
+  if (title)   title.textContent  = 'SYNCING...';
+  if (msg)     msg.textContent    = 'Connecting to the net...';
+  if (spinner) spinner.classList.remove('hidden');
+  if (retry)   retry.classList.add('hidden');
+
+  try {
+    await syncSave();
+    await syncLoad();
+    if (title)   title.textContent = 'SYNCED ✔';
+    if (msg)     msg.textContent   = 'Progress saved across all devices.';
+    if (spinner) spinner.classList.add('hidden');
+    // Auto-close after 1.5 s on success
+    setTimeout(() => { if (modal?.open) modal.close(); }, 1500);
+  } catch {
+    if (title)   title.textContent = 'SYNC FAILED';
+    if (msg)     msg.textContent   = 'Could not reach the net. Try again.';
+    if (spinner) spinner.classList.add('hidden');
+    if (retry)   retry.classList.remove('hidden');
+  }
+}
+
+async function handleManualSync() {
+  showAuthPanel('syncing');
+  await _runSync();
+}
+
+// ── Register handler ──
+async function handleRegister() {
+  const email    = document.getElementById('reg-email')?.value.trim();
+  const password = document.getElementById('reg-password')?.value;
+  const username = document.getElementById('reg-username')?.value.trim();
+  const btn      = document.getElementById('reg-btn');
+  const err      = document.getElementById('reg-error');
+
+  if (err) err.textContent = '';
+  if (btn) { btn.textContent = 'CONNECTING...'; btn.disabled = true; }
+
+  try {
+    await authRegister(email, password, username);
+    // Show "check your email" panel
+    showAuthPanel('emailsent');
+  } catch (e) {
+    if (err) err.textContent = e.message;
+    if (btn) { btn.textContent = 'CREATE ACCOUNT'; btn.disabled = false; }
+  }
+}
+
+// ── Login handler ──
+async function handleLogin() {
+  const email    = document.getElementById('login-email')?.value.trim();
+  const password = document.getElementById('login-password')?.value;
+  const btn      = document.getElementById('login-btn');
+  const err      = document.getElementById('login-error');
+
+  if (err) err.textContent = '';
+  if (btn) { btn.textContent = 'CONNECTING...'; btn.disabled = true; }
+
+  try {
+    await authLogin(email, password);
+    // Show username panel briefly, then sync
+    const usernameEl = document.getElementById('auth-username-display');
+    if (usernameEl) usernameEl.textContent = authState.user?.username || 'NETRUNNER';
+    showAuthPanel('syncing');
+    await _runSync();
+  } catch (e) {
+    if (err) err.textContent = e.message;
+    if (btn) { btn.textContent = 'CONNECT'; btn.disabled = false; }
+  }
+}
+
+// ── Sync button label ──
 function updateAuthUI() {
   const loggedIn = isLoggedIn();
   const label    = loggedIn ? `SYNC: ${authState.user?.username || 'ON'}` : 'SYNC';
@@ -135,108 +252,7 @@ function updateAuthUI() {
   }
 }
 
-function toggleAuthModal() {
-  const modal = document.getElementById('auth-modal');
-  if (!modal) return;
-
-  if (modal.open) {
-    modal.close();
-    return;
-  }
-
-  const menuDialog = document.getElementById('menu-dialog');
-  if (menuDialog?.open) {
-    const onMenuClose = () => {
-      menuDialog.removeEventListener('close', onMenuClose);
-      renderAuthModal();
-      modal.showModal();
-    };
-    menuDialog.addEventListener('close', onMenuClose);
-    menuDialog.close();
-    document.getElementById('menu-btn')?.classList.remove('open');
-  } else {
-    renderAuthModal();
-    modal.showModal();
-  }
-}
-
-function renderAuthModal() {
-  const loggedIn  = document.getElementById('auth-logged-in');
-  const loggedOut = document.getElementById('auth-logged-out');
-  if (!loggedIn || !loggedOut) return;
-
-  if (isLoggedIn()) {
-    loggedIn.classList.remove('hidden');
-    loggedOut.classList.add('hidden');
-    const el = document.getElementById('auth-username-display');
-    if (el) el.textContent = authState.user?.username || 'NETRUNNER';
-  } else {
-    loggedIn.classList.add('hidden');
-    loggedOut.classList.remove('hidden');
-  }
-}
-
-function switchAuthTab(tab) {
-  document.getElementById('auth-signup-panel')?.classList.toggle('hidden', tab !== 'signup');
-  document.getElementById('auth-login-panel')?.classList.toggle('hidden', tab !== 'login');
-  document.querySelectorAll('.auth-tab').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tab);
-  });
-}
-
-async function handleRegister() {
-  const email    = document.getElementById('reg-email')?.value.trim();
-  const password = document.getElementById('reg-password')?.value;
-  const username = document.getElementById('reg-username')?.value.trim();
-  const btn      = document.getElementById('reg-btn');
-  const err      = document.getElementById('reg-error');
-
-  err.textContent = '';
-  btn.textContent = 'CONNECTING...';
-  btn.disabled = true;
-
-  try {
-    await authRegister(email, password, username);
-    toggleAuthModal();
-  } catch (e) {
-    err.textContent  = e.message;
-    btn.textContent  = 'SIGN UP';
-    btn.disabled     = false;
-  }
-}
-
-async function handleLogin() {
-  const email    = document.getElementById('login-email')?.value.trim();
-  const password = document.getElementById('login-password')?.value;
-  const btn      = document.getElementById('login-btn');
-  const err      = document.getElementById('login-error');
-
-  err.textContent = '';
-  btn.textContent = 'CONNECTING...';
-  btn.disabled = true;
-
-  try {
-    await authLogin(email, password);
-    toggleAuthModal();
-  } catch (e) {
-    err.textContent  = e.message;
-    btn.textContent  = 'LOG IN';
-    btn.disabled     = false;
-  }
-}
-
-async function handleManualSync() {
-  const btn = document.getElementById('manual-sync-btn');
-  if (btn) { btn.textContent = 'SYNCING...'; btn.disabled = true; }
-  await syncSave();
-  await syncLoad();
-  if (btn) {
-    btn.textContent = 'SYNCED ✔';
-    setTimeout(() => { btn.textContent = 'SYNC NOW'; btn.disabled = false; }, 2000);
-  }
-}
-
-// ── On page load: pull latest progress ──
+// ── On page load ──
 window.addEventListener('load', () => {
   updateAuthUI();
   if (isLoggedIn()) syncLoad().catch(() => {});

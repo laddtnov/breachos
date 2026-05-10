@@ -1,65 +1,90 @@
 <!-- Auth / Sync Modal -->
 <dialog id="auth-modal" aria-label="Sync account">
   <div class="auth-modal-content">
-    <h2 class="auth-modal-title">NETRUNNER ID</h2>
-    <p class="auth-modal-sub">SYNC PROGRESS ACROSS ALL DEVICES</p>
-    <div class="auth-divider"></div>
 
-    <!-- ── Logged Out ── -->
-    <div id="auth-logged-out">
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="signup" onclick="switchAuthTab('signup')">SIGN UP</button>
-        <button class="auth-tab" data-tab="login" onclick="switchAuthTab('login')">LOG IN</button>
+    <!-- ── Panel: Choose ── -->
+    <div id="auth-panel-choose" class="auth-panel">
+      <h2 class="auth-modal-title">NETRUNNER ID</h2>
+      <p class="auth-modal-sub">SYNC PROGRESS ACROSS ALL DEVICES</p>
+      <div class="auth-divider"></div>
+      <div class="auth-choose-btns">
+        <button class="auth-choose-btn" onclick="showAuthPanel('signup')">SIGN UP</button>
+        <button class="auth-choose-btn auth-choose-btn-secondary" onclick="showAuthPanel('login')">LOG IN</button>
       </div>
-
-      <!-- Sign Up -->
-      <div id="auth-signup-panel">
-        <div class="auth-field">
-          <label class="auth-label" for="reg-username">USERNAME</label>
-          <input type="text" id="reg-username" class="auth-input"
-                 placeholder="NETRUNNER_X" maxlength="20" autocomplete="username" />
-        </div>
-        <div class="auth-field">
-          <label class="auth-label" for="reg-email">EMAIL</label>
-          <input type="email" id="reg-email" class="auth-input"
-                 placeholder="agent@net.run" autocomplete="email" />
-        </div>
-        <div class="auth-field">
-          <label class="auth-label" for="reg-password">PASSWORD</label>
-          <input type="password" id="reg-password" class="auth-input"
-                 placeholder="MIN 6 CHARS" autocomplete="new-password" />
-        </div>
-        <p class="auth-error" id="reg-error"></p>
-        <button class="auth-submit-btn" id="reg-btn" onclick="handleRegister()">SIGN UP</button>
-        <p class="auth-notice">Progress syncs automatically once you register. Unregistered players are unaffected.</p>
-      </div>
-
-      <!-- Log In -->
-      <div id="auth-login-panel" class="hidden">
-        <div class="auth-field">
-          <label class="auth-label" for="login-email">EMAIL</label>
-          <input type="email" id="login-email" class="auth-input"
-                 placeholder="agent@net.run" autocomplete="email" />
-        </div>
-        <div class="auth-field">
-          <label class="auth-label" for="login-password">PASSWORD</label>
-          <input type="password" id="login-password" class="auth-input"
-                 placeholder="PASSWORD" autocomplete="current-password" />
-        </div>
-        <p class="auth-error" id="login-error"></p>
-        <button class="auth-submit-btn" id="login-btn" onclick="handleLogin()">LOG IN</button>
-      </div>
+      <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
     </div>
 
-    <!-- ── Logged In ── -->
-    <div id="auth-logged-in" class="hidden">
-      <p class="auth-operative-label">OPERATIVE</p>
+    <!-- ── Panel: Sign Up ── -->
+    <div id="auth-panel-signup" class="auth-panel hidden">
+      <button class="auth-back-btn" onclick="showAuthPanel('choose')">← BACK</button>
+      <h2 class="auth-modal-title">CREATE ACCOUNT</h2>
+      <div class="auth-divider"></div>
+      <div class="auth-field">
+        <label class="auth-label" for="reg-username">USERNAME</label>
+        <input type="text" id="reg-username" class="auth-input"
+               placeholder="NETRUNNER_X" maxlength="20" autocomplete="username" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="reg-email">EMAIL</label>
+        <input type="email" id="reg-email" class="auth-input"
+               placeholder="agent@net.run" autocomplete="email" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="reg-password">PASSWORD</label>
+        <input type="password" id="reg-password" class="auth-input"
+               placeholder="MIN 6 CHARS" autocomplete="new-password" />
+      </div>
+      <p class="auth-error" id="reg-error"></p>
+      <button class="auth-submit-btn" id="reg-btn" onclick="handleRegister()">CREATE ACCOUNT</button>
+    </div>
+
+    <!-- ── Panel: Email Sent ── -->
+    <div id="auth-panel-emailsent" class="auth-panel hidden">
+      <h2 class="auth-modal-title">TRANSMISSION SENT</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg">We sent a greeting to your inbox.<br>Check it out, then log in to start syncing.</p>
+      <button class="auth-submit-btn" onclick="showAuthPanel('login')">LOG IN NOW</button>
+      <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
+    </div>
+
+    <!-- ── Panel: Log In ── -->
+    <div id="auth-panel-login" class="auth-panel hidden">
+      <button class="auth-back-btn" onclick="showAuthPanel('choose')">← BACK</button>
+      <h2 class="auth-modal-title">LOG IN</h2>
+      <div class="auth-divider"></div>
+      <div class="auth-field">
+        <label class="auth-label" for="login-email">EMAIL</label>
+        <input type="email" id="login-email" class="auth-input"
+               placeholder="agent@net.run" autocomplete="email" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="login-password">PASSWORD</label>
+        <input type="password" id="login-password" class="auth-input"
+               placeholder="PASSWORD" autocomplete="current-password" />
+      </div>
+      <p class="auth-error" id="login-error"></p>
+      <button class="auth-submit-btn" id="login-btn" onclick="handleLogin()">CONNECT</button>
+    </div>
+
+    <!-- ── Panel: Syncing ── -->
+    <div id="auth-panel-syncing" class="auth-panel hidden">
+      <h2 class="auth-modal-title" id="sync-status-title">SYNCING...</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-sync-status-msg" id="sync-status-msg">Connecting to the net...</p>
+      <div class="auth-sync-spinner" id="sync-spinner"></div>
+      <button class="auth-submit-btn hidden" id="sync-retry-btn" onclick="handleManualSync()">TRY AGAIN</button>
+    </div>
+
+    <!-- ── Panel: Logged In ── -->
+    <div id="auth-panel-loggedin" class="auth-panel hidden">
+      <h2 class="auth-modal-title">OPERATIVE</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-operative-label">CONNECTED AS</p>
       <p class="auth-username-display" id="auth-username-display"></p>
-      <p class="auth-sync-note">Progress syncs automatically after each game.</p>
-      <button class="auth-sync-now-btn" id="manual-sync-btn" onclick="handleManualSync()">SYNC NOW</button>
-      <button class="auth-logout-btn" onclick="authLogout(); renderAuthModal()">LOG OUT</button>
+      <button class="auth-sync-now-btn" onclick="handleManualSync()">SYNC NOW</button>
+      <button class="auth-logout-btn" onclick="authLogout()">LOG OUT</button>
+      <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
     </div>
 
-    <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
   </div>
 </dialog>
