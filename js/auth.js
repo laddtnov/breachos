@@ -74,7 +74,7 @@ async function syncLoad() {
     if (!res.ok) throw new Error('Server error');
     const { stats } = await res.json();
     const merged = mergeStats(playerStats, stats);
-    window.playerStats = merged;
+    globalThis.playerStats = merged;
     saveStats(merged);
     if (typeof updateRankHUD === 'function') updateRankHUD();
   } catch (e) {
