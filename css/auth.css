@@ -2,26 +2,30 @@
 #auth-modal {
   position: fixed;
   inset: 0;
-  z-index: 260;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   padding: 20px 0;
 }
 
-#auth-modal.hidden {
-  display: none;
+#auth-modal[open] {
+  display: flex;
 }
 
-.auth-modal-overlay {
-  position: fixed;
-  inset: 0;
+#auth-modal::backdrop {
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: -1;
 }
 
 .auth-modal-content {

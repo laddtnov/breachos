@@ -139,21 +139,19 @@ function toggleAuthModal() {
   const modal = document.getElementById('auth-modal');
   if (!modal) return;
 
+  // Close mobile menu first if open
   const menuDialog = document.getElementById('menu-dialog');
   if (menuDialog?.open) {
     menuDialog.close();
     document.getElementById('menu-btn')?.classList.remove('open');
-    // iOS Safari keeps the dialog in the top layer for one paint cycle —
-    // defer the modal open until the dialog is fully dismissed
-    requestAnimationFrame(() => {
-      modal.classList.remove('hidden');
-      renderAuthModal();
-    });
-    return;
   }
 
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderAuthModal();
+  if (modal.open) {
+    modal.close();
+  } else {
+    renderAuthModal();
+    modal.showModal();
+  }
 }
 
 function renderAuthModal() {
