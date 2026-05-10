@@ -107,7 +107,7 @@
 }
 
 .auth-choose-btn-secondary:hover {
-  background: rgba(0, 243, 255, 0.15);
+  background: rgba(0, 20, 35, 0.95);
   color: #00f3ff;
   border-color: #00f3ff;
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);

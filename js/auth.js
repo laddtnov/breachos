@@ -74,7 +74,7 @@ async function syncLoad() {
     if (!res.ok) throw new Error('Server error');
     const { stats } = await res.json();
     const merged = mergeStats(playerStats, stats);
-    playerStats = merged;
+    window.playerStats = merged;
     saveStats(merged);
     if (typeof updateRankHUD === 'function') updateRankHUD();
   } catch (e) {
@@ -156,32 +156,29 @@ function toggleAuthModal() {
   }
 }
 
+// ── Sync status UI helper ──
+function _setSyncUI(titleText, msgText, spinning, showRetry) {
+  const t = document.getElementById('sync-status-title');
+  const m = document.getElementById('sync-status-msg');
+  const s = document.getElementById('sync-spinner');
+  const r = document.getElementById('sync-retry-btn');
+  if (t) t.textContent = titleText;
+  if (m) m.textContent = msgText;
+  if (s) s.classList.toggle('hidden', !spinning);
+  if (r) r.classList.toggle('hidden', !showRetry);
+}
+
 // ── Sync with status display ──
 async function _runSync() {
-  const title   = document.getElementById('sync-status-title');
-  const msg     = document.getElementById('sync-status-msg');
-  const spinner = document.getElementById('sync-spinner');
-  const retry   = document.getElementById('sync-retry-btn');
-  const modal   = document.getElementById('auth-modal');
-
-  if (title)   title.textContent  = 'SYNCING...';
-  if (msg)     msg.textContent    = 'Connecting to the net...';
-  if (spinner) spinner.classList.remove('hidden');
-  if (retry)   retry.classList.add('hidden');
-
+  const modal = document.getElementById('auth-modal');
+  _setSyncUI('SYNCING...', 'Connecting to the net...', true, false);
   try {
     await syncSave();
     await syncLoad();
-    if (title)   title.textContent = 'SYNCED ✔';
-    if (msg)     msg.textContent   = 'Progress saved across all devices.';
-    if (spinner) spinner.classList.add('hidden');
-    // Auto-close after 1.5 s on success
+    _setSyncUI('SYNCED ✔', 'Progress saved across all devices.', false, false);
     setTimeout(() => { if (modal?.open) modal.close(); }, 1500);
   } catch {
-    if (title)   title.textContent = 'SYNC FAILED';
-    if (msg)     msg.textContent   = 'Could not reach the net. Try again.';
-    if (spinner) spinner.classList.add('hidden');
-    if (retry)   retry.classList.remove('hidden');
+    _setSyncUI('SYNC FAILED', 'Could not reach the net. Try again.', false, true);
   }
 }
 
