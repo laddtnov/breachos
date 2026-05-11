@@ -118,11 +118,91 @@ function authLogout() {
 }
 
 // ── Panel navigation ──
+const ALL_PANELS = [
+  'choose','signup','emailsent','login',
+  'forgot','forgotdone','reset','resetsuccess',
+  'syncing','loggedin',
+];
+
 function showAuthPanel(name) {
-  ['choose','signup','emailsent','login','syncing','loggedin'].forEach(p => {
+  ALL_PANELS.forEach(p => {
     document.getElementById('auth-panel-' + p)?.classList.add('hidden');
   });
   document.getElementById('auth-panel-' + name)?.classList.remove('hidden');
+}
+
+// ── Recovery token (set when #type=recovery detected in URL) ──
+let _recoveryToken = null;
+
+// ── Forgot password handler ──
+async function handleForgot() {
+  const email = document.getElementById('forgot-email')?.value.trim();
+  const btn   = document.getElementById('forgot-btn');
+  const err   = document.getElementById('forgot-error');
+
+  if (err) err.textContent = '';
+  if (btn) { btn.textContent = 'TRANSMITTING...'; btn.disabled = true; }
+
+  try {
+    const res  = await fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to send reset link');
+    showAuthPanel('forgotdone');
+  } catch (e) {
+    if (err) err.textContent = e.message;
+  } finally {
+    if (btn) { btn.textContent = 'SEND RESET LINK'; btn.disabled = false; }
+  }
+}
+
+// ── Reset password handler ──
+async function handleResetPassword() {
+  const password = document.getElementById('reset-password')?.value;
+  const confirm  = document.getElementById('reset-confirm')?.value;
+  const btn      = document.getElementById('reset-btn');
+  const err      = document.getElementById('reset-error');
+
+  if (err) err.textContent = '';
+
+  if (!password || password.length < 8) {
+    if (err) err.textContent = 'Password must be at least 8 characters';
+    return;
+  }
+  if (password !== confirm) {
+    if (err) err.textContent = 'Passwords do not match';
+    return;
+  }
+  if (!_recoveryToken) {
+    if (err) err.textContent = 'Invalid session — request a new reset link';
+    return;
+  }
+
+  if (btn) { btn.textContent = 'UPDATING...'; btn.disabled = true; }
+
+  try {
+    const res  = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accessToken: _recoveryToken, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to update password');
+
+    _recoveryToken = null;
+    // Clear hash from URL without reload
+    history.replaceState(null, '', window.location.pathname);
+    clearAuth();
+    updateAuthUI();
+    showAuthPanel('resetsuccess');
+  } catch (e) {
+    if (err) err.textContent = e.message;
+  } finally {
+    if (btn) { btn.textContent = 'SET NEW PASSWORD'; btn.disabled = false; }
+  }
 }
 
 // ── Modal open/close ──
@@ -136,7 +216,9 @@ function toggleAuthModal() {
   }
 
   // Show correct starting panel
-  if (isLoggedIn()) {
+  if (_recoveryToken) {
+    showAuthPanel('reset');
+  } else if (isLoggedIn()) {
     showAuthPanel('syncing');
     _runSync();
   } else {
@@ -252,6 +334,24 @@ function updateAuthUI() {
 
 // ── On page load ──
 window.addEventListener('load', () => {
+  // Detect Supabase password recovery redirect (#type=recovery&access_token=...)
+  const hash = new URLSearchParams(window.location.hash.slice(1));
+  if (hash.get('type') === 'recovery') {
+    _recoveryToken = hash.get('access_token') || null;
+    if (_recoveryToken) {
+      // Clean URL immediately
+      history.replaceState(null, '', window.location.pathname);
+      // Open modal to reset panel once partials are ready
+      const openReset = () => {
+        const modal = document.getElementById('auth-modal');
+        if (!modal) { setTimeout(openReset, 100); return; }
+        showAuthPanel('reset');
+        modal.showModal();
+      };
+      setTimeout(openReset, 300);
+    }
+  }
+
   updateAuthUI();
   if (isLoggedIn()) syncLoad().catch(() => {});
 });

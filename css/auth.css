@@ -206,6 +206,27 @@
   box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
 }
 
+/* ── Forgot password link ── */
+.auth-forgot-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: rgba(0, 243, 255, 0.45);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 10px 0 0;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.auth-forgot-btn:hover {
+  color: #00f3ff;
+}
+
 .auth-submit-btn:disabled {
   opacity: 0.5;
   cursor: default;

@@ -38,7 +38,7 @@
       <button class="auth-submit-btn" id="reg-btn" onclick="handleRegister()">CREATE ACCOUNT</button>
     </div>
 
-    <!-- ── Panel: Email Sent ── -->
+    <!-- ── Panel: Email Sent (registration) ── -->
     <div id="auth-panel-emailsent" class="auth-panel hidden">
       <h2 class="auth-modal-title">TRANSMISSION SENT</h2>
       <div class="auth-divider"></div>
@@ -64,6 +64,56 @@
       </div>
       <p class="auth-error" id="login-error"></p>
       <button class="auth-submit-btn" id="login-btn" onclick="handleLogin()">CONNECT</button>
+      <button class="auth-forgot-btn" onclick="showAuthPanel('forgot')">FORGOT PASSWORD?</button>
+    </div>
+
+    <!-- ── Panel: Forgot Password ── -->
+    <div id="auth-panel-forgot" class="auth-panel hidden">
+      <button class="auth-back-btn" onclick="showAuthPanel('login')">← BACK</button>
+      <h2 class="auth-modal-title">RESET ACCESS</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg" style="margin-bottom:18px;">Enter your email and we'll send a recovery link.</p>
+      <div class="auth-field">
+        <label class="auth-label" for="forgot-email">EMAIL</label>
+        <input type="email" id="forgot-email" class="auth-input"
+               placeholder="agent@net.run" autocomplete="email" />
+      </div>
+      <p class="auth-error" id="forgot-error"></p>
+      <button class="auth-submit-btn" id="forgot-btn" onclick="handleForgot()">SEND RESET LINK</button>
+    </div>
+
+    <!-- ── Panel: Reset Link Sent ── -->
+    <div id="auth-panel-forgotdone" class="auth-panel hidden">
+      <h2 class="auth-modal-title">LINK TRANSMITTED</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg">Check your inbox for the recovery link.<br>Click it to set a new password.</p>
+      <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
+    </div>
+
+    <!-- ── Panel: Reset Password (shown on #type=recovery) ── -->
+    <div id="auth-panel-reset" class="auth-panel hidden">
+      <h2 class="auth-modal-title">NEW PASSWORD</h2>
+      <div class="auth-divider"></div>
+      <div class="auth-field">
+        <label class="auth-label" for="reset-password">NEW PASSWORD</label>
+        <input type="password" id="reset-password" class="auth-input"
+               placeholder="MIN 8 CHARS" autocomplete="new-password" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="reset-confirm">CONFIRM PASSWORD</label>
+        <input type="password" id="reset-confirm" class="auth-input"
+               placeholder="REPEAT PASSWORD" autocomplete="new-password" />
+      </div>
+      <p class="auth-error" id="reset-error"></p>
+      <button class="auth-submit-btn" id="reset-btn" onclick="handleResetPassword()">SET NEW PASSWORD</button>
+    </div>
+
+    <!-- ── Panel: Reset Success ── -->
+    <div id="auth-panel-resetsuccess" class="auth-panel hidden">
+      <h2 class="auth-modal-title">ACCESS RESTORED</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg">Your password has been updated.<br>Log in with your new credentials.</p>
+      <button class="auth-submit-btn" onclick="showAuthPanel('login')">LOG IN NOW</button>
     </div>
 
     <!-- ── Panel: Syncing ── -->
