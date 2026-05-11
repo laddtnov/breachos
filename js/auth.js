@@ -159,27 +159,32 @@ async function handleForgot() {
   }
 }
 
+// ── Reset validation helper (reduces cognitive complexity of handler) ──
+function _validateReset(password, confirm, err) {
+  if (password.length < 8) {
+    if (err) err.textContent = 'Password must be at least 8 characters';
+    return false;
+  }
+  if (password !== confirm) {
+    if (err) err.textContent = 'Passwords do not match';
+    return false;
+  }
+  if (!_recoveryToken) {
+    if (err) err.textContent = 'Invalid session — request a new reset link';
+    return false;
+  }
+  return true;
+}
+
 // ── Reset password handler ──
 async function handleResetPassword() {
-  const password = document.getElementById('reset-password')?.value;
-  const confirm  = document.getElementById('reset-confirm')?.value;
+  const password = document.getElementById('reset-password')?.value ?? '';
+  const confirm  = document.getElementById('reset-confirm')?.value  ?? '';
   const btn      = document.getElementById('reset-btn');
   const err      = document.getElementById('reset-error');
 
   if (err) err.textContent = '';
-
-  if (!password || password.length < 8) {
-    if (err) err.textContent = 'Password must be at least 8 characters';
-    return;
-  }
-  if (password !== confirm) {
-    if (err) err.textContent = 'Passwords do not match';
-    return;
-  }
-  if (!_recoveryToken) {
-    if (err) err.textContent = 'Invalid session — request a new reset link';
-    return;
-  }
+  if (!_validateReset(password, confirm, err)) return;
 
   if (btn) { btn.textContent = 'UPDATING...'; btn.disabled = true; }
 
@@ -193,8 +198,7 @@ async function handleResetPassword() {
     if (!res.ok) throw new Error(data.error || 'Failed to update password');
 
     _recoveryToken = null;
-    // Clear hash from URL without reload
-    history.replaceState(null, '', window.location.pathname);
+    globalThis.history.replaceState(null, '', globalThis.location.pathname);
     clearAuth();
     updateAuthUI();
     showAuthPanel('resetsuccess');
@@ -335,12 +339,11 @@ function updateAuthUI() {
 // ── On page load ──
 window.addEventListener('load', () => {
   // Detect Supabase password recovery redirect (#type=recovery&access_token=...)
-  const hash = new URLSearchParams(window.location.hash.slice(1));
+  const hash = new URLSearchParams(globalThis.location.hash.slice(1));
   if (hash.get('type') === 'recovery') {
     _recoveryToken = hash.get('access_token') || null;
     if (_recoveryToken) {
-      // Clean URL immediately
-      history.replaceState(null, '', window.location.pathname);
+      globalThis.history.replaceState(null, '', globalThis.location.pathname);
       // Open modal to reset panel once partials are ready
       const openReset = () => {
         const modal = document.getElementById('auth-modal');
