@@ -232,8 +232,10 @@ function toggleAuthModal() {
   if (_recoveryToken) {
     showAuthPanel('reset');
   } else if (isLoggedIn()) {
-    showAuthPanel('syncing');
-    _runSync();
+    // Show account panel so user can see LOG OUT and SYNC NOW
+    const usernameEl = document.getElementById('auth-username-display');
+    if (usernameEl) usernameEl.textContent = authState.user?.username || 'NETRUNNER';
+    showAuthPanel('loggedin');
   } else {
     showAuthPanel('choose');
   }
