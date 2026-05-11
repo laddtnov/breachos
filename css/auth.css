@@ -270,6 +270,22 @@
   to { transform: rotate(360deg); }
 }
 
+/* ── Logged out icon ── */
+.auth-logout-icon {
+  font-size: 40px;
+  color: rgba(255, 0, 85, 0.6);
+  text-align: center;
+  margin: 8px 0 0;
+  animation: auth-logout-fade 1.5s ease forwards;
+}
+
+@keyframes auth-logout-fade {
+  0%   { opacity: 0; transform: scale(0.6); }
+  30%  { opacity: 1; transform: scale(1.1); }
+  60%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.4; transform: scale(0.9); }
+}
+
 /* ── Logged in panel ── */
 .auth-operative-label {
   font-size: 10px;

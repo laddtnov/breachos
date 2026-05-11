@@ -114,14 +114,23 @@ async function authLogin(email, password) {
 function authLogout() {
   clearAuth();
   updateAuthUI();
-  showAuthPanel('choose');
+}
+
+function handleLogout() {
+  authLogout();
+  showAuthPanel('loggedout');
+  // Auto-close modal after 1.5 s
+  setTimeout(() => {
+    const modal = document.getElementById('auth-modal');
+    if (modal?.open) modal.close();
+  }, 1500);
 }
 
 // ── Panel navigation ──
 const ALL_PANELS = [
   'choose','signup','emailsent','login',
   'forgot','forgotdone','reset','resetsuccess',
-  'syncing','loggedin',
+  'syncing','loggedin','loggedout',
 ];
 
 function showAuthPanel(name) {

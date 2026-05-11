@@ -132,8 +132,16 @@
       <p class="auth-operative-label">CONNECTED AS</p>
       <p class="auth-username-display" id="auth-username-display"></p>
       <button class="auth-sync-now-btn" onclick="handleManualSync()">SYNC NOW</button>
-      <button class="auth-logout-btn" onclick="authLogout()">LOG OUT</button>
+      <button class="auth-logout-btn" onclick="handleLogout()">LOG OUT</button>
       <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
+    </div>
+
+    <!-- ── Panel: Logged Out confirmation ── -->
+    <div id="auth-panel-loggedout" class="auth-panel hidden">
+      <h2 class="auth-modal-title">DISCONNECTED</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-sync-status-msg" style="color:rgba(255,0,85,0.7);">Neural link severed.<br>Progress saved locally.</p>
+      <div class="auth-logout-icon">&#x2715;</div>
     </div>
 
   </div>
