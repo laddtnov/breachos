@@ -1,4 +1,5 @@
 // ── Auth & Cross-Device Sync ──
+/* global playerStats */ // declared as `let` in game.js, shared via global scope
 
 // localStorage entry names (not secrets — just storage identifiers)
 const TOKEN_STORE = 'breachos_auth_token';

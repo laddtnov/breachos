@@ -74,9 +74,8 @@ function generateShareCard() {
   // ── Mode + difficulty badge ──
   const mode = (gameState.mode || 'classic').toUpperCase();
   const diff = (gameState.difficulty || 'easy').toUpperCase();
-  const modeColors = { BLITZ: '#ffdc00', SURVIVAL: '#ff0055', DAILY: '#00ff88', CLASSIC: '#00f3ff' };
   const diffColors = { EASY: '#00f3ff', MEDIUM: '#ffdc00', HARD: '#ff6600', EXTREME: '#ff0055' };
-  const badgeText = (mode !== 'CLASSIC' ? mode + ' · ' : '') + diff;
+  const badgeText = (mode === 'CLASSIC' ? '' : mode + ' · ') + diff;
   ctx.font = 'bold 15px "Courier New", monospace';
   ctx.textAlign = 'right';
   ctx.fillStyle = diffColors[diff] || '#ff0055';
@@ -184,7 +183,7 @@ function shareResult() {
   const canvas = generateShareCard();
   const diff   = (gameState.difficulty || 'easy').toUpperCase();
   const mode   = (gameState.mode || 'classic').toUpperCase();
-  const text   = 'Just completed a ' + (mode !== 'CLASSIC' ? mode + ' ' : '') +
+  const text   = 'Just completed a ' + (mode === 'CLASSIC' ? '' : mode + ' ') +
                  diff + ' mission in ' + formatTime(gameState.seconds) +
                  ' — ' + gameState.maxCombo + 'x combo! Can you beat it? 🎮⚡';
 

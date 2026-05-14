@@ -64,7 +64,7 @@ function renderLeaderboard(data) {
     return;
   }
 
-  const selfId = typeof authState !== 'undefined' ? authState?.user?.id : null;
+  const selfId = typeof authState === 'undefined' ? null : authState?.user?.id;
 
   const MEDAL = { 1: '◈', 2: '◇', 3: '△' };
   const RANK_COLORS = {
