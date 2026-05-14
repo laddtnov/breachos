@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
   if (upsertError) {
     console.error('[SYNC/SAVE] upsert error:', upsertError.message);
-    return res.status(500).json({ error: 'Failed to save progress' });
+    return res.status(500).json({ error: upsertError.message });
   }
 
   // Update last_seen separately — fails gracefully if column not yet added
