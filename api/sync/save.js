@@ -14,12 +14,25 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid stats payload' });
 
   const now = new Date().toISOString();
+
+  // Core upsert — stats + updated_at only (always required columns)
   const { error: upsertError } = await supabase.from('profiles').upsert(
-    { user_id: user.id, stats, updated_at: now, last_seen: now },
+    { user_id: user.id, stats, updated_at: now },
     { onConflict: 'user_id' }
   );
 
-  if (upsertError) return res.status(500).json({ error: 'Failed to save progress' });
+  if (upsertError) {
+    console.error('[SYNC/SAVE] upsert error:', upsertError.message);
+    return res.status(500).json({ error: 'Failed to save progress' });
+  }
+
+  // Update last_seen separately — fails gracefully if column not yet added
+  await supabase.from('profiles')
+    .update({ last_seen: now })
+    .eq('user_id', user.id)
+    .then(({ error }) => {
+      if (error) console.warn('[SYNC/SAVE] last_seen update skipped:', error.message);
+    });
 
   return res.status(200).json({ success: true });
 }
