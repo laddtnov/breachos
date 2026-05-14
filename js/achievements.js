@@ -162,7 +162,9 @@ function showAchievementPopup(achievements) {
   const popup = document.getElementById('achievement-popup');
   if (!popup) return;
 
+  const DURATION = 3500;
   let idx = 0;
+
   function showNext() {
     if (idx >= achievements.length) {
       popup.classList.add('hidden');
@@ -170,16 +172,29 @@ function showAchievementPopup(achievements) {
     }
     const ach = achievements[idx];
     popup.querySelector('.achievement-symbol').textContent = ach.symbol;
-    popup.querySelector('.achievement-name').textContent = ach.name;
-    popup.querySelector('.achievement-desc').textContent = ach.desc;
+    popup.querySelector('.achievement-name').textContent   = ach.name;
+    popup.querySelector('.achievement-desc').textContent   = ach.desc;
+
+    // Progress indicator (e.g. "2 / 3" if multiple unlock at once)
+    const counter = popup.querySelector('.achievement-counter');
+    if (counter) {
+      counter.textContent = achievements.length > 1
+        ? (idx + 1) + ' / ' + achievements.length
+        : '';
+    }
+
+    // Haptic buzz on unlock
+    if (typeof Haptics !== 'undefined') Haptics.match();
+
     popup.classList.remove('hidden', 'achievement-slide');
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         popup.classList.add('achievement-slide');
       });
     });
+
     idx++;
-    setTimeout(showNext, 2500);
+    setTimeout(showNext, DURATION);
   }
   showNext();
 }

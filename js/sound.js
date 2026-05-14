@@ -1,7 +1,7 @@
 // ── Sound Engine (Web Audio API) ──
 const SoundEngine = {
   ctx: null,
-  enabled: true,
+  enabled: localStorage.getItem('breachos_sound') !== 'off',
   soundTheme: null,
 
   init() {
@@ -190,6 +190,7 @@ const SoundEngine = {
 
   toggle() {
     this.enabled = !this.enabled;
+    localStorage.setItem('breachos_sound', this.enabled ? 'on' : 'off');
     const label = this.enabled ? 'SOUND: ON' : 'SOUND: OFF';
     const btn = document.getElementById('sound-toggle');
     if (btn) btn.textContent = label;

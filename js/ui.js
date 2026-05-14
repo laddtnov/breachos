@@ -307,6 +307,14 @@ function updateBestTimes() {
   });
 }
 
+// ── Sync sound button label on load ──
+function syncSoundButton() {
+  const on = SoundEngine.enabled;
+  const label = on ? 'SOUND: ON' : 'SOUND: OFF';
+  const btn = document.getElementById('sound-toggle');
+  if (btn) btn.textContent = label;
+}
+
 // ── Init rank HUD + best times + daily badge ──
 // NOTE: These are called from index.html after loadPartials() completes,
 // since DOM elements live in partials and aren't available at script load time.
