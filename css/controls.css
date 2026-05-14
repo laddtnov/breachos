@@ -305,8 +305,8 @@
 
 /* ── Haptics OFF state (mobile menu) ── */
 #haptic-toggle-mobile.haptics-off {
-  color: rgba(0, 243, 255, 0.4);
-  border-color: rgba(0, 243, 255, 0.15);
+  color: rgba(255, 0, 85, 0.6);
+  border-color: rgba(255, 0, 85, 0.3);
   text-decoration: line-through;
 }
 
