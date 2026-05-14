@@ -78,6 +78,7 @@ async function syncLoad() {
     globalThis.playerStats = merged;
     saveStats(merged);
     if (typeof updateRankHUD === 'function') updateRankHUD();
+    if (typeof refreshLeaderboardIfOpen === 'function') refreshLeaderboardIfOpen();
   } catch (e) {
     console.warn('[SYNC] Load failed', e?.message);
     throw e;

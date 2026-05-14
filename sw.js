@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cybermatch-v25';
+const CACHE_NAME = 'cybermatch-v26';
 const ASSETS = [
   './',
   './index.html',
@@ -22,6 +22,7 @@ const ASSETS = [
   './css/daily.css',
   './css/responsive.css',
   './css/auth.css',
+  './css/leaderboard.css',
   './js/load-partials.js',
   './js/sound.js',
   './js/data.js',
@@ -39,6 +40,7 @@ const ASSETS = [
   './js/daily.js',
   './js/ui.js',
   './js/auth.js',
+  './js/leaderboard.js',
   './partials/rules-modal.html',
   './partials/mobile-menu.html',
   './partials/controls.html',
@@ -50,6 +52,7 @@ const ASSETS = [
   './partials/achievement-modal.html',
   './partials/collection-modal.html',
   './partials/auth-modal.html',
+  './partials/leaderboard-modal.html',
   './partials/game-area.html',
 ];
 

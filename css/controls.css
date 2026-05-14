@@ -17,6 +17,7 @@
 #dossier-btn,
 #theme-btn,
 #sound-theme-btn,
+#leaderboard-btn,
 #donate-btn {
   background: rgba(0, 0, 0, 0.8);
   color: #00f3ff;
@@ -39,6 +40,7 @@
 #dossier-btn:hover,
 #theme-btn:hover,
 #sound-theme-btn:hover,
+#leaderboard-btn:hover,
 #donate-btn:hover {
   background: #00f3ff;
   color: #000; /* NOSONAR - hover state has bright background */
