@@ -2,7 +2,7 @@
 
 const Haptics = {
   _supported: typeof navigator !== 'undefined' && 'vibrate' in navigator,
-  enabled: localStorage.getItem('breachos_haptics') !== 'off',
+  enabled: true, // overridden below after object creation
 
   _ok() {
     return this._supported && this.enabled &&
@@ -12,32 +12,29 @@ const Haptics = {
   toggle() {
     this.enabled = !this.enabled;
     localStorage.setItem('breachos_haptics', this.enabled ? 'on' : 'off');
-    const label = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
     const btn = document.getElementById('haptic-toggle-mobile');
     if (btn) {
-      btn.textContent = label;
+      btn.textContent = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
       btn.classList.toggle('haptics-off', !this.enabled);
     }
-    if (this.enabled) navigator.vibrate?.(60); // confirm buzz when turning on
+    if (this.enabled) navigator.vibrate?.(60);
   },
 
   syncButton() {
     const btn = document.getElementById('haptic-toggle-mobile');
     if (!btn) return;
-    const on = this._supported && this.enabled;
-    btn.textContent = this._supported
-      ? (this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF')
-      : 'HAPTICS: N/A';
-    btn.classList.toggle('haptics-off', !on);
-    btn.disabled = !this._supported;
+    if (!this._supported) {
+      btn.textContent = 'HAPTICS: N/A';
+      btn.disabled = true;
+      return;
+    }
+    btn.textContent = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
+    btn.classList.toggle('haptics-off', !this.enabled);
+    btn.disabled = false;
   },
 
-  test()  { return this._supported ? navigator.vibrate(300) : false; },
-
   flip()  { if (this._ok()) navigator.vibrate(30); },
-
   match() { if (this._ok()) navigator.vibrate([60, 40, 60]); },
-
   error() { if (this._ok()) navigator.vibrate(120); },
 
   combo(n) {
@@ -49,6 +46,8 @@ const Haptics = {
   },
 
   win()  { if (this._ok()) navigator.vibrate([80, 40, 80, 40, 150]); },
-
   lose() { if (this._ok()) navigator.vibrate([200, 60, 130]); },
 };
+
+// Read saved preference after object is fully created
+Haptics.enabled = localStorage.getItem('breachos_haptics') !== 'off';
