@@ -51,17 +51,17 @@ function mergeStats(local, remote) {
 // ── Sync ──
 async function syncSave() {
   if (!isLoggedIn()) return;
-  try {
-    await fetch('/api/sync/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authState.token}`,
-      },
-      body: JSON.stringify({ stats: playerStats }),
-    });
-  } catch (e) {
-    console.warn('[SYNC] Save failed', e?.message);
+  const res = await fetch('/api/sync/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authState.token}`,
+    },
+    body: JSON.stringify({ stats: playerStats }),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || `Save failed (${res.status})`);
   }
 }
 
@@ -274,10 +274,11 @@ async function _runSync() {
   try {
     await syncSave();
     await syncLoad();
-    _setSyncUI('SYNCED ✔', 'Progress saved across all devices.', false, false);
-    setTimeout(() => { if (modal?.open) modal.close(); }, 1500);
-  } catch {
-    _setSyncUI('SYNC FAILED', 'Could not reach the net. Try again.', false, true);
+    const xp = playerStats?.xp ?? 0;
+    _setSyncUI('SYNCED ✔', `${xp} XP saved across all devices.`, false, false);
+    setTimeout(() => { if (modal?.open) modal.close(); }, 2000);
+  } catch (e) {
+    _setSyncUI('SYNC FAILED', e?.message || 'Could not reach the net. Try again.', false, true);
   }
 }
 
