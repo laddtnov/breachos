@@ -1,7 +1,7 @@
 -- Leaderboard: fast XP index + RPC function
 -- Paste into: Supabase Dashboard → SQL Editor → Run
 
--- Index for fast numeric XP ordering (CAST avoids :: parser restriction)
+-- Index for fast numeric XP ordering
 CREATE INDEX IF NOT EXISTS idx_profiles_xp
   ON profiles (CAST(stats->>'xp' AS integer) DESC);
 
@@ -19,13 +19,17 @@ STABLE
 SECURITY DEFINER
 AS $$
   SELECT
-    ROW_NUMBER() OVER (ORDER BY CAST(stats->>'xp' AS integer) DESC)::integer AS pos,
-    username,
-    CAST(stats->>'xp' AS integer)                                            AS xp,
-    COALESCE(stats->>'rank', 'ROOKIE')                                       AS rank_name,
-    user_id
-  FROM profiles
-  WHERE CAST(stats->>'xp' AS integer) > 0
-  ORDER BY xp DESC
+    CAST(ROW_NUMBER() OVER (
+      ORDER BY CAST(NULLIF(stats->>'xp', '') AS integer) DESC NULLS LAST
+    ) AS integer)                                        AS pos,
+    p.username                                           AS username,
+    CAST(COALESCE(NULLIF(stats->>'xp', ''), '0') AS integer) AS xp,
+    COALESCE(stats->>'rank', 'ROOKIE')                   AS rank_name,
+    p.user_id                                            AS user_id
+  FROM profiles p
+  WHERE stats->>'xp' IS NOT NULL
+    AND NULLIF(stats->>'xp', '') IS NOT NULL
+    AND CAST(COALESCE(NULLIF(stats->>'xp', ''), '0') AS integer) > 0
+  ORDER BY CAST(COALESCE(NULLIF(stats->>'xp', ''), '0') AS integer) DESC
   LIMIT 10;
 $$;
