@@ -7,21 +7,23 @@ const Haptics = {
     return this._supported && !document.body.classList.contains('safe-mode');
   },
 
-  flip()  { if (this._ok()) navigator.vibrate(10); },
+  test()  { return this._supported ? navigator.vibrate(300) : false; },
 
-  match() { if (this._ok()) navigator.vibrate([40, 25, 40]); },
+  flip()  { if (this._ok()) navigator.vibrate(30); },
 
-  error() { if (this._ok()) navigator.vibrate(80); },
+  match() { if (this._ok()) navigator.vibrate([60, 40, 60]); },
+
+  error() { if (this._ok()) navigator.vibrate(120); },
 
   combo(n) {
     if (!this._ok()) return;
-    if      (n >= 7) navigator.vibrate([50, 15, 50, 15, 50, 15, 50]);
-    else if (n >= 5) navigator.vibrate([40, 15, 40, 15, 40]);
-    else if (n >= 3) navigator.vibrate([30, 15, 30, 15, 30]);
-    else             navigator.vibrate([20, 15, 20]);
+    if      (n >= 7) navigator.vibrate([80, 30, 80, 30, 80, 30, 80]);
+    else if (n >= 5) navigator.vibrate([70, 25, 70, 25, 70]);
+    else if (n >= 3) navigator.vibrate([60, 20, 60, 20, 60]);
+    else             navigator.vibrate([50, 20, 50]);
   },
 
-  win()  { if (this._ok()) navigator.vibrate([50, 30, 50, 30, 100]); },
+  win()  { if (this._ok()) navigator.vibrate([80, 40, 80, 40, 150]); },
 
-  lose() { if (this._ok()) navigator.vibrate([150, 50, 100]); },
+  lose() { if (this._ok()) navigator.vibrate([200, 60, 130]); },
 };
