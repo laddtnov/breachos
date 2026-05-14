@@ -15,15 +15,15 @@ export default async function handler(req, res) {
 
   const now = new Date().toISOString();
 
-  // Core upsert — stats + updated_at only (always required columns)
-  const { error: upsertError } = await supabase.from('profiles').upsert(
-    { user_id: user.id, stats, updated_at: now },
-    { onConflict: 'user_id' }
-  );
+  // Update existing profile row — profile is always created at registration
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({ stats, updated_at: now })
+    .eq('user_id', user.id);
 
-  if (upsertError) {
-    console.error('[SYNC/SAVE] upsert error:', upsertError.message);
-    return res.status(500).json({ error: upsertError.message });
+  if (updateError) {
+    console.error('[SYNC/SAVE] update error:', updateError.message);
+    return res.status(500).json({ error: updateError.message });
   }
 
   // Update last_seen separately — fails gracefully if column not yet added
