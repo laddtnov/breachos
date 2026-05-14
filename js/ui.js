@@ -276,6 +276,8 @@ function toggleMenu() {
       soundBtn.textContent = on ? 'SOUND: ON' : 'SOUND: OFF';
       soundBtn.classList.toggle('sound-off', !on);
     }
+    // Sync haptic button state each time menu opens
+    if (typeof Haptics !== 'undefined') Haptics.syncButton();
   }
 }
 

@@ -2,9 +2,34 @@
 
 const Haptics = {
   _supported: typeof navigator !== 'undefined' && 'vibrate' in navigator,
+  enabled: localStorage.getItem('breachos_haptics') !== 'off',
 
   _ok() {
-    return this._supported && !document.body.classList.contains('safe-mode');
+    return this._supported && this.enabled &&
+           !document.body.classList.contains('safe-mode');
+  },
+
+  toggle() {
+    this.enabled = !this.enabled;
+    localStorage.setItem('breachos_haptics', this.enabled ? 'on' : 'off');
+    const label = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
+    const btn = document.getElementById('haptic-toggle-mobile');
+    if (btn) {
+      btn.textContent = label;
+      btn.classList.toggle('haptics-off', !this.enabled);
+    }
+    if (this.enabled) navigator.vibrate?.(60); // confirm buzz when turning on
+  },
+
+  syncButton() {
+    const btn = document.getElementById('haptic-toggle-mobile');
+    if (!btn) return;
+    const on = this._supported && this.enabled;
+    btn.textContent = this._supported
+      ? (this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF')
+      : 'HAPTICS: N/A';
+    btn.classList.toggle('haptics-off', !on);
+    btn.disabled = !this._supported;
   },
 
   test()  { return this._supported ? navigator.vibrate(300) : false; },
