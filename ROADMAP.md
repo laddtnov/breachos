@@ -12,18 +12,6 @@ Nothing currently in active development.
 
 ## Short Term
 
-### Leaderboard
-Global top 10 players ranked by XP, updated on every sync.
-- Supabase query on `profiles.stats.xp`
-- New modal with rank badges and usernames
-- Refreshes on each sync
-
-### Haptic Feedback (Mobile)
-Subtle vibration using the Vibration API.
-- Short buzz on card match
-- Stronger pulse on combo trigger
-- No vibration on error (avoids frustration)
-
 ### Share Score Card
 After a win, generate a shareable image using the Canvas API.
 - Shows difficulty, time, moves, max combo, rank
@@ -96,3 +84,6 @@ Same Capacitor approach as Android, requires Mac + Xcode + Apple Developer accou
 - [x] Post-donation thank-you email
 - [x] Vercel cron job for daily re-engagement
 - [x] Zero Sonar issues
+- [x] Leaderboard — top 10 by XP, gold/silver/bronze medals, self-highlight
+- [x] Haptic feedback — flip/match/error/combo/win/lose with toggle in mobile menu
+- [x] Password reset flow with cyberpunk email via Resend
