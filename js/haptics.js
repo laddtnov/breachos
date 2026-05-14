@@ -2,51 +2,53 @@
 
 const Haptics = {
   _supported: typeof navigator !== 'undefined' && 'vibrate' in navigator,
-  enabled: true, // overridden below after object creation
+  enabled: true,
 
-  _ok() {
-    return this._supported && this.enabled &&
-           !document.body.classList.contains('safe-mode');
+  _fire(pattern) {
+    if (Haptics._supported && Haptics.enabled) {
+      navigator.vibrate(pattern);
+    }
   },
 
   toggle() {
-    this.enabled = !this.enabled;
-    localStorage.setItem('breachos_haptics', this.enabled ? 'on' : 'off');
+    Haptics.enabled = !Haptics.enabled;
+    localStorage.setItem('breachos_haptics', Haptics.enabled ? 'on' : 'off');
     const btn = document.getElementById('haptic-toggle-mobile');
     if (btn) {
-      btn.textContent = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
-      btn.classList.toggle('haptics-off', !this.enabled);
+      btn.textContent = Haptics.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
+      btn.classList.toggle('haptics-off', !Haptics.enabled);
     }
-    if (this.enabled) navigator.vibrate?.(60);
+    // Confirm buzz when enabling
+    if (Haptics.enabled && Haptics._supported) navigator.vibrate(150);
   },
 
   syncButton() {
     const btn = document.getElementById('haptic-toggle-mobile');
     if (!btn) return;
-    if (!this._supported) {
+    if (!Haptics._supported) {
       btn.textContent = 'HAPTICS: N/A';
       btn.disabled = true;
       return;
     }
-    btn.textContent = this.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
-    btn.classList.toggle('haptics-off', !this.enabled);
+    btn.textContent = Haptics.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
+    btn.classList.toggle('haptics-off', !Haptics.enabled);
     btn.disabled = false;
   },
 
-  flip()  { if (this._ok()) navigator.vibrate(30); },
-  match() { if (this._ok()) navigator.vibrate([60, 40, 60]); },
-  error() { if (this._ok()) navigator.vibrate(120); },
+  flip()  { Haptics._fire(50); },
+  match() { Haptics._fire([80, 40, 80]); },
+  error() { Haptics._fire(150); },
 
   combo(n) {
-    if (!this._ok()) return;
-    if      (n >= 7) navigator.vibrate([80, 30, 80, 30, 80, 30, 80]);
-    else if (n >= 5) navigator.vibrate([70, 25, 70, 25, 70]);
-    else if (n >= 3) navigator.vibrate([60, 20, 60, 20, 60]);
-    else             navigator.vibrate([50, 20, 50]);
+    if (!Haptics._supported || !Haptics.enabled) return;
+    if      (n >= 7) navigator.vibrate([100, 30, 100, 30, 100, 30, 100]);
+    else if (n >= 5) navigator.vibrate([80, 25, 80, 25, 80]);
+    else if (n >= 3) navigator.vibrate([70, 20, 70, 20, 70]);
+    else             navigator.vibrate([60, 20, 60]);
   },
 
-  win()  { if (this._ok()) navigator.vibrate([80, 40, 80, 40, 150]); },
-  lose() { if (this._ok()) navigator.vibrate([200, 60, 130]); },
+  win()  { Haptics._fire([100, 40, 100, 40, 180]); },
+  lose() { Haptics._fire([220, 60, 150]); },
 };
 
 // Read saved preference after object is fully created
