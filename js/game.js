@@ -105,6 +105,7 @@ function handleCardClick(card) {
   }
 
   SoundEngine.flip();
+  Haptics.flip();
   card.classList.add('flipped');
   gameState.flippedCards.push(card);
 
@@ -134,11 +135,13 @@ function checkMatch() {
 
   if (card1.dataset.character === card2.dataset.character) {
     SoundEngine.match();
+    Haptics.match();
     card1.classList.add('matched');
     card2.classList.add('matched');
     gameState.matchedPairs++;
     gameState.combo++;
     if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
+    Haptics.combo(gameState.combo);
     showCombo(gameState.combo);
     gameState.flippedCards = [];
     gameState.isLocked = false;
@@ -149,6 +152,7 @@ function checkMatch() {
     }
   } else {
     SoundEngine.error();
+    Haptics.error();
     gameState.combo = 0;
     hideCombo();
     card1.classList.add('error');
@@ -287,6 +291,7 @@ function winGame() {
   document.getElementById('win-xp').textContent = '+' + xpEarned + ' XP';
 
   SoundEngine.win();
+  Haptics.win();
 
   // Check achievements
   checkAchievements({
@@ -388,6 +393,7 @@ function loseGame(timeExpired = false) {
   }
 
   SoundEngine.lose();
+  Haptics.lose();
 
   // Check achievements (some like GRINDER can unlock on loss)
   checkAchievements({
