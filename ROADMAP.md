@@ -12,18 +12,30 @@ Nothing currently in active development.
 
 ## Short Term
 
-### Share Score Card
-After a win, generate a shareable image using the Canvas API.
-- Shows difficulty, time, moves, max combo, rank
-- One-tap download or share sheet on mobile
-- Cyberpunk aesthetic matches the game
+### Daily Leaderboard
+Separate top 10 for daily challenge — fastest time wins, resets every day.
+- Supabase query on daily scores
+- New tab inside the leaderboard modal (Global / Daily)
+- Gives daily players something to compete for beyond XP
+
+### Profile Page
+Click your username in the SYNC modal → dedicated stats screen.
+- Best times per difficulty
+- Achievement showcase with progress
+- Collection card gallery
+- Rank history and XP graph
+
+### Streak Freeze
+Earn one freeze token per 7-day streak. Burns automatically on a missed day.
+- Stored in playerStats, syncs across devices
+- Visual indicator in daily HUD
 
 ---
 
 ## Medium Term
 
 ### Android App (Capacitor)
-Wrap the existing PWA into a native Android APK using Capacitor.
+Wrap the existing PWA into a native Android APK.
 - Remove donation button for the app build
 - Generate icons and splash screen
 - Handle Android back button
@@ -35,12 +47,11 @@ A special seeded board that resets every Monday.
 - Higher XP reward
 - Streak tracked independently
 
-### Profile Page
-Dedicated screen showing all player stats in one place.
-- All-time stats, best times per difficulty
-- Achievement showcase
-- Collection card gallery
-- Rank history
+### Push Notifications (PWA)
+Remind players about the daily challenge via browser push.
+- "Your daily mission is available" at a set time
+- Opt-in only, respects user preference
+- Uses Web Push API + Vercel endpoint
 
 ---
 
@@ -58,7 +69,8 @@ Invite a friend using a unique code.
 - No social login required — purely code-based
 
 ### iOS App
-Same Capacitor approach as Android, requires Mac + Xcode + Apple Developer account ($99/yr).
+Same Capacitor approach as Android.
+- Requires Mac + Xcode + Apple Developer account ($99/yr)
 - Dependent on Android release success
 
 ---
@@ -85,5 +97,9 @@ Same Capacitor approach as Android, requires Mac + Xcode + Apple Developer accou
 - [x] Vercel cron job for daily re-engagement
 - [x] Zero Sonar issues
 - [x] Leaderboard — top 10 by XP, gold/silver/bronze medals, self-highlight
-- [x] Haptic feedback — flip/match/error/combo/win/lose with toggle in mobile menu
+- [x] Haptic feedback — flip/match/error/combo/win/lose with toggle
+- [x] Haptics toggle persists across sessions
 - [x] Password reset flow with cyberpunk email via Resend
+- [x] Share score card — Canvas 900x500, Web Share API + download fallback
+- [x] Sound preference persists across sessions
+- [x] Achievement notifications — pulsing popup with haptic + counter
