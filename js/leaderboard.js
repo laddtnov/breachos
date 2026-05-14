@@ -21,17 +21,32 @@ async function fetchLeaderboard() {
   return leaderboard;
 }
 
+function _openLeaderboard() {
+  const modal = document.getElementById('leaderboard-modal');
+  if (!modal) return;
+  renderLeaderboard([]);
+  modal.showModal();
+  fetchLeaderboard().then(renderLeaderboard).catch(() => renderLeaderboard(null));
+}
+
 function toggleLeaderboardModal() {
   const modal = document.getElementById('leaderboard-modal');
   if (!modal) return;
 
   if (modal.open) { modal.close(); return; }
 
-  renderLeaderboard([]);          // loading skeleton
-  modal.showModal();
-  fetchLeaderboard()
-    .then(renderLeaderboard)
-    .catch(() => renderLeaderboard(null));
+  const menuDialog = document.getElementById('menu-dialog');
+  if (menuDialog?.open) {
+    const onMenuClose = () => {
+      menuDialog.removeEventListener('close', onMenuClose);
+      _openLeaderboard();
+    };
+    menuDialog.addEventListener('close', onMenuClose);
+    menuDialog.close();
+    document.getElementById('menu-btn')?.classList.remove('open');
+  } else {
+    _openLeaderboard();
+  }
 }
 
 function renderLeaderboard(data) {
