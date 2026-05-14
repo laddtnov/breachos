@@ -75,7 +75,7 @@ async function syncLoad() {
     if (!res.ok) throw new Error('Server error');
     const { stats } = await res.json();
     const merged = mergeStats(playerStats, stats);
-    globalThis.playerStats = merged;
+    playerStats = merged; // reassign the let binding declared in game.js
     saveStats(merged);
     if (typeof updateRankHUD === 'function') updateRankHUD();
     if (typeof refreshLeaderboardIfOpen === 'function') refreshLeaderboardIfOpen();
