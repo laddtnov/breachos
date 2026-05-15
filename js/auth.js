@@ -136,7 +136,7 @@ function _fmtSec(sec) {
 }
 
 function _globalLen(name, fallback) {
-  return typeof globalThis[name] === 'undefined' ? fallback : globalThis[name].length;
+  return globalThis[name] === undefined ? fallback : globalThis[name].length;
 }
 
 function _renderXpBar(s, rank, next) {

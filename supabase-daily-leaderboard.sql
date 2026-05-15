@@ -13,23 +13,31 @@ LANGUAGE sql
 STABLE
 SECURITY DEFINER
 AS $$
-  WITH entries AS (
+  WITH pre AS (
+    -- Extract the raw time string once — eliminates all duplicate path references
     SELECT
       p.username,
       p.user_id,
       p.stats,
       NULLIF(p.stats->'dailyBestTimes'->today->>'time', '') AS raw_time
     FROM profiles p
-    WHERE p.stats->'dailyBestTimes'->today->>'time' IS NOT NULL
-      AND NULLIF(p.stats->'dailyBestTimes'->today->>'time', '') IS NOT NULL
+  ),
+  entries AS (
+    SELECT
+      username,
+      user_id,
+      stats,
+      CAST(raw_time AS integer) AS time_secs
+    FROM pre
+    WHERE raw_time IS NOT NULL
   )
   SELECT
-    CAST(ROW_NUMBER() OVER (ORDER BY CAST(raw_time AS integer) ASC) AS integer) AS pos,
+    CAST(ROW_NUMBER() OVER (ORDER BY time_secs ASC) AS integer) AS pos,
     username,
-    CAST(raw_time AS integer)                                                    AS time_secs,
-    COALESCE(stats->'dailyBestTimes'->today->>'difficulty', '')                 AS difficulty,
+    time_secs,
+    COALESCE(stats->'dailyBestTimes'->today->>'difficulty', '')  AS difficulty,
     user_id
   FROM entries
-  ORDER BY CAST(raw_time AS integer) ASC
+  ORDER BY time_secs ASC
   LIMIT 10;
 $$;
