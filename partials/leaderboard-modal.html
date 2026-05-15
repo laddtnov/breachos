@@ -3,8 +3,13 @@
   <div class="lb-modal-content">
 
     <h2 class="lb-title">NEURAL RANKINGS</h2>
-    <p class="lb-subtitle">TOP 10 NETRUNNERS</p>
     <div class="lb-divider"></div>
+
+    <!-- Tabs -->
+    <div class="lb-tabs">
+      <button class="lb-tab active" data-tab="global" onclick="switchLeaderboardTab('global')">GLOBAL XP</button>
+      <button class="lb-tab" data-tab="daily" onclick="switchLeaderboardTab('daily')">TODAY</button>
+    </div>
 
     <ol id="leaderboard-list" class="lb-list">
       <!-- populated by leaderboard.js -->
@@ -13,12 +18,8 @@
     <p id="leaderboard-updated" class="lb-updated"></p>
 
     <div class="lb-actions">
-      <button class="lb-refresh-btn" onclick="invalidateLeaderboardCache(); fetchLeaderboard().then(renderLeaderboard).catch(()=>renderLeaderboard(null))">
-        ↺ REFRESH
-      </button>
-      <button class="lb-close-btn" onclick="document.getElementById('leaderboard-modal').close()">
-        CLOSE
-      </button>
+      <button class="lb-refresh-btn" onclick="refreshLeaderboard()">↺ REFRESH</button>
+      <button class="lb-close-btn" onclick="document.getElementById('leaderboard-modal').close()">CLOSE</button>
     </div>
 
   </div>

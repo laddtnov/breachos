@@ -98,6 +98,11 @@ function startDailyChallenge() {
     document.getElementById('daily-date').textContent = today;
     document.getElementById('daily-diff').textContent = config.label;
     document.getElementById('daily-streak').textContent = playerStats.dailyStreak || 0;
+    const freezes = playerStats.streakFreezes || 0;
+    const freezeEl = document.getElementById('daily-freeze');
+    const freezeItem = document.getElementById('daily-freeze-item');
+    if (freezeEl) freezeEl.textContent = '❄'.repeat(Math.min(freezes, 3)) || '–';
+    if (freezeItem) freezeItem.classList.toggle('hidden', freezes === 0);
   }
 
   // Seeded deck — same puzzle for everyone today
@@ -122,6 +127,7 @@ function winDailyChallenge() {
   const alreadyDone = isDailyCompleted();
 
   // Streak logic
+  let freezeUsed = false;
   if (!alreadyDone) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -130,12 +136,32 @@ function winDailyChallenge() {
       String(yesterday.getDate()).padStart(2, '0');
 
     if (playerStats.dailyLastDate === yStr) {
+      // Consecutive day — increment streak
       playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
+      // Grant a freeze every 7 days (max 3 stored)
+      if (playerStats.dailyStreak % 7 === 0) {
+        playerStats.streakFreezes = Math.min((playerStats.streakFreezes || 0) + 1, 3);
+      }
+    } else if ((playerStats.streakFreezes || 0) > 0) {
+      // Missed a day but freeze available — protect streak
+      playerStats.streakFreezes--;
+      playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
+      freezeUsed = true;
     } else {
       playerStats.dailyStreak = 1;
     }
     playerStats.dailyLastDate = today;
     playerStats.dailyCompleted = (playerStats.dailyCompleted || 0) + 1;
+
+    // Save daily best time for leaderboard
+    if (!playerStats.dailyBestTimes) playerStats.dailyBestTimes = {};
+    const existingBest = playerStats.dailyBestTimes[today];
+    if (!existingBest || gameState.seconds < existingBest.time) {
+      playerStats.dailyBestTimes[today] = {
+        time: gameState.seconds,
+        difficulty: gameState.difficulty,
+      };
+    }
   }
 
   // XP
@@ -164,6 +190,8 @@ function winDailyChallenge() {
   document.getElementById('daily-win-xp').textContent = '+' + xpEarned + ' XP';
   if (streakBonus > 0) {
     document.getElementById('daily-win-streak-bonus').textContent = '(+' + streakBonus + ' streak bonus)';
+  } else if (freezeUsed) {
+    document.getElementById('daily-win-streak-bonus').textContent = '(❄ freeze used — streak saved)';
   } else {
     document.getElementById('daily-win-streak-bonus').textContent = alreadyDone ? '(already completed today)' : '';
   }

@@ -131,9 +131,61 @@
       <div class="auth-divider"></div>
       <p class="auth-operative-label">CONNECTED AS</p>
       <p class="auth-username-display" id="auth-username-display"></p>
+      <button class="auth-profile-btn" onclick="showAuthPanel('profile')">VIEW PROFILE</button>
       <button class="auth-sync-now-btn" onclick="handleManualSync()">SYNC NOW</button>
       <button class="auth-logout-btn" onclick="handleLogout()">LOG OUT</button>
       <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
+    </div>
+
+    <!-- ── Panel: Profile ── -->
+    <div id="auth-panel-profile" class="auth-panel hidden">
+      <button class="auth-back-btn" onclick="showAuthPanel('loggedin')">← BACK</button>
+      <h2 class="auth-modal-title" id="profile-username"></h2>
+      <div class="auth-divider"></div>
+
+      <!-- Rank + XP bar -->
+      <div class="profile-rank-row">
+        <span class="profile-rank-badge" id="profile-rank"></span>
+        <div class="profile-xp-bar-wrap">
+          <div class="profile-xp-bar" id="profile-xp-bar"></div>
+        </div>
+        <span class="profile-xp-label" id="profile-xp-label"></span>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="profile-stats-grid">
+        <div class="profile-stat">
+          <span class="profile-stat-val" id="profile-played"></span>
+          <span class="profile-stat-lbl">PLAYED</span>
+        </div>
+        <div class="profile-stat">
+          <span class="profile-stat-val" id="profile-won"></span>
+          <span class="profile-stat-lbl">WON</span>
+        </div>
+        <div class="profile-stat">
+          <span class="profile-stat-val" id="profile-winrate"></span>
+          <span class="profile-stat-lbl">WIN RATE</span>
+        </div>
+        <div class="profile-stat">
+          <span class="profile-stat-val" id="profile-combo"></span>
+          <span class="profile-stat-lbl">BEST COMBO</span>
+        </div>
+      </div>
+
+      <div class="auth-divider"></div>
+
+      <!-- Best times -->
+      <p class="profile-section-title">BEST TIMES</p>
+      <div class="profile-times-grid" id="profile-times"></div>
+
+      <div class="auth-divider"></div>
+
+      <!-- Progress -->
+      <div class="profile-progress-row">
+        <span class="profile-progress-item" id="profile-achievements"></span>
+        <span class="profile-progress-item" id="profile-collection"></span>
+        <span class="profile-progress-item" id="profile-streak"></span>
+      </div>
     </div>
 
     <!-- ── Panel: Logged Out confirmation ── -->

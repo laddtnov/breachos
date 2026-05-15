@@ -61,6 +61,40 @@
   margin: 0 0 14px;
 }
 
+/* ── Tabs ── */
+.lb-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.lb-tab {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  border-radius: 6px;
+  color: rgba(0, 243, 255, 0.5);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 9px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.lb-tab.active {
+  border-color: #00f3ff;
+  color: #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.lb-tab:hover:not(.active) {
+  border-color: rgba(0, 243, 255, 0.4);
+  color: rgba(0, 243, 255, 0.75);
+}
+
 .lb-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, #00f3ff, transparent);

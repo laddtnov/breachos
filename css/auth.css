@@ -359,6 +359,149 @@
   box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
 }
 
+/* ── Profile button (in loggedin panel) ── */
+.auth-profile-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 6px;
+  color: rgba(0, 243, 255, 0.7);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.auth-profile-btn:hover {
+  border-color: #00f3ff;
+  color: #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+/* ── Profile panel ── */
+.profile-rank-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.profile-rank-badge {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #FFD700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.profile-xp-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 243, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.profile-xp-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00f3ff, #00ff88);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.profile-xp-label {
+  font-size: 10px;
+  color: rgba(0, 243, 255, 0.5);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.profile-stat {
+  background: rgba(0, 243, 255, 0.05);
+  border: 1px solid rgba(0, 243, 255, 0.12);
+  border-radius: 6px;
+  padding: 8px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-stat-val {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00f3ff;
+  letter-spacing: 1px;
+}
+
+.profile-stat-lbl {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.profile-section-title {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(0, 243, 255, 0.4);
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.profile-times-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.profile-time-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-time-val {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff0055;
+  letter-spacing: 1px;
+}
+
+.profile-time-lbl {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.profile-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-progress-item {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 1px;
+}
+
 /* ── Close button ── */
 .auth-close-btn {
   display: block;

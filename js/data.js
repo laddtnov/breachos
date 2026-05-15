@@ -43,6 +43,8 @@ const DEFAULT_STATS = {
   dailyLastDate: null,
   dailyStreak: 0,
   dailyCompleted: 0,
+  streakFreezes: 0,
+  dailyBestTimes: {},
   activeTheme: 'cyber',
   activeSoundTheme: 'cyber',
   activeSkin: 'default',
