@@ -90,16 +90,24 @@ function renderLeaderboard(data, tab) {
   if (!list) return;
 
   const isDaily = (tab || _lbActiveTab) === 'daily';
+  const setSingleMessage = (text, isError = false) => {
+    list.replaceChildren();
+    const li = document.createElement('li');
+    li.classList.add('lb-message');
+    if (isError) li.classList.add('lb-error');
+    li.textContent = text;
+    list.appendChild(li);
+  };
 
   if (data === null) {
-    list.innerHTML = `<li class="lb-message lb-error">SIGNAL LOST — COULD NOT REACH NET</li>`;
+    setSingleMessage('SIGNAL LOST — COULD NOT REACH NET', true);
     return;
   }
   if (data.length === 0) {
     const msg = isDaily
       ? 'NO DAILY SCORES YET — COMPLETE TODAY\'S CHALLENGE'
       : 'NO AGENTS RANKED YET — BE THE FIRST';
-    list.innerHTML = `<li class="lb-message">${msg}</li>`;
+    setSingleMessage(msg);
     return;
   }
 
@@ -112,10 +120,25 @@ function renderLeaderboard(data, tab) {
   };
   const DIFF_COLORS = { easy: '#00f3ff', medium: '#ffdc00', hard: '#ff6600', extreme: '#ff0055' };
 
-  list.innerHTML = data.map(entry => {
+  const fragment = document.createDocumentFragment();
+  data.forEach(entry => {
     const isSelf   = selfId && entry.user_id === selfId;
     const posClass = entry.pos <= 3 ? `lb-pos-${entry.pos}` : '';
     const medal    = MEDAL[entry.pos] || entry.pos;
+    const item = document.createElement('li');
+    item.classList.add('lb-entry');
+    if (posClass) item.classList.add(posClass);
+    if (isSelf) item.classList.add('lb-self');
+
+    const medalEl = document.createElement('span');
+    medalEl.className = 'lb-medal';
+    medalEl.textContent = String(medal);
+    item.appendChild(medalEl);
+
+    const usernameEl = document.createElement('span');
+    usernameEl.className = 'lb-username';
+    usernameEl.textContent = `${entry.username || ''}${isSelf ? ' ◀' : ''}`;
+    item.appendChild(usernameEl);
 
     if (isDaily) {
       const diffColor = DIFF_COLORS[entry.difficulty] || '#00f3ff';
@@ -123,24 +146,36 @@ function renderLeaderboard(data, tab) {
         ? Math.floor(entry.time_secs / 60).toString().padStart(2,'0') + ':' +
           (entry.time_secs % 60).toString().padStart(2,'0')
         : '--:--';
-      return `
-        <li class="lb-entry ${posClass} ${isSelf ? 'lb-self' : ''}">
-          <span class="lb-medal">${medal}</span>
-          <span class="lb-username">${entry.username}${isSelf ? ' ◀' : ''}</span>
-          <span class="lb-rank" style="color:${diffColor}">${(entry.difficulty || '').toUpperCase()}</span>
-          <span class="lb-xp">${time}</span>
-        </li>`;
+      const rankEl = document.createElement('span');
+      rankEl.className = 'lb-rank';
+      rankEl.style.color = diffColor;
+      rankEl.textContent = String(entry.difficulty || '').toUpperCase();
+      item.appendChild(rankEl);
+
+      const xpEl = document.createElement('span');
+      xpEl.className = 'lb-xp';
+      xpEl.textContent = time;
+      item.appendChild(xpEl);
+
+      fragment.appendChild(item);
+      return;
     }
 
     const rankColor = RANK_COLORS[entry.rank_name] || 'rgba(0,243,255,0.6)';
-    return `
-      <li class="lb-entry ${posClass} ${isSelf ? 'lb-self' : ''}">
-        <span class="lb-medal">${medal}</span>
-        <span class="lb-username">${entry.username}${isSelf ? ' ◀' : ''}</span>
-        <span class="lb-rank" style="color:${rankColor}">${entry.rank_name || 'ROOKIE'}</span>
-        <span class="lb-xp">${Number(entry.xp).toLocaleString()} XP</span>
-      </li>`;
-  }).join('');
+    const rankEl = document.createElement('span');
+    rankEl.className = 'lb-rank';
+    rankEl.style.color = rankColor;
+    rankEl.textContent = entry.rank_name || 'ROOKIE';
+    item.appendChild(rankEl);
+
+    const xpEl = document.createElement('span');
+    xpEl.className = 'lb-xp';
+    xpEl.textContent = `${Number(entry.xp).toLocaleString()} XP`;
+    item.appendChild(xpEl);
+
+    fragment.appendChild(item);
+  });
+  list.replaceChildren(fragment);
 
   if (updated) {
     updated.textContent = 'UPDATED ' + new Date().toLocaleTimeString();
