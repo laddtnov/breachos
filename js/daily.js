@@ -118,6 +118,44 @@ function startDailyChallenge() {
   updateRankHUD();
 }
 
+// ── Streak update helper ──
+function _processDailyStreak(today) {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  const yStr = d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+
+  let freezeUsed = false;
+  if (playerStats.dailyLastDate === yStr) {
+    playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
+    if (playerStats.dailyStreak % 7 === 0) {
+      playerStats.streakFreezes = Math.min((playerStats.streakFreezes || 0) + 1, 3);
+    }
+  } else if ((playerStats.streakFreezes || 0) > 0) {
+    playerStats.streakFreezes--;
+    playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
+    freezeUsed = true;
+  } else {
+    playerStats.dailyStreak = 1;
+  }
+  playerStats.dailyLastDate = today;
+  playerStats.dailyCompleted = (playerStats.dailyCompleted || 0) + 1;
+  return freezeUsed;
+}
+
+// ── Best time update helper ──
+function _saveDailyBestTime(today) {
+  if (!playerStats.dailyBestTimes) playerStats.dailyBestTimes = {};
+  const existing = playerStats.dailyBestTimes[today];
+  if (!existing || gameState.seconds < existing.time) {
+    playerStats.dailyBestTimes[today] = {
+      time: gameState.seconds,
+      difficulty: gameState.difficulty,
+    };
+  }
+}
+
 function winDailyChallenge() {
   clearInterval(gameState.timerInterval);
   document.body.classList.remove('countdown-critical');
@@ -126,42 +164,10 @@ function winDailyChallenge() {
   const today = getTodayString();
   const alreadyDone = isDailyCompleted();
 
-  // Streak logic
   let freezeUsed = false;
   if (!alreadyDone) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yStr = yesterday.getFullYear() + '-' +
-      String(yesterday.getMonth() + 1).padStart(2, '0') + '-' +
-      String(yesterday.getDate()).padStart(2, '0');
-
-    if (playerStats.dailyLastDate === yStr) {
-      // Consecutive day — increment streak
-      playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
-      // Grant a freeze every 7 days (max 3 stored)
-      if (playerStats.dailyStreak % 7 === 0) {
-        playerStats.streakFreezes = Math.min((playerStats.streakFreezes || 0) + 1, 3);
-      }
-    } else if ((playerStats.streakFreezes || 0) > 0) {
-      // Missed a day but freeze available — protect streak
-      playerStats.streakFreezes--;
-      playerStats.dailyStreak = (playerStats.dailyStreak || 0) + 1;
-      freezeUsed = true;
-    } else {
-      playerStats.dailyStreak = 1;
-    }
-    playerStats.dailyLastDate = today;
-    playerStats.dailyCompleted = (playerStats.dailyCompleted || 0) + 1;
-
-    // Save daily best time for leaderboard
-    if (!playerStats.dailyBestTimes) playerStats.dailyBestTimes = {};
-    const existingBest = playerStats.dailyBestTimes[today];
-    if (!existingBest || gameState.seconds < existingBest.time) {
-      playerStats.dailyBestTimes[today] = {
-        time: gameState.seconds,
-        difficulty: gameState.difficulty,
-      };
-    }
+    freezeUsed = _processDailyStreak(today);
+    _saveDailyBestTime(today);
   }
 
   // XP

@@ -128,17 +128,18 @@ function handleLogout() {
   }, 1500);
 }
 
-// ── Profile panel ──
-function renderProfile() {
-  const s = playerStats;
-  const rank = typeof getRankForXP === 'function' ? getRankForXP(s.xp) : { name: s.rank || 'ROOKIE', xp: 0 };
-  const next = typeof getNextRank  === 'function' ? getNextRank(rank.name) : null;
+// ── Profile helpers ──
+function _fmtSec(sec) {
+  return sec === null || sec === undefined
+    ? '--:--'
+    : Math.floor(sec / 60).toString().padStart(2, '0') + ':' + (sec % 60).toString().padStart(2, '0');
+}
 
-  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+function _globalLen(name, fallback) {
+  return typeof globalThis[name] === 'undefined' ? fallback : globalThis[name].length;
+}
 
-  set('profile-username', authState?.user?.username || 'NETRUNNER');
-  set('profile-rank', rank.name);
-
+function _renderXpBar(s, rank, next) {
   const bar = document.getElementById('profile-xp-bar');
   const lbl = document.getElementById('profile-xp-label');
   if (next) {
@@ -149,9 +150,21 @@ function renderProfile() {
     if (bar) bar.style.width = '100%';
     if (lbl) lbl.textContent = s.xp + ' XP (MAX)';
   }
+}
 
-  const played  = s.gamesPlayed || 0;
-  const won     = s.gamesWon    || 0;
+// ── Profile panel ──
+function renderProfile() {
+  const s    = playerStats;
+  const rank = typeof getRankForXP === 'function' ? getRankForXP(s.xp) : { name: s.rank || 'ROOKIE', xp: 0 };
+  const next = typeof getNextRank  === 'function' ? getNextRank(rank.name) : null;
+  const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+  set('profile-username', authState?.user?.username || 'NETRUNNER');
+  set('profile-rank', rank.name);
+  _renderXpBar(s, rank, next);
+
+  const played = s.gamesPlayed || 0;
+  const won    = s.gamesWon    || 0;
   set('profile-played',  played);
   set('profile-won',     won);
   set('profile-winrate', played > 0 ? Math.round((won / played) * 100) + '%' : '—');
@@ -160,26 +173,22 @@ function renderProfile() {
   const timesEl = document.getElementById('profile-times');
   if (timesEl) {
     const bt = s.bestTimes || {};
-    timesEl.innerHTML = ['easy','medium','hard','extreme'].map(d => {
-      const sec = bt[d];
-      const t   = sec != null
-        ? Math.floor(sec/60).toString().padStart(2,'0') + ':' + (sec%60).toString().padStart(2,'0')
-        : '--:--';
-      return `<div class="profile-time-item">
-        <span class="profile-time-val">${t}</span>
+    timesEl.innerHTML = ['easy','medium','hard','extreme'].map(d =>
+      `<div class="profile-time-item">
+        <span class="profile-time-val">${_fmtSec(bt[d])}</span>
         <span class="profile-time-lbl">${d.toUpperCase()}</span>
-      </div>`;
-    }).join('');
+      </div>`
+    ).join('');
   }
 
-  const achTotal  = typeof ACHIEVEMENTS !== 'undefined' ? ACHIEVEMENTS.length : 16;
-  const cardTotal = typeof REWARD_CARDS  !== 'undefined' ? REWARD_CARDS.length  : 16;
-  const achDone   = (s.unlockedAchievements || []).length;
-  const cardDone  = typeof getUnlockedRewardCount === 'function' ? getUnlockedRewardCount() : 0;
+  const achTotal = _globalLen('ACHIEVEMENTS', 16);
+  const cardTotal = _globalLen('REWARD_CARDS', 16);
+  const achDone  = (s.unlockedAchievements || []).length;
+  const cardDone = typeof getUnlockedRewardCount === 'function' ? getUnlockedRewardCount() : 0;
   set('profile-achievements', achDone  + ' / ' + achTotal  + ' ACHIEVEMENTS');
   set('profile-collection',   cardDone + ' / ' + cardTotal + ' CARDS');
-  set('profile-streak',
-    (s.dailyStreak || 0) + ' DAY STREAK' + ((s.streakFreezes || 0) > 0 ? '  ❄\xd7' + s.streakFreezes : ''));
+  const freezeTxt = (s.streakFreezes || 0) > 0 ? '  ❄\xd7' + s.streakFreezes : '';
+  set('profile-streak', (s.dailyStreak || 0) + ' DAY STREAK' + freezeTxt);
 }
 
 // ── Panel navigation ──
