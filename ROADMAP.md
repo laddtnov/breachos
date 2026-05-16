@@ -10,28 +10,6 @@ Nothing currently in active development.
 
 ---
 
-## Short Term
-
-### Daily Leaderboard
-Separate top 10 for daily challenge — fastest time wins, resets every day.
-- Supabase query on daily scores
-- New tab inside the leaderboard modal (Global / Daily)
-- Gives daily players something to compete for beyond XP
-
-### Profile Page
-Click your username in the SYNC modal → dedicated stats screen.
-- Best times per difficulty
-- Achievement showcase with progress
-- Collection card gallery
-- Rank history and XP graph
-
-### Streak Freeze
-Earn one freeze token per 7-day streak. Burns automatically on a missed day.
-- Stored in playerStats, syncs across devices
-- Visual indicator in daily HUD
-
----
-
 ## Medium Term
 
 ### Android App (Capacitor)
@@ -103,3 +81,6 @@ Same Capacitor approach as Android.
 - [x] Share score card — Canvas 900x500, Web Share API + download fallback
 - [x] Sound preference persists across sessions
 - [x] Achievement notifications — pulsing popup with haptic + counter
+- [x] Daily leaderboard — GLOBAL/TODAY tabs, fastest time wins, resets daily
+- [x] Profile page — rank, XP bar, stats, best times, achievements/collection count
+- [x] Streak freeze — earned every 7 days, auto-burns on missed day, HUD indicator
