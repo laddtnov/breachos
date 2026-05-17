@@ -10,6 +10,26 @@ Nothing currently in active development.
 
 ---
 
+## Short Term (High Impact)
+
+### Daily Quests
+3 rotating goals per day — e.g. "Win 2 games", "Get a 5x combo", "Complete daily under par".
+- Bonus XP on completion
+- Resets at midnight
+- Stored in playerStats, syncs across devices
+
+### Game History
+Last 10 games stored locally — mode, difficulty, time, moves, combo, XP earned.
+- Small table in the dossier
+- Shows improvement trend over time
+
+### Color Blind Mode
+Alternative palette with high-contrast colours and patterns.
+- Toggle in menu alongside Safe Mode
+- One afternoon of CSS work, important accessibility gap
+
+---
+
 ## Medium Term
 
 ### Android App (Capacitor)
@@ -31,9 +51,36 @@ Remind players about the daily challenge via browser push.
 - Opt-in only, respects user preference
 - Uses Web Push API + Vercel endpoint
 
+### Offline Leaderboard Cache
+Cache the last known leaderboard in localStorage.
+- Shows stale data with timestamp when offline
+- Tiny fix, big improvement for mobile players
+
+### Community Stats Banner
+Live counter on the main screen — total games played and total XP earned across all players.
+- Makes the game feel alive even when the leaderboard is sparse
+- Single Supabase aggregate query
+
 ---
 
 ## Long Term
+
+### Season System
+Monthly seasons with a unique exclusive skin or collection card as the reward.
+- Resets the global leaderboard each season
+- "Season ends in X days" counter — strong retention mechanic
+- Season number tracked in player profile
+
+### Tournament Mode
+48-hour limited event with a special seeded board and separate leaderboard.
+- Exclusive reward for top 3 finishers
+- Drives announcements and social sharing
+- Triggered manually via admin or scheduled cron
+
+### Challenge Link
+Generate a shareable URL with a specific board seed.
+- "Beat my score on THIS board"
+- Pure social mechanic, zero backend cost
 
 ### Prestige System
 Once you reach max rank (NETRUNNER ELITE), reset XP for a prestige badge.
