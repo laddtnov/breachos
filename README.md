@@ -1,4 +1,4 @@
-# Cyberpunk Memory Match — BreachOS
+# BreachOS
 
 A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript. Match pairs of sci-fi operatives across multiple game modes, earn XP, unlock ranks, collect card skins, and sync your progress across all devices.
 
@@ -164,7 +164,7 @@ breachos/
 ## Run Locally
 
 ```bash
-git clone https://github.com/laddtnov/cyberpunk-memory-match.git
+git clone https://github.com/laddtnov/breachos.git
 cd cyberpunk-memory-match
 npm install
 python3 -m http.server 8080
