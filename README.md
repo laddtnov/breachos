@@ -165,7 +165,7 @@ breachos/
 
 ```bash
 git clone https://github.com/laddtnov/breachos.git
-cd cyberpunk-memory-match
+cd breachos
 npm install
 python3 -m http.server 8080
 ```
