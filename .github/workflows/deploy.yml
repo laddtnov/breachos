@@ -51,8 +51,9 @@ jobs:
       - name: Deploy Breach OS
         run: |
           npm install -g vercel
-          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+          vercel deploy --prod --token=$VERCEL_TOKEN --yes
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
