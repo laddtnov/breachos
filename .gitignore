@@ -1,7 +1,22 @@
+# Vercel deployment
+.vercel/
 .env
 .env.local
+# Build output
+dist/
+build/
+.next/
+# IDE
+.vscode/
+.idea/
 node_modules/
+# OS
 .DS_Store
+Thumbs.db
 .obsidian/
 .vscode/
 .claude/
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
