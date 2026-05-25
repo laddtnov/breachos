@@ -54,7 +54,7 @@ export default async function handler(req, res) {
                 NETRUNNER,
               </p>
               <p style="margin:0 0 16px;font-size:13px;line-height:1.9;color:rgba(255,255,255,0.75);letter-spacing:0.5px;">
-                Your donation has been received and logged in the network. You just fuelled the next upgrade cycle for <strong style="color:#00f3ff;">Cyberpunk Memory Match</strong>.
+                Your donation has been received and logged in the network. You just fuelled the next upgrade cycle for <strong style="color:#00f3ff;">Breachos</strong>.
               </p>
               <p style="margin:0 0 16px;font-size:13px;line-height:1.9;color:rgba(255,255,255,0.75);letter-spacing:0.5px;">
                 This game was built from scratch — pure HTML, CSS and JavaScript, zero frameworks, zero shortcuts. Every skin, every sound, every rank was crafted by hand. Your support keeps the system running.

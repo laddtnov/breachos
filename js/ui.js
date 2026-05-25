@@ -255,7 +255,7 @@ function toggleEffects() {
 }
 
 window.onblur = () => document.title = "SYSTEM ERROR...";
-window.onfocus = () => document.title = "Cyberpunk Memory Match";
+window.onfocus = () => document.title = "Breachos";
 
 // ── Mobile Menu ──
 function toggleMenu() {
