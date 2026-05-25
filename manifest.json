@@ -1,6 +1,6 @@
 {
-  "name": "Cyberpunk Memory Match",
-  "short_name": "CyberMatch",
+  "name": "Breachos",
+  "short_name": "Breachos",
   "description": "A cyberpunk-themed memory card matching game with ranks, combos, and collectible reward cards.",
   "start_url": "./index.html",
   "display": "standalone",
