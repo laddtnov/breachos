@@ -104,6 +104,40 @@ function startWithDifficulty(diff) {
   initGame();
 }
 
+// ── Glitch scheduling helper ──
+function scheduleGlitchEvent() {
+  const glitchDelay = 15000 + secureRandomInt(25) * 1000; // 15–40s
+  gameState.glitchTimeout = setTimeout(triggerGlitchEvent, glitchDelay);
+}
+
+// ── Memory Peek helper ──
+function runMemoryPeek() {
+  gameState.isLocked = true;
+  board.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
+  const countdown = document.getElementById('peek-countdown');
+  if (countdown) {
+    countdown.classList.remove('hidden');
+    let t = 2;
+    countdown.textContent = `MEMORIZE — ${t}s`;
+    const tick = setInterval(() => {
+      t--;
+      if (t <= 0) {
+        clearInterval(tick);
+        countdown.classList.add('hidden');
+        board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+        gameState.isLocked = false;
+      } else {
+        countdown.textContent = `MEMORIZE — ${t}s`;
+      }
+    }, 1000);
+  } else {
+    setTimeout(() => {
+      board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+      gameState.isLocked = false;
+    }, 2000);
+  }
+}
+
 // ── Init / Restart ──
 function initGame() {
   const config = difficulties[gameState.difficulty];
@@ -173,36 +207,12 @@ function initGame() {
 
   // ── Glitch Event: schedule on hard/extreme classic ──
   if ((gameState.difficulty === 'hard' || gameState.difficulty === 'extreme') && gameState.mode === 'classic') {
-    const glitchDelay = 15000 + secureRandomInt(25) * 1000; // 15–40s
-    gameState.glitchTimeout = setTimeout(triggerGlitchEvent, glitchDelay);
+    scheduleGlitchEvent();
   }
 
   // ── Memory Peek: reveal all cards briefly at game start (classic only) ──
   if (gameState.memoryPeek && gameState.mode === 'classic') {
-    gameState.isLocked = true;
-    board.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
-    const countdown = document.getElementById('peek-countdown');
-    if (countdown) {
-      countdown.classList.remove('hidden');
-      let t = 2;
-      countdown.textContent = `MEMORIZE — ${t}s`;
-      const tick = setInterval(() => {
-        t--;
-        if (t <= 0) {
-          clearInterval(tick);
-          countdown.classList.add('hidden');
-          board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
-          gameState.isLocked = false;
-        } else {
-          countdown.textContent = `MEMORIZE — ${t}s`;
-        }
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
-        gameState.isLocked = false;
-      }, 2000);
-    }
+    runMemoryPeek();
   }
 
   // ── Mode buttons: sync visual state ──
@@ -247,9 +257,9 @@ function showCustomPanel() {
 }
 
 function updateCustomPreview() {
-  const pairs    = parseInt(document.getElementById('custom-pairs').value, 10);
-  const moves    = parseInt(document.getElementById('custom-moves').value, 10);
-  const timer    = parseInt(document.getElementById('custom-timer').value, 10);
+  const pairs    = Number.parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves    = Number.parseInt(document.getElementById('custom-moves').value, 10);
+  const timer    = Number.parseInt(document.getElementById('custom-timer').value, 10);
   const pairsVal = document.getElementById('custom-pairs-val');
   const movesVal = document.getElementById('custom-moves-val');
   const timerVal = document.getElementById('custom-timer-val');
@@ -261,9 +271,9 @@ function updateCustomPreview() {
 }
 
 function startCustomDifficulty() {
-  const pairs   = parseInt(document.getElementById('custom-pairs').value, 10);
-  const moves   = parseInt(document.getElementById('custom-moves').value, 10);
-  const timer   = parseInt(document.getElementById('custom-timer').value, 10);
+  const pairs   = Number.parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves   = Number.parseInt(document.getElementById('custom-moves').value, 10);
+  const timer   = Number.parseInt(document.getElementById('custom-timer').value, 10);
   difficulties.custom = {
     pairs,
     maxMoves:  moves,
@@ -281,9 +291,9 @@ function startCustomDifficulty() {
 }
 
 function saveCustomGame() {
-  const pairs   = parseInt(document.getElementById('custom-pairs').value, 10);
-  const moves   = parseInt(document.getElementById('custom-moves').value, 10);
-  const timer   = parseInt(document.getElementById('custom-timer').value, 10);
+  const pairs   = Number.parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves   = Number.parseInt(document.getElementById('custom-moves').value, 10);
+  const timer   = Number.parseInt(document.getElementById('custom-timer').value, 10);
   saveCustomLoadout({ pairs, maxMoves: moves, countdown: timer });
   const btn = document.getElementById('custom-save-btn');
   if (btn) { btn.textContent = '✓ SAVED'; setTimeout(() => { btn.textContent = '💾 SAVE'; }, 1200); }

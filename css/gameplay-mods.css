@@ -174,7 +174,6 @@ body.glitch-event {
   font-family: 'Courier New', monospace;
 }
 
-.onboarding-step { }
 .onboarding-step.hidden { display: none; }
 
 .onboarding-demo {
