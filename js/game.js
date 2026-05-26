@@ -19,6 +19,11 @@ const gameState = {
   survivalLives: 3,
   survivalScore: 0,
   survivalLoop: 0,
+  // Gameplay modifiers
+  ghostMode: false,       // cards flip back instantly on mismatch
+  timewarpActive: false,  // timer is frozen during time warp
+  trapCharId: null,       // character id of the trap pair (hard/extreme only)
+  trapSprung: false,      // trap fires only once per game
 };
 
 // ── Player Stats (loaded from localStorage) ──
@@ -134,6 +139,32 @@ function checkMatch() {
   const [card1, card2] = gameState.flippedCards;
 
   if (card1.dataset.character === card2.dataset.character) {
+
+    // ── Trap Card: intercept before normal match logic ────────────────────
+    if (gameState.trapCharId && !gameState.trapSprung && card1.dataset.character === gameState.trapCharId) {
+      gameState.trapSprung = true;
+      gameState.trapCharId = null;
+      gameState.combo = 0;
+      hideCombo();
+      gameState.moves++;
+      movesDisplay.childNodes[0].textContent = gameState.moves;
+      updateMovesWarning();
+      card1.classList.add('trap-spring');
+      card2.classList.add('trap-spring');
+      SoundEngine.error();
+      Haptics.error();
+      showTrapFlash();
+      setTimeout(() => {
+        card1.classList.remove('flipped', 'trap-spring', 'trap-card');
+        card2.classList.remove('flipped', 'trap-spring', 'trap-card');
+        gameState.flippedCards = [];
+        gameState.isLocked = false;
+        if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
+      }, 1000);
+      return;
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     SoundEngine.match();
     Haptics.match();
     card1.classList.add('matched');
@@ -143,6 +174,13 @@ function checkMatch() {
     if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
     Haptics.combo(gameState.combo);
     showCombo(gameState.combo);
+
+    // ── Time Warp: freeze timer on every 5x combo ─────────────────────────
+    if (gameState.combo >= 5 && gameState.combo % 5 === 0 && !gameState.timewarpActive && gameState.timerStarted) {
+      activateTimeWarp(3);
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     gameState.flippedCards = [];
     gameState.isLocked = false;
 
@@ -158,6 +196,10 @@ function checkMatch() {
     card1.classList.add('error');
     card2.classList.add('error');
 
+    // ── Ghost Mode: cards hide almost instantly on mismatch ───────────────
+    const flipBackDelay = gameState.ghostMode ? 150 : 1000;
+    // ─────────────────────────────────────────────────────────────────────
+
     // Survival mode: lose a life on mismatch
     if (gameState.mode === 'survival') {
       gameState.survivalLives--;
@@ -169,7 +211,7 @@ function checkMatch() {
           gameState.flippedCards = [];
           gameState.isLocked = false;
           loseSurvival();
-        }, 1000);
+        }, flipBackDelay);
         return;
       }
     }
@@ -183,13 +225,69 @@ function checkMatch() {
       if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) {
         loseGame();
       }
-    }, 1000);
+    }, flipBackDelay);
     return;
   }
 
   if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) {
     loseGame();
   }
+}
+
+// ── Time Warp ──
+function activateTimeWarp(duration) {
+  if (gameState.timewarpActive) return;
+  gameState.timewarpActive = true;
+  clearInterval(gameState.timerInterval);
+
+  const flash = document.getElementById('timewarp-flash');
+  if (flash) {
+    flash.classList.remove('hidden', 'timewarp-active');
+    requestAnimationFrame(() => requestAnimationFrame(() => flash.classList.add('timewarp-active')));
+  }
+
+  setTimeout(() => {
+    gameState.timewarpActive = false;
+    if (flash) flash.classList.add('hidden');
+    if (gameState.timerStarted && gameState.matchedPairs < gameState.totalPairs) {
+      resumeTimerTick();
+    }
+  }, duration * 1000);
+}
+
+function resumeTimerTick() {
+  const isBlitz = gameState.mode === 'blitz';
+  const config = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : difficulties[gameState.difficulty];
+  const isCountdown = !!config.countdown;
+
+  gameState.timerInterval = setInterval(() => {
+    if (isCountdown) {
+      gameState.countdown--;
+      gameState.seconds++;
+      timerDisplay.textContent = formatTime(gameState.countdown);
+      if (gameState.countdown <= 10 && gameState.countdown > 0) {
+        SoundEngine.tick(true);
+        document.body.classList.add('countdown-critical');
+      } else if (gameState.countdown > 10) {
+        SoundEngine.tick(false);
+      }
+      if (gameState.countdown <= 0) {
+        loseGame(true);
+        return;
+      }
+    } else {
+      gameState.seconds++;
+      timerDisplay.textContent = formatTime(gameState.seconds);
+    }
+  }, 1000);
+}
+
+// ── Trap Flash ──
+function showTrapFlash() {
+  const el = document.getElementById('trap-flash');
+  if (!el) return;
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 1500);
 }
 
 // ── Timer ──

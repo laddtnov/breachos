@@ -121,6 +121,9 @@ function initGame() {
   gameState.countdown = blitz ? blitz.countdown : (config.countdown || 0);
   gameState.timerStarted = false;
   gameState.isLocked = false;
+  gameState.timewarpActive = false;
+  gameState.trapCharId = null;
+  gameState.trapSprung = false;
   clearInterval(gameState.timerInterval);
   document.body.classList.remove('countdown-critical');
   document.body.classList.toggle('blitz-mode', isBlitz);
@@ -157,11 +160,29 @@ function initGame() {
   board.innerHTML = '';
   deck.forEach(char => board.appendChild(createCardElement(char)));
 
+  // ── Trap card: assign one random pair on hard/extreme (classic only) ──
+  if ((gameState.difficulty === 'hard' || gameState.difficulty === 'extreme') && gameState.mode === 'classic') {
+    gameState.trapCharId = selected[secureRandomInt(selected.length)].id;
+    board.querySelectorAll(`[data-character="${gameState.trapCharId}"]`)
+      .forEach(c => c.classList.add('trap-card'));
+  }
+
+  // ── Ghost mode button: sync visual state on each new game ──
+  const ghostBtn = document.getElementById('ghost-mode-btn');
+  if (ghostBtn) ghostBtn.classList.toggle('active', !!gameState.ghostMode);
+
   updateRankHUD();
 }
 
 function restartGame() {
   initGame();
+}
+
+// ── Ghost Mode Toggle ──
+function toggleGhostMode() {
+  gameState.ghostMode = !gameState.ghostMode;
+  const btn = document.getElementById('ghost-mode-btn');
+  if (btn) btn.classList.toggle('active', gameState.ghostMode);
 }
 
 function showDifficultySelect() {
