@@ -60,8 +60,12 @@
 
 <!-- Mode modifiers row -->
 <div id="mode-indicators">
-  <button id="ghost-mode-btn" onclick="toggleGhostMode()" title="Ghost Mode: cards hide instantly on mismatch — pure memory">👻 GHOST</button>
+  <button id="peek-mode-btn"  onclick="toggleMemoryPeek()" title="Memory Peek: all cards flash briefly at game start">👁 PEEK</button>
+  <button id="ghost-mode-btn" onclick="toggleGhostMode()"  title="Ghost Mode: cards hide instantly on mismatch — pure memory">👻 GHOST</button>
 </div>
+
+<!-- Memory Peek countdown -->
+<div id="peek-countdown" class="hidden"></div>
 
 <div id="combo-display" class="hidden"></div>
 

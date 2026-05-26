@@ -188,6 +188,32 @@ const SoundEngine = {
     osc.stop(now + dur);
   },
 
+  // Pitch-escalating match sound — higher combos = higher pitch + cleaner waveform
+  comboMatch(combo) {
+    if (!this._shouldPlay()) return;
+    if (combo < 2) { this.match(); return; }
+    const ctx = this.ctx;
+    const now = ctx.currentTime;
+    const t = this._getTheme().match;
+    // Each tier raises pitch by 15% and switches to sine for cleaner tone
+    const tier      = combo >= 10 ? 4 : combo >= 5 ? 3 : combo >= 3 ? 2 : 1;
+    const pitchMult = 1 + (tier - 1) * 0.15;
+    const oscType   = tier >= 3 ? 'sine' : t.type;
+    const freqs     = t.freqs.map(f => f * pitchMult);
+    freqs.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = oscType;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * t.ramp, now + 0.2);
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(t.gain, now + i * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + t.dur + i * 0.05);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now + i * 0.05);
+      osc.stop(now + t.dur + 0.05);
+    });
+  },
+
   toggle() {
     this.enabled = !this.enabled;
     localStorage.setItem('breachos_sound', this.enabled ? 'on' : 'off');

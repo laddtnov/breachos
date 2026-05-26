@@ -124,6 +124,10 @@ function initGame() {
   gameState.timewarpActive = false;
   gameState.trapCharId = null;
   gameState.trapSprung = false;
+  gameState.glitchFired = false;
+  clearTimeout(gameState.glitchTimeout);
+  gameState.glitchTimeout = null;
+  clearTimeout(idleTimer);
   clearInterval(gameState.timerInterval);
   document.body.classList.remove('countdown-critical');
   document.body.classList.toggle('blitz-mode', isBlitz);
@@ -167,9 +171,45 @@ function initGame() {
       .forEach(c => c.classList.add('trap-card'));
   }
 
-  // ── Ghost mode button: sync visual state on each new game ──
+  // ── Glitch Event: schedule on hard/extreme classic ──
+  if ((gameState.difficulty === 'hard' || gameState.difficulty === 'extreme') && gameState.mode === 'classic') {
+    const glitchDelay = 15000 + secureRandomInt(25) * 1000; // 15–40s
+    gameState.glitchTimeout = setTimeout(triggerGlitchEvent, glitchDelay);
+  }
+
+  // ── Memory Peek: reveal all cards briefly at game start (classic only) ──
+  if (gameState.memoryPeek && gameState.mode === 'classic') {
+    gameState.isLocked = true;
+    board.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
+    const countdown = document.getElementById('peek-countdown');
+    if (countdown) {
+      countdown.classList.remove('hidden');
+      let t = 2;
+      countdown.textContent = `MEMORIZE — ${t}s`;
+      const tick = setInterval(() => {
+        t--;
+        if (t <= 0) {
+          clearInterval(tick);
+          countdown.classList.add('hidden');
+          board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+          gameState.isLocked = false;
+        } else {
+          countdown.textContent = `MEMORIZE — ${t}s`;
+        }
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        board.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+        gameState.isLocked = false;
+      }, 2000);
+    }
+  }
+
+  // ── Mode buttons: sync visual state ──
   const ghostBtn = document.getElementById('ghost-mode-btn');
   if (ghostBtn) ghostBtn.classList.toggle('active', !!gameState.ghostMode);
+  const peekBtn = document.getElementById('peek-mode-btn');
+  if (peekBtn) peekBtn.classList.toggle('active', !!gameState.memoryPeek);
 
   updateRankHUD();
 }
@@ -183,6 +223,110 @@ function toggleGhostMode() {
   gameState.ghostMode = !gameState.ghostMode;
   const btn = document.getElementById('ghost-mode-btn');
   if (btn) btn.classList.toggle('active', gameState.ghostMode);
+}
+
+// ── Memory Peek Toggle ──
+function toggleMemoryPeek() {
+  gameState.memoryPeek = !gameState.memoryPeek;
+  const btn = document.getElementById('peek-mode-btn');
+  if (btn) btn.classList.toggle('active', gameState.memoryPeek);
+}
+
+// ── Custom Difficulty ──
+function showCustomPanel() {
+  const panel = document.getElementById('custom-panel');
+  if (!panel) return;
+  panel.classList.toggle('hidden');
+  if (!panel.classList.contains('hidden')) {
+    const saved = loadCustomLoadout();
+    document.getElementById('custom-pairs').value  = saved.pairs;
+    document.getElementById('custom-moves').value  = saved.maxMoves;
+    document.getElementById('custom-timer').value  = saved.countdown;
+    updateCustomPreview();
+  }
+}
+
+function updateCustomPreview() {
+  const pairs    = parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves    = parseInt(document.getElementById('custom-moves').value, 10);
+  const timer    = parseInt(document.getElementById('custom-timer').value, 10);
+  const pairsVal = document.getElementById('custom-pairs-val');
+  const movesVal = document.getElementById('custom-moves-val');
+  const timerVal = document.getElementById('custom-timer-val');
+  const preview  = document.getElementById('custom-preview');
+  if (pairsVal) pairsVal.textContent = pairs;
+  if (movesVal) movesVal.textContent = moves;
+  if (timerVal) timerVal.textContent = timer === 0 ? 'OFF' : timer + 's';
+  if (preview)  preview.textContent  = `${pairs} pairs · ${pairs * 2} cards · ${moves} moves · ${timer ? timer + 's timer' : 'no timer'}`;
+}
+
+function startCustomDifficulty() {
+  const pairs   = parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves   = parseInt(document.getElementById('custom-moves').value, 10);
+  const timer   = parseInt(document.getElementById('custom-timer').value, 10);
+  difficulties.custom = {
+    pairs,
+    maxMoves:  moves,
+    countdown: timer,
+    gridClass: gridClassForPairs(pairs),
+    label:     'CUSTOM',
+  };
+  if (gameState.mode === 'blitz') gameState.mode = 'classic';
+  const panel = document.getElementById('custom-panel');
+  if (panel) panel.classList.add('hidden');
+  rulesModal.classList.add('hidden');
+  document.getElementById('back-to-game-btn').classList.add('hidden');
+  gameState.difficulty = 'custom';
+  initGame();
+}
+
+function saveCustomGame() {
+  const pairs   = parseInt(document.getElementById('custom-pairs').value, 10);
+  const moves   = parseInt(document.getElementById('custom-moves').value, 10);
+  const timer   = parseInt(document.getElementById('custom-timer').value, 10);
+  saveCustomLoadout({ pairs, maxMoves: moves, countdown: timer });
+  const btn = document.getElementById('custom-save-btn');
+  if (btn) { btn.textContent = '✓ SAVED'; setTimeout(() => { btn.textContent = '💾 SAVE'; }, 1200); }
+}
+
+// ── Onboarding ──
+let onboardingStep = 0;
+
+function initOnboarding() {
+  if (localStorage.getItem('breachos_onboarding_done')) return;
+  const modal = document.getElementById('onboarding-modal');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function onboardingNext() {
+  onboardingStep = Math.min(onboardingStep + 1, 2);
+  updateOnboardingStep();
+}
+
+function onboardingPrev() {
+  onboardingStep = Math.max(onboardingStep - 1, 0);
+  updateOnboardingStep();
+}
+
+function updateOnboardingStep() {
+  document.querySelectorAll('.onboarding-step').forEach((el, i) => {
+    el.classList.toggle('hidden', i !== onboardingStep);
+  });
+  document.querySelectorAll('.onboarding-dot').forEach((el, i) => {
+    el.classList.toggle('active', i === onboardingStep);
+  });
+  const prev  = document.getElementById('onboarding-prev');
+  const next  = document.getElementById('onboarding-next');
+  const start = document.getElementById('onboarding-start');
+  if (prev)  prev.classList.toggle('hidden', onboardingStep === 0);
+  if (next)  next.classList.toggle('hidden', onboardingStep === 2);
+  if (start) start.classList.toggle('hidden', onboardingStep !== 2);
+}
+
+function completeOnboarding() {
+  localStorage.setItem('breachos_onboarding_done', '1');
+  const modal = document.getElementById('onboarding-modal');
+  if (modal) modal.classList.add('hidden');
 }
 
 function showDifficultySelect() {

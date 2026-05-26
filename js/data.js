@@ -57,7 +57,28 @@ const difficulties = {
   medium:  { pairs: 8,  gridClass: 'grid-medium',  label: 'MEDIUM',  maxMoves: 30 },
   hard:    { pairs: 12, gridClass: 'grid-hard',    label: 'HARD',    maxMoves: 40 },
   extreme: { pairs: 18, gridClass: 'grid-extreme', label: 'EXTREME', maxMoves: 60, countdown: 60 },
+  custom:  { pairs: 6,  gridClass: 'grid-medium',  label: 'CUSTOM',  maxMoves: 20, countdown: 0 },
 };
+
+// ── Custom Difficulty Loadout ──
+const CUSTOM_DEFAULTS = { pairs: 6, maxMoves: 20, countdown: 0 };
+
+function gridClassForPairs(pairs) {
+  if (pairs <= 4)  return 'grid-easy';
+  if (pairs <= 8)  return 'grid-medium';
+  if (pairs <= 12) return 'grid-hard';
+  return 'grid-extreme';
+}
+
+function loadCustomLoadout() {
+  try {
+    return JSON.parse(localStorage.getItem('breachos_custom_loadout')) || { ...CUSTOM_DEFAULTS };
+  } catch { return { ...CUSTOM_DEFAULTS }; }
+}
+
+function saveCustomLoadout(cfg) {
+  localStorage.setItem('breachos_custom_loadout', JSON.stringify(cfg));
+}
 
 // ── Blitz Mode Overrides ──
 const BLITZ_CONFIG = {

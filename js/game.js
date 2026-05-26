@@ -21,10 +21,16 @@ const gameState = {
   survivalLoop: 0,
   // Gameplay modifiers
   ghostMode: false,       // cards flip back instantly on mismatch
+  memoryPeek: false,      // all cards briefly shown at game start
   timewarpActive: false,  // timer is frozen during time warp
   trapCharId: null,       // character id of the trap pair (hard/extreme only)
   trapSprung: false,      // trap fires only once per game
+  glitchFired: false,     // glitch event fires once per hard/extreme game
+  glitchTimeout: null,    // setTimeout handle for glitch scheduling
 };
+
+// ── Idle Animation Timer ──
+let idleTimer = null;
 
 // ── Player Stats (loaded from localStorage) ──
 let playerStats = loadStats();
@@ -103,6 +109,7 @@ function handleCardClick(card) {
 
   // Init audio on first interaction
   SoundEngine.init();
+  resetIdleTimer();
 
   if (!gameState.timerStarted) {
     startTimer();
@@ -165,13 +172,13 @@ function checkMatch() {
     }
     // ─────────────────────────────────────────────────────────────────────
 
-    SoundEngine.match();
     Haptics.match();
     card1.classList.add('matched');
     card2.classList.add('matched');
     gameState.matchedPairs++;
     gameState.combo++;
     if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
+    SoundEngine.comboMatch(gameState.combo);   // pitch escalates with combo tier
     Haptics.combo(gameState.combo);
     showCombo(gameState.combo);
 
@@ -290,6 +297,51 @@ function showTrapFlash() {
   setTimeout(() => el.classList.add('hidden'), 1500);
 }
 
+// ── Glitch Event (hard/extreme) ──
+function triggerGlitchEvent() {
+  if (gameState.glitchFired) return;
+  if (!gameState.timerStarted) {
+    // Game not started yet — reschedule once
+    gameState.glitchTimeout = setTimeout(triggerGlitchEvent, 5000);
+    return;
+  }
+  if (gameState.matchedPairs >= gameState.totalPairs - 1) return;
+  gameState.glitchFired = true;
+
+  // Flicker then swap
+  document.body.classList.add('glitch-event');
+  setTimeout(() => {
+    const unmatched = [...board.querySelectorAll('.card:not(.matched):not(.flipped)')];
+    if (unmatched.length >= 4) {
+      const a = unmatched[secureRandomInt(unmatched.length)];
+      let b;
+      let attempts = 0;
+      do { b = unmatched[secureRandomInt(unmatched.length)]; attempts++; }
+      while (b === a && attempts < 10);
+      if (b !== a) swapDOMNodes(a, b);
+    }
+    document.body.classList.remove('glitch-event');
+  }, 450);
+}
+
+function swapDOMNodes(a, b) {
+  const placeholder = document.createComment('swap');
+  a.parentNode.insertBefore(placeholder, a);
+  b.parentNode.insertBefore(a, b);
+  placeholder.parentNode.insertBefore(b, placeholder);
+  placeholder.remove();
+}
+
+// ── Idle Animation ──
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  board?.querySelectorAll('.card:not(.matched)').forEach(c => c.classList.remove('idle-pulse'));
+  if (!gameState.timerStarted) return;
+  idleTimer = setTimeout(() => {
+    board?.querySelectorAll('.card:not(.matched):not(.flipped)').forEach(c => c.classList.add('idle-pulse'));
+  }, 5000);
+}
+
 // ── Timer ──
 function startTimer() {
   const isBlitz = gameState.mode === 'blitz';
@@ -335,7 +387,10 @@ function formatTime(totalSeconds) {
 // ── Win ──
 function winGame() {
   clearInterval(gameState.timerInterval);
-  document.body.classList.remove('countdown-critical');
+  clearTimeout(gameState.glitchTimeout);
+  clearTimeout(idleTimer);
+  document.body.classList.remove('countdown-critical', 'glitch-event');
+  board?.querySelectorAll('.card').forEach(c => c.classList.remove('idle-pulse'));
 
   // Survival mode: advance to next wave instead of showing win screen
   if (gameState.mode === 'survival') {
@@ -456,8 +511,11 @@ function spawnParticles() {
 // ── Lose ──
 function loseGame(timeExpired = false) {
   clearInterval(gameState.timerInterval);
+  clearTimeout(gameState.glitchTimeout);
+  clearTimeout(idleTimer);
   gameState.isLocked = true;
-  document.body.classList.remove('countdown-critical');
+  document.body.classList.remove('countdown-critical', 'glitch-event');
+  board?.querySelectorAll('.card').forEach(c => c.classList.remove('idle-pulse'));
 
   // Survival mode: redirect to survival game over
   if (gameState.mode === 'survival') {

@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="css/leaderboard.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/gameplay-mods.css">
 </head>
 
 <body>
@@ -47,6 +48,45 @@
   <div data-partial="partials/collection-modal.html"></div>
   <div data-partial="partials/auth-modal.html"></div>
   <div data-partial="partials/leaderboard-modal.html"></div>
+
+  <!-- Onboarding — shown once to first-time players -->
+  <div id="onboarding-modal" class="hidden">
+    <div class="onboarding-content">
+      <div class="onboarding-step" id="onboarding-step-0">
+        <div class="onboarding-demo">
+          <div class="demo-card demo-flip">?</div>
+        </div>
+        <h2 class="onboarding-title">CLICK ANY CARD</h2>
+        <p class="onboarding-desc">Reveal a hidden operative beneath each tile</p>
+      </div>
+      <div class="onboarding-step hidden" id="onboarding-step-1">
+        <div class="onboarding-demo onboarding-demo-pair">
+          <div class="demo-card demo-matched">⚡</div>
+          <div class="demo-card demo-matched">⚡</div>
+        </div>
+        <h2 class="onboarding-title">FIND THE MATCH</h2>
+        <p class="onboarding-desc">Pairs stay revealed. Mismatches flip back after 1s.</p>
+      </div>
+      <div class="onboarding-step hidden" id="onboarding-step-2">
+        <div class="onboarding-demo">
+          <div class="demo-combo">5× COMBO</div>
+        </div>
+        <h2 class="onboarding-title">BUILD COMBOS</h2>
+        <p class="onboarding-desc">Chain matches to earn XP, trigger Time Warp, and climb ranks</p>
+      </div>
+      <div class="onboarding-nav">
+        <button id="onboarding-prev" class="hidden" onclick="onboardingPrev()">◀</button>
+        <div class="onboarding-dots">
+          <span class="onboarding-dot active" id="dot-0"></span>
+          <span class="onboarding-dot" id="dot-1"></span>
+          <span class="onboarding-dot" id="dot-2"></span>
+        </div>
+        <button id="onboarding-next" onclick="onboardingNext()">▶</button>
+      </div>
+      <button id="onboarding-start" class="hidden" onclick="completeOnboarding()">▶ START MISSION</button>
+      <button id="onboarding-skip" onclick="completeOnboarding()">SKIP</button>
+    </div>
+  </div>
 
   <div class="cyber-table">
     <div data-partial="partials/game-area.html"></div>
@@ -80,6 +120,7 @@
     updateBestTimes();
     if (typeof updateDailyButton === 'function') updateDailyButton();
     syncSoundButton();
+    initOnboarding();
   </script>
   <script>
     if ('serviceWorker' in navigator) {
