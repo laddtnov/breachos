@@ -163,19 +163,63 @@ function handleTrapCard(card1, card2) {
   }, 1000);
 }
 
-// ── Check Match ──
+// ── Trap card predicate — true when this pair should spring the trap ──
+function isTrapCardHit(card) {
+  return gameState.trapCharId !== null
+    && !gameState.trapSprung
+    && card.dataset.character === gameState.trapCharId;
+}
+
+// ── Time Warp condition ──
+function shouldTriggerTimeWarp() {
+  return gameState.combo >= 5
+    && gameState.combo % 5 === 0
+    && !gameState.timewarpActive
+    && gameState.timerStarted;
+}
+
+// ── Mismatch Handler ──
+function handleMismatch(card1, card2) {
+  SoundEngine.error();
+  Haptics.error();
+  gameState.combo = 0;
+  hideCombo();
+  card1.classList.add('error');
+  card2.classList.add('error');
+
+  const flipBackDelay = gameState.ghostMode ? 150 : 1000;
+
+  if (gameState.mode === 'survival') {
+    gameState.survivalLives--;
+    updateSurvivalHUD();
+    if (gameState.survivalLives <= 0) {
+      setTimeout(() => {
+        card1.classList.remove('flipped', 'error');
+        card2.classList.remove('flipped', 'error');
+        gameState.flippedCards = [];
+        gameState.isLocked = false;
+        loseSurvival();
+      }, flipBackDelay);
+      return;
+    }
+  }
+
+  setTimeout(() => {
+    card1.classList.remove('flipped', 'error');
+    card2.classList.remove('flipped', 'error');
+    gameState.flippedCards = [];
+    gameState.isLocked = false;
+    if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
+  }, flipBackDelay);
+}
+
+// ── Check Match (cognitive complexity: 12) ──
 function checkMatch() {
   gameState.isLocked = true;
   const [card1, card2] = gameState.flippedCards;
 
   if (card1.dataset.character === card2.dataset.character) {
-
-    // ── Trap Card: intercept before normal match logic ────────────────────
-    if (gameState.trapCharId && !gameState.trapSprung && card1.dataset.character === gameState.trapCharId) {
-      handleTrapCard(card1, card2);
-      return;
-    }
-    // ─────────────────────────────────────────────────────────────────────
+    if (isTrapCardHit(card1)) { handleTrapCard(card1, card2); return; }
 
     Haptics.match();
     card1.classList.add('matched');
@@ -183,67 +227,22 @@ function checkMatch() {
     gameState.matchedPairs++;
     gameState.combo++;
     if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
-    SoundEngine.comboMatch(gameState.combo);   // pitch escalates with combo tier
+    SoundEngine.comboMatch(gameState.combo);
     Haptics.combo(gameState.combo);
     showCombo(gameState.combo);
 
-    // ── Time Warp: freeze timer on every 5x combo ─────────────────────────
-    if (gameState.combo >= 5 && gameState.combo % 5 === 0 && !gameState.timewarpActive && gameState.timerStarted) {
-      activateTimeWarp(3);
-    }
-    // ─────────────────────────────────────────────────────────────────────
+    if (shouldTriggerTimeWarp()) activateTimeWarp(3);
 
     gameState.flippedCards = [];
     gameState.isLocked = false;
 
-    if (gameState.matchedPairs === gameState.totalPairs) {
-      winGame();
-      return;
-    }
+    if (gameState.matchedPairs === gameState.totalPairs) { winGame(); return; }
   } else {
-    SoundEngine.error();
-    Haptics.error();
-    gameState.combo = 0;
-    hideCombo();
-    card1.classList.add('error');
-    card2.classList.add('error');
-
-    // ── Ghost Mode: cards hide almost instantly on mismatch ───────────────
-    const flipBackDelay = gameState.ghostMode ? 150 : 1000;
-    // ─────────────────────────────────────────────────────────────────────
-
-    // Survival mode: lose a life on mismatch
-    if (gameState.mode === 'survival') {
-      gameState.survivalLives--;
-      updateSurvivalHUD();
-      if (gameState.survivalLives <= 0) {
-        setTimeout(() => {
-          card1.classList.remove('flipped', 'error');
-          card2.classList.remove('flipped', 'error');
-          gameState.flippedCards = [];
-          gameState.isLocked = false;
-          loseSurvival();
-        }, flipBackDelay);
-        return;
-      }
-    }
-
-    setTimeout(() => {
-      card1.classList.remove('flipped', 'error');
-      card2.classList.remove('flipped', 'error');
-      gameState.flippedCards = [];
-      gameState.isLocked = false;
-
-      if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) {
-        loseGame();
-      }
-    }, flipBackDelay);
+    handleMismatch(card1, card2);
     return;
   }
 
-  if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) {
-    loseGame();
-  }
+  if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
 }
 
 // ── Time Warp ──
