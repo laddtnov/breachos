@@ -123,6 +123,20 @@ const ACHIEVEMENTS = [
     desc: 'Discover the hidden protocol',
     check: (state) => !!state.konamiActivated,
   },
+  {
+    id: 'faster_than_wind',
+    name: 'FASTER THAN WIND',
+    symbol: '\uD83D\uDCA8',
+    desc: 'Win on Easy in under 3 seconds',
+    check: (state) => state.won && state.difficulty === 'easy' && state.seconds < 3,
+  },
+  {
+    id: 'just_in_time',
+    name: 'JUST IN TIME',
+    symbol: '\u23F3',
+    desc: 'Win with only 1 second left on the countdown',
+    check: (state) => state.won && typeof state.countdown === 'number' && state.countdown <= 1 && state.countdown >= 0,
+  },
 ];
 
 function loadAchievements() {

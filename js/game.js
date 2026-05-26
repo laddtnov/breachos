@@ -302,6 +302,7 @@ function winGame() {
     maxCombo: gameState.maxCombo,
     difficulty: gameState.difficulty,
     isBlitz: gameState.mode === 'blitz',
+    countdown: gameState.countdown,
   });
 
   // Check rank up
