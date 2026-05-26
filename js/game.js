@@ -140,6 +140,29 @@ function updateMovesWarning() {
   }
 }
 
+// ── Trap Card Handler ──
+function handleTrapCard(card1, card2) {
+  gameState.trapSprung = true;
+  gameState.trapCharId = null;
+  gameState.combo = 0;
+  hideCombo();
+  gameState.moves++;
+  movesDisplay.childNodes[0].textContent = gameState.moves;
+  updateMovesWarning();
+  card1.classList.add('trap-spring');
+  card2.classList.add('trap-spring');
+  SoundEngine.error();
+  Haptics.error();
+  showTrapFlash();
+  setTimeout(() => {
+    card1.classList.remove('flipped', 'trap-spring', 'trap-card');
+    card2.classList.remove('flipped', 'trap-spring', 'trap-card');
+    gameState.flippedCards = [];
+    gameState.isLocked = false;
+    if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
+  }, 1000);
+}
+
 // ── Check Match ──
 function checkMatch() {
   gameState.isLocked = true;
@@ -149,25 +172,7 @@ function checkMatch() {
 
     // ── Trap Card: intercept before normal match logic ────────────────────
     if (gameState.trapCharId && !gameState.trapSprung && card1.dataset.character === gameState.trapCharId) {
-      gameState.trapSprung = true;
-      gameState.trapCharId = null;
-      gameState.combo = 0;
-      hideCombo();
-      gameState.moves++;
-      movesDisplay.childNodes[0].textContent = gameState.moves;
-      updateMovesWarning();
-      card1.classList.add('trap-spring');
-      card2.classList.add('trap-spring');
-      SoundEngine.error();
-      Haptics.error();
-      showTrapFlash();
-      setTimeout(() => {
-        card1.classList.remove('flipped', 'trap-spring', 'trap-card');
-        card2.classList.remove('flipped', 'trap-spring', 'trap-card');
-        gameState.flippedCards = [];
-        gameState.isLocked = false;
-        if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
-      }, 1000);
+      handleTrapCard(card1, card2);
       return;
     }
     // ─────────────────────────────────────────────────────────────────────

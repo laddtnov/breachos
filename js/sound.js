@@ -196,7 +196,11 @@ const SoundEngine = {
     const now = ctx.currentTime;
     const t = this._getTheme().match;
     // Each tier raises pitch by 15% and switches to sine for cleaner tone
-    const tier      = combo >= 10 ? 4 : combo >= 5 ? 3 : combo >= 3 ? 2 : 1;
+    let tier;
+    if (combo >= 10)      { tier = 4; }
+    else if (combo >= 5)  { tier = 3; }
+    else if (combo >= 3)  { tier = 2; }
+    else                  { tier = 1; }
     const pitchMult = 1 + (tier - 1) * 0.15;
     const oscType   = tier >= 3 ? 'sine' : t.type;
     const freqs     = t.freqs.map(f => f * pitchMult);
