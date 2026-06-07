@@ -57,16 +57,17 @@
       <!-- Custom Difficulty Panel -->
       <div id="custom-panel" class="hidden">
         <div class="custom-row">
-          <label class="custom-label" for="custom-pairs">PAIRS <span id="custom-pairs-val">6</span></label>
-          <input type="range" id="custom-pairs" min="3" max="18" value="6" oninput="updateCustomPreview()">
+          <!-- #15 — aria-labelledby fallback: iOS VoiceOver ignores for= on range inputs -->
+          <label class="custom-label" id="custom-pairs-label" for="custom-pairs">PAIRS <span id="custom-pairs-val">6</span></label>
+          <input type="range" id="custom-pairs" min="3" max="18" value="6" oninput="updateCustomPreview()" aria-labelledby="custom-pairs-label">
         </div>
         <div class="custom-row">
-          <label class="custom-label" for="custom-moves">MOVES <span id="custom-moves-val">20</span></label>
-          <input type="range" id="custom-moves" min="5" max="99" value="20" oninput="updateCustomPreview()">
+          <label class="custom-label" id="custom-moves-label" for="custom-moves">MOVES <span id="custom-moves-val">20</span></label>
+          <input type="range" id="custom-moves" min="5" max="99" value="20" oninput="updateCustomPreview()" aria-labelledby="custom-moves-label">
         </div>
         <div class="custom-row">
-          <label class="custom-label" for="custom-timer">TIMER <span id="custom-timer-val">OFF</span></label>
-          <input type="range" id="custom-timer" min="0" max="120" step="5" value="0" oninput="updateCustomPreview()">
+          <label class="custom-label" id="custom-timer-label" for="custom-timer">TIMER <span id="custom-timer-val">OFF</span></label>
+          <input type="range" id="custom-timer" min="0" max="120" step="5" value="0" oninput="updateCustomPreview()" aria-labelledby="custom-timer-label">
         </div>
         <p id="custom-preview" class="custom-preview">6 pairs · 12 cards · 20 moves · no timer</p>
         <div class="custom-actions">

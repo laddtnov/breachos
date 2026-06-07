@@ -113,6 +113,12 @@
     gap: 8px;
   }
 
+  /* #14 — WCAG 2.5.5: 44×44px minimum tap target on small screens */
+  .card {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
   .card-symbol {
     font-size: 22px;
   }
