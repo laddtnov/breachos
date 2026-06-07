@@ -1,5 +1,5 @@
 <!-- Donate Modal -->
-<div id="donate-modal" class="hidden">
+<dialog id="donate-modal">
   <div class="donate-content">
     <h3 class="donate-title">FUND THE NETWORK</h3>
     <p class="donate-subtitle">SUPPORT CYBERMATCH OPERATIONS</p>
@@ -51,10 +51,10 @@
                placeholder="ENTER YOUR EMAIL" autocomplete="email" />
         <button class="donate-send-btn" onclick="sendThankYou()">SEND</button>
       </div>
-      <p class="donate-thankyou-msg hidden" id="thankyou-success">✔ TRANSMISSION SENT — CHECK YOUR INBOX</p>
-      <p class="donate-thankyou-msg donate-thankyou-error hidden" id="thankyou-error">✖ SIGNAL LOST — TRY AGAIN</p>
+      <p class="donate-thankyou-msg hidden" id="thankyou-success" role="status"><span aria-hidden="true">✔</span> TRANSMISSION SENT — CHECK YOUR INBOX</p>
+      <p class="donate-thankyou-msg donate-thankyou-error hidden" id="thankyou-error" role="alert"><span aria-hidden="true">✖</span> SIGNAL LOST — TRY AGAIN</p>
     </div>
 
     <button class="donate-close-btn" onclick="toggleDonateModal()">CLOSE</button>
   </div>
-</div>
+</dialog>

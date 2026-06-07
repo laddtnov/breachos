@@ -3,7 +3,6 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.92);
-  display: flex;
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
@@ -12,10 +11,8 @@
   z-index: 250;
   backdrop-filter: blur(8px);
 }
-
-#sound-theme-modal.hidden {
-  display: none;
-}
+#sound-theme-modal[open] { display: flex; }
+#sound-theme-modal::backdrop { display: none; }
 
 .sound-theme-modal-content {
   max-width: 520px;

@@ -39,7 +39,9 @@ async function fetchDailyLeaderboard() {
 function switchLeaderboardTab(tab) {
   _lbActiveTab = tab;
   document.querySelectorAll('.lb-tab').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tab);
+    const isActive = btn.dataset.tab === tab;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', String(isActive));
   });
   renderLeaderboard([]);
   const fetch = tab === 'daily' ? fetchDailyLeaderboard : fetchLeaderboard;

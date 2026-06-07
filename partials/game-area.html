@@ -1,7 +1,7 @@
 <div class="game-hud">
   <div class="hud-item">
     <span class="hud-label">MOVES</span>
-    <span id="moves-counter" class="hud-value">0<span id="moves-limit" class="moves-limit"></span></span>
+    <span id="moves-counter" class="hud-value" aria-live="polite" aria-atomic="true">0<span id="moves-limit" class="moves-limit"></span></span>
   </div>
   <button class="hud-item hud-difficulty" onclick="showDifficultySelect()">
     <span class="hud-label">DIFFICULTY</span>
@@ -17,7 +17,7 @@
   </div>
   <div class="hud-item">
     <span class="hud-label">TIME</span>
-    <span id="timer" class="hud-value">00:00</span>
+    <span id="timer" class="hud-value" aria-live="off" aria-label="Time elapsed">00:00</span>
   </div>
   <button id="restart-btn" onclick="restartGame()">&#8635; RESTART</button>
 </div>
@@ -26,15 +26,15 @@
 <div id="survival-hud" class="hidden">
   <div class="survival-hud-item">
     <span class="survival-hud-label">LIVES</span>
-    <div id="survival-lives"></div>
+    <div id="survival-lives" aria-live="polite" aria-atomic="true" aria-label="Lives remaining"></div>
   </div>
   <div class="survival-hud-item">
     <span class="survival-hud-label">WAVE</span>
-    <span class="survival-hud-value" id="survival-wave">1</span>
+    <span class="survival-hud-value" id="survival-wave" aria-live="polite">1</span>
   </div>
   <div class="survival-hud-item">
     <span class="survival-hud-label">SCORE</span>
-    <span class="survival-hud-value" id="survival-score">0</span>
+    <span class="survival-hud-value" id="survival-score" aria-live="polite">0</span>
   </div>
 </div>
 

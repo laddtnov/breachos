@@ -66,7 +66,9 @@ function updateRankHUD() {
 function setGameMode(mode) {
   gameState.mode = mode;
   document.querySelectorAll('.mode-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.mode === mode);
+    const isActive = btn.dataset.mode === mode;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
   });
   const desc = document.getElementById('mode-desc');
   if (desc) {
@@ -373,8 +375,12 @@ function selectSkin(skinName) {
 
 function toggleSkinModal() {
   if (!skinModal) return;
-  skinModal.classList.toggle('hidden');
-  if (!skinModal.classList.contains('hidden')) renderSkinModal();
+  if (skinModal.open) {
+    skinModal.close();
+  } else {
+    skinModal.showModal();
+    renderSkinModal();
+  }
 }
 
 function renderSkinModal() {

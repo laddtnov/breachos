@@ -33,8 +33,12 @@ function selectTheme(themeId) {
 function toggleThemeModal() {
   const modal = document.getElementById('theme-modal');
   if (!modal) return;
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderThemeModal();
+  if (modal.open) {
+    modal.close();
+  } else {
+    modal.showModal();
+    renderThemeModal();
+  }
 }
 
 function renderThemeModal() {

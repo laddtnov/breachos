@@ -117,8 +117,12 @@ function selectSoundTheme(themeId) {
 function toggleSoundThemeModal() {
   const modal = document.getElementById('sound-theme-modal');
   if (!modal) return;
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderSoundThemeModal();
+  if (modal.open) {
+    modal.close();
+  } else {
+    modal.showModal();
+    renderSoundThemeModal();
+  }
 }
 
 function renderSoundThemeModal() {

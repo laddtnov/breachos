@@ -34,7 +34,7 @@
         <input type="password" id="reg-password" class="auth-input"
                placeholder="MIN 8 CHARS" autocomplete="new-password" />
       </div>
-      <p class="auth-error" id="reg-error"></p>
+      <p class="auth-error" id="reg-error" role="alert"></p>
       <button class="auth-submit-btn" id="reg-btn" onclick="handleRegister()">CREATE ACCOUNT</button>
     </div>
 
@@ -62,7 +62,7 @@
         <input type="password" id="login-password" class="auth-input"
                placeholder="PASSWORD" autocomplete="current-password" />
       </div>
-      <p class="auth-error" id="login-error"></p>
+      <p class="auth-error" id="login-error" role="alert"></p>
       <button class="auth-submit-btn" id="login-btn" onclick="handleLogin()">CONNECT</button>
       <button class="auth-forgot-btn" onclick="showAuthPanel('forgot')">FORGOT PASSWORD?</button>
     </div>
@@ -78,7 +78,7 @@
         <input type="email" id="forgot-email" class="auth-input"
                placeholder="agent@net.run" autocomplete="email" />
       </div>
-      <p class="auth-error" id="forgot-error"></p>
+      <p class="auth-error" id="forgot-error" role="alert"></p>
       <button class="auth-submit-btn" id="forgot-btn" onclick="handleForgot()">SEND RESET LINK</button>
     </div>
 
@@ -104,7 +104,7 @@
         <input type="password" id="reset-confirm" class="auth-input"
                placeholder="REPEAT PASSWORD" autocomplete="new-password" />
       </div>
-      <p class="auth-error" id="reset-error"></p>
+      <p class="auth-error" id="reset-error" role="alert"></p>
       <button class="auth-submit-btn" id="reset-btn" onclick="handleResetPassword()">SET NEW PASSWORD</button>
     </div>
 

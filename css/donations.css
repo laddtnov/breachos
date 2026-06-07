@@ -3,16 +3,13 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.92);
-  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 260;
   backdrop-filter: blur(8px);
 }
-
-#donate-modal.hidden {
-  display: none;
-}
+#donate-modal[open] { display: flex; }
+#donate-modal::backdrop { display: none; }
 
 .donate-content {
   position: relative;

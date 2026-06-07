@@ -138,7 +138,6 @@ body.theme-ember .cyber-table::after {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.92);
-  display: flex;
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
@@ -147,10 +146,8 @@ body.theme-ember .cyber-table::after {
   z-index: 250;
   backdrop-filter: blur(8px);
 }
-
-#theme-modal.hidden {
-  display: none;
-}
+#theme-modal[open] { display: flex; }
+#theme-modal::backdrop { display: none; }
 
 .theme-modal-content {
   max-width: 520px;

@@ -3,7 +3,11 @@
 function toggleDonateModal() {
   const modal = document.getElementById('donate-modal');
   if (!modal) return;
-  modal.classList.toggle('hidden');
+  if (modal.open) {
+    modal.close();
+  } else {
+    modal.showModal();
+  }
 }
 
 function switchDonateTab(tab) {
