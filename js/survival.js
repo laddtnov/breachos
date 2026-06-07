@@ -8,7 +8,7 @@ function startSurvivalMode() {
   gameState.survivalLoop = 0;
 
   // Close modals
-  rulesModal.classList.add('hidden');
+  rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
 
   document.body.classList.add('survival-mode');
@@ -225,5 +225,5 @@ function exitSurvival() {
   document.getElementById('survival-hud').classList.add('hidden');
   gameState.mode = 'classic';
   clearInterval(gameState.timerInterval);
-  rulesModal.classList.remove('hidden');
+  rulesModal.showModal();
 }

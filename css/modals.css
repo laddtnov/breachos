@@ -1,16 +1,30 @@
-/* ── Rules Modal ── */
+/* ── Rules Modal — native <dialog> (WCAG 2.1.2 focus trap, #31) ── */
 #rules-modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.92);
-  display: flex;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 200;
+}
+
+#rules-modal[open] {
+  display: flex;
+}
+
+#rules-modal::backdrop {
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(8px);
 }
 
-#rules-modal.hidden,
 #back-to-game-btn.hidden {
   display: none;
 }

@@ -1,5 +1,5 @@
-<!-- Rules Modal -->
-<div id="rules-modal">
+<!-- Rules Modal — converted from <div> to <dialog> for native focus trap (WCAG 2.1.2 / #31) -->
+<dialog id="rules-modal" aria-label="Mission briefing and difficulty select">
   <div class="rules-content">
     <h2 class="rules-title">MISSION BRIEFING</h2>
     <div class="rules-divider"></div>
@@ -87,4 +87,4 @@
     </button>
     <button id="back-to-game-btn" class="hidden" onclick="closeDifficultySelect()">BACK TO GAME</button>
   </div>
-</div>
+</dialog>

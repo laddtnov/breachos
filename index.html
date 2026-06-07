@@ -55,8 +55,8 @@
   <div data-partial="partials/auth-modal.html"></div>
   <div data-partial="partials/leaderboard-modal.html"></div>
 
-  <!-- Onboarding — shown once to first-time players -->
-  <div id="onboarding-modal" class="hidden">
+  <!-- Onboarding — shown once to first-time players; <dialog> for native focus trap (WCAG 2.1.2 / #51) -->
+  <dialog id="onboarding-modal" aria-label="How to play — onboarding">
     <div class="onboarding-content">
       <div class="onboarding-step" id="onboarding-step-0">
         <div class="onboarding-demo">
@@ -92,7 +92,7 @@
       <button id="onboarding-start" class="hidden" onclick="completeOnboarding()"><span aria-hidden="true">▶</span> START MISSION</button>
       <button id="onboarding-skip" onclick="completeOnboarding()">SKIP</button>
     </div>
-  </div>
+  </dialog>
 
   <!-- Page title for AT — visually hidden, preserves neon design (#43) -->
   <h1 class="sr-only">Breachos</h1>

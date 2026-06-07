@@ -52,7 +52,7 @@ function startDailyChallenge() {
   gameState.difficulty = diffKey;
 
   // Close modals
-  rulesModal.classList.add('hidden');
+  rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
 
   // Reset game state
@@ -236,7 +236,7 @@ function exitDaily() {
   document.body.classList.remove('daily-mode');
   gameState.mode = 'classic';
   clearInterval(gameState.timerInterval);
-  rulesModal.classList.remove('hidden');
+  rulesModal.showModal();
   updateDailyButton();
 }
 

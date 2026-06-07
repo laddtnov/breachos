@@ -172,6 +172,14 @@
 }
 
 /* ── Error ── */
+/* WCAG 3.3.2 — persistent password hint; always visible, not just placeholder (#41) */
+.auth-hint {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(0, 243, 255, 0.5);
+  margin: 4px 0 4px;
+}
+
 .auth-error {
   min-height: 18px;
   font-size: 11px;

@@ -224,6 +224,8 @@ function renderAchievementModal() {
   const grid = document.getElementById('achievement-grid');
   const countEl = document.getElementById('achievement-count');
   if (!grid) return;
+  // WCAG 4.1.2 — list semantics on the container (#50)
+  grid.setAttribute('role', 'list');
 
   const unlocked = unlockedAchievements.length;
   const total = ACHIEVEMENTS.length;
@@ -235,8 +237,10 @@ function renderAchievementModal() {
   grid.innerHTML = ACHIEVEMENTS.map(ach => {
     const isUnlocked = unlockedAchievements.includes(ach.id);
     return `
-      <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
-        <span class="achievement-item-symbol">${isUnlocked ? ach.symbol : '🔒'}</span>
+      <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}"
+           role="listitem"
+           aria-label="${ach.name} — ${ach.desc} — ${isUnlocked ? 'Unlocked' : 'Locked'}">
+        <span class="achievement-item-symbol" aria-hidden="true">${isUnlocked ? ach.symbol : '🔒'}</span>
         <div class="achievement-info">
           <span class="achievement-item-name">${ach.name}</span>
           <span class="achievement-item-desc">${ach.desc}</span>
