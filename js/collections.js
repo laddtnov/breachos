@@ -182,8 +182,12 @@ function getUnlockedRewardCount() {
 function toggleCollectionModal() {
   const modal = document.getElementById('collection-modal');
   if (!modal) return;
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderCollectionModal();
+  if (modal.open) {
+    modal.close();
+  } else {
+    modal.showModal();
+    renderCollectionModal();
+  }
 }
 
 function renderCollectionModal() {

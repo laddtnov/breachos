@@ -3,8 +3,12 @@
 function toggleDossierModal() {
   const modal = document.getElementById('dossier-modal');
   if (!modal) return;
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderDossier();
+  if (modal.open) {
+    modal.close();
+  } else {
+    modal.showModal();
+    renderDossier();
+  }
 }
 
 function renderDossier() {

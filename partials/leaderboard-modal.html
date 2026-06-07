@@ -6,12 +6,12 @@
     <div class="lb-divider"></div>
 
     <!-- Tabs -->
-    <div class="lb-tabs">
-      <button class="lb-tab active" data-tab="global" onclick="switchLeaderboardTab('global')">GLOBAL XP</button>
-      <button class="lb-tab" data-tab="daily" onclick="switchLeaderboardTab('daily')">TODAY</button>
+    <div class="lb-tabs" role="tablist" aria-label="Leaderboard view">
+      <button class="lb-tab active" role="tab" aria-selected="true" data-tab="global" onclick="switchLeaderboardTab('global')">GLOBAL XP</button>
+      <button class="lb-tab" role="tab" aria-selected="false" data-tab="daily" onclick="switchLeaderboardTab('daily')">TODAY</button>
     </div>
 
-    <ol id="leaderboard-list" class="lb-list">
+    <ol id="leaderboard-list" class="lb-list" aria-live="polite" aria-label="Leaderboard entries">
       <!-- populated by leaderboard.js -->
     </ol>
 
