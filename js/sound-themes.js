@@ -20,13 +20,17 @@ const SOUND_THEMES = {
     tick: { type: 'square', freq: 800, warnFreq: 1200, gain: 0.05 },
   },
   synth: {
+    // #19 — enhanced: arpeggiated match, VHS-wobble error, 80s chord fanfare
     name: 'SYNTHWAVE',
-    desc: 'Warm analog tones',
-    flip: { type: 'noise', filterFreq: 1200, filterQ: 0.8, gain: 0.1, dur: 0.08 },
-    match: { type: 'sine', freqs: [330, 440], ramp: 1.5, gain: 0.1, dur: 0.35 },
-    error: { type: 'triangle', freq: 150, detune: 10, gain: 0.08, dur: 0.3 },
-    win: { type: 'sine', notes: [440, 554.37, 659.25, 880], gain: 0.1, spacing: 0.15 },
-    tick: { type: 'sine', freq: 660, warnFreq: 880, gain: 0.04 },
+    desc: '80s arpeggiated synth — VHS wobble & chord fanfare',
+    flip: { type: 'noise', filterFreq: 1000, filterQ: 0.7, gain: 0.09, dur: 0.08 },
+    // 4-note ascending arpeggio (A minor chord: A3–C4–E4–A4), staggered 0.05s each
+    match: { type: 'sine', freqs: [220, 261.63, 329.63, 440], ramp: 1.2, gain: 0.09, dur: 0.3 },
+    // VHS-wobble: deep triangle with high detune for a pitch-warble feel
+    error: { type: 'triangle', freq: 88, detune: 30, gain: 0.1, dur: 0.42 },
+    // 80s major chord fanfare: two-octave C major sweep (C4–E4–G4–C5–E5–G5)
+    win: { type: 'sine', notes: [261.63, 329.63, 392, 523.25, 659.25, 783.99], gain: 0.1, spacing: 0.1 },
+    tick: { type: 'sine', freq: 550, warnFreq: 770, gain: 0.04 },
   },
   glitch: {
     name: 'GLITCH',
