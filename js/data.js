@@ -18,6 +18,17 @@ const characters = [
   { id: 'oracle',    symbol: '\u25C9',   name: 'ORACLE',    color: 'pink' },
   { id: 'wraith',    symbol: '\u2620',   name: 'WRAITH',    color: 'cyan' },
   { id: 'glitch',    symbol: '\u2588',   name: 'GLITCH',    color: 'pink' },
+  // #17 \u2014 10 new cyber operatives to boost replayability at Hard/Extreme
+  { id: 'viper',    symbol: '\u26a1',   name: 'VIPER',     color: 'cyan' },
+  { id: 'hexer',    symbol: '\u2b21',   name: 'HEXER',     color: 'pink' },
+  { id: 'pylon',    symbol: '\u2394',   name: 'PYLON',     color: 'cyan' },
+  { id: 'scorch',   symbol: '\u235f',   name: 'SCORCH',    color: 'pink' },
+  { id: 'vector',   symbol: '\u25c8',   name: 'VECTOR',    color: 'cyan' },
+  { id: 'echo',     symbol: '\u233f',   name: 'ECHO',      color: 'pink' },
+  { id: 'nexus',    symbol: '\u229e',   name: 'NEXUS',     color: 'cyan' },
+  { id: 'breach',   symbol: '\u238a',   name: 'BREACH',    color: 'pink' },
+  { id: 'zero',     symbol: '\u2316',   name: 'ZERO',      color: 'cyan' },
+  { id: 'hydra',    symbol: '\u23e3',   name: 'HYDRA',     color: 'pink' },
 ];
 
 // ── Rank System ──

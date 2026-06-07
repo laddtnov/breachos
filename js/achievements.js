@@ -137,6 +137,42 @@ const ACHIEVEMENTS = [
     desc: 'Win with only 1 second left on the countdown',
     check: (state) => state.won && typeof state.countdown === 'number' && state.countdown <= 1 && state.countdown >= 0,
   },
+  // #20 \u2014 5 gameplay modifier achievements
+  {
+    id: 'ghost_ninja',
+    name: 'GHOST NINJA',
+    symbol: '\uD83D\uDC7B',
+    desc: 'Win a game with Ghost Mode active',
+    check: (state) => state.won && state.ghostMode,
+  },
+  {
+    id: 'trap_dodger',
+    name: 'TRAP DODGER',
+    symbol: '\u26A0',
+    desc: 'Win on Hard without springing the trap',
+    check: (state) => state.won && state.difficulty === 'hard' && !state.trapSprung,
+  },
+  {
+    id: 'time_lord',
+    name: 'TIME LORD',
+    symbol: '\u23F1',
+    desc: 'Trigger Time Warp 3 times in one game',
+    check: (state) => (state.timewarpCount || 0) >= 3,
+  },
+  {
+    id: 'photographic',
+    name: 'PHOTOGRAPHIC',
+    symbol: '\uD83D\uDC41',
+    desc: 'Win on Extreme after using Memory Peek',
+    check: (state) => state.won && state.difficulty === 'extreme' && state.memoryPeek,
+  },
+  {
+    id: 'glitch_hunter',
+    name: 'GLITCH HUNTER',
+    symbol: '\u2588',
+    desc: 'Win while a Glitch Event is active',
+    check: (state) => state.won && state.glitchActiveOnWin,
+  },
 ];
 
 function loadAchievements() {

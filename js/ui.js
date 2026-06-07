@@ -170,6 +170,7 @@ function initGame() {
   gameState.timerStarted = false;
   gameState.isLocked = false;
   gameState.timewarpActive = false;
+  gameState.timewarpCount = 0; // #20 Time Lord: reset warp counter each game
   gameState.trapCharId = null;
   gameState.trapSprung = false;
   gameState.glitchFired = false;
