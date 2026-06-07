@@ -43,16 +43,16 @@
 }
 
 /* ── Glitch Event: body flicker ── */
+/* WCAG 2.3.1: original 0.45s steps(3) = 6.7 Hz — above the 3 Hz safe limit.
+   Fixed: 1 slow hue-rotate sweep with no brightness spikes (no flash). */
 body.glitch-event {
-  animation: glitch-flicker 0.45s steps(3) forwards;
+  animation: glitch-flicker 1.2s linear forwards;
 }
 
 @keyframes glitch-flicker {
   0%   { filter: none; }
-  20%  { filter: hue-rotate(90deg) brightness(1.8) contrast(1.5); }
-  40%  { filter: none; }
-  60%  { filter: hue-rotate(-90deg) brightness(0.6) saturate(3); }
-  80%  { filter: none; }
+  30%  { filter: hue-rotate(90deg) saturate(2); }
+  70%  { filter: hue-rotate(-60deg) saturate(1.5); }
   100% { filter: none; }
 }
 
@@ -269,16 +269,29 @@ body.glitch-event {
 .onboarding-nav button:hover { background: rgba(0, 243, 255, 0.1); }
 .onboarding-nav button.hidden { visibility: hidden; }
 
-.onboarding-dots { display: flex; gap: 8px; }
+.onboarding-dots { display: flex; gap: 0; }
 
+/* WCAG 2.5.8 — 24×24px minimum touch target; visual dot stays 8×8 via ::before */
 .onboarding-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.onboarding-dot::before {
+  content: '';
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: rgba(0, 243, 255, 0.25);
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
 }
-.onboarding-dot.active { background: #00f3ff; box-shadow: 0 0 6px #00f3ff; }
+.onboarding-dot.active::before { background: #00f3ff; box-shadow: 0 0 6px #00f3ff; }
 
 #onboarding-start {
   display: block;

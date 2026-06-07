@@ -60,13 +60,14 @@ function updateRankHUD() {
 
   if (rankDisplay) rankDisplay.textContent = rank.name;
 
+  // rankProgress now points to <progress id="rank-bar"> — use .value directly
   if (rankProgress && rankXP) {
     if (next) {
       const progress = ((playerStats.xp - rank.xp) / (next.xp - rank.xp)) * 100;
-      rankProgress.style.width = Math.min(progress, 100) + '%';
+      rankProgress.value = Math.min(Math.round(progress), 100);
       rankXP.textContent = playerStats.xp + '/' + next.xp + ' XP';
     } else {
-      rankProgress.style.width = '100%';
+      rankProgress.value = 100;
       rankXP.textContent = playerStats.xp + ' XP (MAX)';
     }
   }

@@ -267,7 +267,6 @@
   font-size: 13px;
   letter-spacing: 1px;
   padding: 10px 14px;
-  outline: none;
   transition: border-color 0.3s ease;
 }
 
@@ -279,6 +278,12 @@
 .donate-email-input:focus {
   border-color: #00f3ff;
   box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+/* WCAG 2.4.7 — visible focus indicator */
+.donate-email-input:focus-visible {
+  outline: 2px solid #00f3ff;
+  outline-offset: 2px;
 }
 
 .donate-email-input.input-error {

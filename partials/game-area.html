@@ -10,9 +10,10 @@
   <div class="hud-item hud-rank">
     <span class="hud-label">RANK</span>
     <span id="rank-display" class="hud-value rank-value">ROOKIE</span>
-    <div class="rank-bar">
-      <div class="rank-bar-fill" id="rank-progress"></div>
-    </div>
+    <!-- WCAG 4.1.2 — native <progress> preferred over role=progressbar (Sonar S6853 / #47) -->
+    <progress id="rank-bar" class="rank-bar"
+              value="0" max="100"
+              aria-label="XP progress towards next rank"></progress>
     <span class="rank-xp-text" id="rank-xp">0/100 XP</span>
   </div>
   <div class="hud-item">
