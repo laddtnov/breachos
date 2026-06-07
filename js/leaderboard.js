@@ -103,6 +103,7 @@ function renderLeaderboard(data, tab) {
 
   if (data === null) {
     setSingleMessage('SIGNAL LOST — COULD NOT REACH NET', true);
+    srAnnounce('Leaderboard error — could not load rankings'); // WCAG 4.1.3
     return;
   }
   if (data.length === 0) {
@@ -178,6 +179,7 @@ function renderLeaderboard(data, tab) {
     fragment.appendChild(item);
   });
   list.replaceChildren(fragment);
+  srAnnounce(`Leaderboard updated — ${data.length} ${data.length === 1 ? 'entry' : 'entries'}`); // WCAG 4.1.3
 
   if (updated) {
     updated.textContent = 'UPDATED ' + new Date().toLocaleTimeString();

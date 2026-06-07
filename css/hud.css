@@ -91,6 +91,12 @@ body.game-paused .game-hud {
   box-shadow: 0 0 20px #ff0055;
 }
 
+/* WCAG 2.2.2 — stop blink and screen-shake animations when game is paused (#58) */
+body.game-paused .countdown-critical .cyber-table,
+body.game-paused .countdown-critical #timer {
+  animation: none;
+}
+
 /* ── Rank HUD ── */
 .hud-rank {
   gap: 2px;

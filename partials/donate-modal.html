@@ -47,6 +47,8 @@
     <div class="donate-thankyou-section">
       <div class="donate-thankyou-label">DONATED? CLAIM YOUR TRANSMISSION</div>
       <div class="donate-thankyou-form" id="thankyou-form">
+        <!-- WCAG 1.3.1 / 3.3.2 — explicit label; placeholder alone is not sufficient (#40) -->
+        <label for="thankyou-email" class="sr-only">Email address</label>
         <input type="email" id="thankyou-email" class="donate-email-input"
                placeholder="ENTER YOUR EMAIL" autocomplete="email" />
         <button class="donate-send-btn" onclick="sendThankYou()">SEND</button>

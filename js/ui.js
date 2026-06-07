@@ -61,13 +61,17 @@ function updateRankHUD() {
   if (rankDisplay) rankDisplay.textContent = rank.name;
 
   if (rankProgress && rankXP) {
+    const rankBar = document.getElementById('rank-bar');
     if (next) {
       const progress = ((playerStats.xp - rank.xp) / (next.xp - rank.xp)) * 100;
-      rankProgress.style.width = Math.min(progress, 100) + '%';
+      const clamped = Math.min(Math.round(progress), 100);
+      rankProgress.style.width = clamped + '%';
       rankXP.textContent = playerStats.xp + '/' + next.xp + ' XP';
+      if (rankBar) rankBar.setAttribute('aria-valuenow', clamped); // WCAG 4.1.2
     } else {
       rankProgress.style.width = '100%';
       rankXP.textContent = playerStats.xp + ' XP (MAX)';
+      if (rankBar) rankBar.setAttribute('aria-valuenow', 100);
     }
   }
 }
