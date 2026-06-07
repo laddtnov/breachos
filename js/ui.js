@@ -176,6 +176,7 @@ function initGame() {
   gameState.glitchTimeout = null;
   clearTimeout(idleTimer);
   clearInterval(gameState.timerInterval);
+  if (typeof resetPauseState === 'function') resetPauseState();
   document.body.classList.remove('countdown-critical');
   document.body.classList.toggle('blitz-mode', isBlitz);
   document.body.classList.remove('survival-mode', 'daily-mode');

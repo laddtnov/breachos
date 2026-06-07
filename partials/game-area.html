@@ -19,6 +19,8 @@
     <span class="hud-label">TIME</span>
     <span id="timer" class="hud-value" aria-live="off" aria-label="Time elapsed">00:00</span>
   </div>
+  <!-- WCAG 2.2.1 — pause button, visible only during countdown modes -->
+  <button id="pause-btn" class="hidden" onclick="togglePause()" aria-pressed="false" aria-label="Pause timer">⏸ PAUSE</button>
   <button id="restart-btn" onclick="restartGame()">&#8635; RESTART</button>
 </div>
 
