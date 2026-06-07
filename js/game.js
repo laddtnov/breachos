@@ -410,9 +410,12 @@ function togglePause() {
     gameState.isLocked = true;
     document.body.classList.add('game-paused');
     if (btn) {
-      btn.textContent = '▶ RESUME';
+      // Update inner spans so visible label matches accessible name (WCAG 2.5.3)
+      const icon = btn.querySelector('.pause-icon');
+      const label = btn.querySelector('.pause-label');
+      if (icon) icon.textContent = '▶';
+      if (label) label.textContent = 'RESUME';
       btn.setAttribute('aria-pressed', 'true');
-      btn.setAttribute('aria-label', 'Resume timer');
     }
     srAnnounce('Timer paused');
   } else {
@@ -420,9 +423,11 @@ function togglePause() {
     gameState.isLocked = false;
     document.body.classList.remove('game-paused');
     if (btn) {
-      btn.textContent = '⏸ PAUSE';
+      const icon = btn.querySelector('.pause-icon');
+      const label = btn.querySelector('.pause-label');
+      if (icon) icon.textContent = '⏸';
+      if (label) label.textContent = 'PAUSE';
       btn.setAttribute('aria-pressed', 'false');
-      btn.setAttribute('aria-label', 'Pause timer');
     }
     srAnnounce('Timer resumed');
   }
@@ -434,9 +439,11 @@ function resetPauseState() {
   const pauseBtn = document.getElementById('pause-btn');
   if (pauseBtn) {
     pauseBtn.classList.add('hidden');
-    pauseBtn.textContent = '⏸ PAUSE';
+    const icon = pauseBtn.querySelector('.pause-icon');
+    const label = pauseBtn.querySelector('.pause-label');
+    if (icon) icon.textContent = '⏸';
+    if (label) label.textContent = 'PAUSE';
     pauseBtn.setAttribute('aria-pressed', 'false');
-    pauseBtn.setAttribute('aria-label', 'Pause timer');
   }
 }
 
