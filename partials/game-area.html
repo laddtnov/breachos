@@ -60,8 +60,10 @@
 
 <!-- Mode modifiers row -->
 <div id="mode-indicators">
-  <button id="peek-mode-btn"  onclick="toggleMemoryPeek()" title="Memory Peek: all cards flash briefly at game start"><span aria-hidden="true">👁</span> PEEK</button>
-  <button id="ghost-mode-btn" onclick="toggleGhostMode()"  title="Ghost Mode: cards hide instantly on mismatch — pure memory"><span aria-hidden="true">👻</span> GHOST</button>
+  <button id="peek-mode-btn"  onclick="toggleMemoryPeek()" aria-describedby="peek-desc"><span aria-hidden="true">👁</span> PEEK</button>
+  <span id="peek-desc" class="sr-only">Memory Peek: all cards flash briefly at game start to help memorisation</span>
+  <button id="ghost-mode-btn" onclick="toggleGhostMode()"  aria-describedby="ghost-desc"><span aria-hidden="true">👻</span> GHOST</button>
+  <span id="ghost-desc" class="sr-only">Ghost Mode: cards hide instantly on mismatch — pure memory challenge</span>
 </div>
 
 <!-- Memory Peek countdown -->
