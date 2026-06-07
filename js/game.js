@@ -23,6 +23,7 @@ const gameState = {
   ghostMode: false,       // cards flip back instantly on mismatch
   memoryPeek: false,      // all cards briefly shown at game start
   timewarpActive: false,  // timer is frozen during time warp
+  timewarpCount: 0,       // #20 Time Lord: how many warps triggered this game
   isPaused: false,        // user-initiated pause (WCAG 2.2.1)
   trapCharId: null,       // character id of the trap pair (hard/extreme only)
   trapSprung: false,      // trap fires only once per game
@@ -298,6 +299,7 @@ function checkMatch() {
 function activateTimeWarp(duration) {
   if (gameState.timewarpActive) return;
   gameState.timewarpActive = true;
+  gameState.timewarpCount++; // #20 Time Lord achievement counter
   clearInterval(gameState.timerInterval);
 
   const flash = document.getElementById('timewarp-flash');
@@ -487,6 +489,8 @@ function formatTime(totalSeconds) {
 
 // ── Win ──
 function winGame() {
+  // Capture glitch-event state BEFORE removing the class (#20 Glitch Hunter)
+  const glitchActiveOnWin = document.body.classList.contains('glitch-event');
   clearInterval(gameState.timerInterval);
   clearTimeout(gameState.glitchTimeout);
   clearTimeout(idleTimer);
@@ -558,6 +562,12 @@ function winGame() {
     difficulty: gameState.difficulty,
     isBlitz: gameState.mode === 'blitz',
     countdown: gameState.countdown,
+    // #20 — gameplay modifier achievements
+    ghostMode: gameState.ghostMode,
+    trapSprung: gameState.trapSprung,
+    timewarpCount: gameState.timewarpCount,
+    memoryPeek: gameState.memoryPeek,
+    glitchActiveOnWin,
   });
 
   // Check rank up
