@@ -143,17 +143,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-inner {
-    transition: none !important;
-  }
-
-  .card.matched .card-inner,
-  .card.error .card-front,
-  .card:not(.flipped):not(.matched):hover .card-back::after {
-    animation: none !important;
-  }
-
-  .countdown-critical .cyber-table {
-    animation: none !important;
+  /* Universal motion kill — covers all skins, gameplay mods, HUD, combos, etc.
+     WCAG 2.3.1 / EAA: prevents seizure-risk (glitch-flicker ~6.7 Hz) and
+     motion-sickness animations (hologram-shift, plasma-pulse, acid-drip, etc.) */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
