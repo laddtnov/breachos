@@ -93,7 +93,7 @@
 .mode-btn {
   flex: 1;
   background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4); /* raised from 0.15 — WCAG 1.4.11 non-text contrast */
   border-radius: 6px;
   padding: 10px;
   color: rgba(255, 255, 255, 0.5);
@@ -106,7 +106,7 @@
 }
 
 .mode-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6); /* raised from 0.3 */
 }
 
 .mode-btn.active[data-mode="classic"] {
@@ -127,7 +127,7 @@
 .mode-desc {
   font-family: 'Courier New', monospace;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6); /* raised from 0.4 — WCAG 1.4.3 text contrast */
   letter-spacing: 1px;
   margin-bottom: 0;
 }
@@ -142,7 +142,7 @@
 
 .diff-btn {
   background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(0, 243, 255, 0.3);
+  border: 2px solid rgba(0, 243, 255, 0.5); /* raised from 0.3 — WCAG 1.4.11 non-text contrast */
   border-radius: 8px;
   padding: 14px 8px;
   cursor: pointer;

@@ -23,8 +23,8 @@
 /* ── Peek Mode Button ── */
 #peek-mode-btn {
   background: transparent;
-  color: rgba(0, 243, 255, 0.35);
-  border: 1px solid rgba(0, 243, 255, 0.2);
+  color: rgba(0, 243, 255, 0.75); /* raised from 0.35 — WCAG 1.4.3 text contrast */
+  border: 1px solid rgba(0, 243, 255, 0.5); /* raised from 0.2 — WCAG 1.4.11 non-text contrast */
   border-radius: 4px;
   padding: 3px 10px;
   font-family: 'Courier New', monospace;
@@ -34,7 +34,7 @@
   transition: all 0.2s ease;
   text-transform: uppercase;
 }
-#peek-mode-btn:hover { color: rgba(0, 243, 255, 0.7); border-color: rgba(0, 243, 255, 0.4); }
+#peek-mode-btn:hover { color: rgba(0, 243, 255, 0.9); border-color: rgba(0, 243, 255, 0.7); } /* raised from 0.7/0.4 */
 #peek-mode-btn.active {
   color: #00f3ff;
   border-color: #00f3ff;

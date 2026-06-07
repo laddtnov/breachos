@@ -21,7 +21,7 @@
 
 .hud-label {
   font-size: 13px;
-  color: rgba(0, 243, 255, 0.6);
+  color: rgba(0, 243, 255, 0.75); /* raised from 0.6 — WCAG 1.4.3 contrast */
   letter-spacing: 2px;
 }
 
@@ -81,7 +81,7 @@
 
 .rank-xp-text {
   font-size: 14px;
-  color: rgba(0, 243, 255, 0.5);
+  color: rgba(0, 243, 255, 0.75); /* raised from 0.5 — WCAG 1.4.3 contrast */
   letter-spacing: 1px;
 }
 
@@ -111,7 +111,7 @@
 /* ── Moves Limit Display ── */
 .moves-limit {
   font-size: 14px;
-  color: rgba(255, 0, 85, 0.6);
+  color: #ff0055; /* was rgba(255,0,85,0.6) — solid colour passes WCAG 1.4.3 */
 }
 
 .moves-warning .hud-value {
@@ -142,8 +142,8 @@ body.blitz-mode .hud-diff {
 /* ── Ghost Mode Button ── */
 #ghost-mode-btn {
   background: transparent;
-  color: rgba(0, 243, 255, 0.35);
-  border: 1px solid rgba(0, 243, 255, 0.2);
+  color: rgba(0, 243, 255, 0.75); /* raised from 0.35 — WCAG 1.4.3 text contrast */
+  border: 1px solid rgba(0, 243, 255, 0.5); /* raised from 0.2 — WCAG 1.4.11 non-text contrast */
   border-radius: 4px;
   padding: 3px 10px;
   font-family: 'Courier New', monospace;
@@ -155,8 +155,8 @@ body.blitz-mode .hud-diff {
 }
 
 #ghost-mode-btn:hover {
-  color: rgba(0, 243, 255, 0.7);
-  border-color: rgba(0, 243, 255, 0.4);
+  color: rgba(0, 243, 255, 0.9); /* raised from 0.7 */
+  border-color: rgba(0, 243, 255, 0.7); /* raised from 0.4 */
 }
 
 #ghost-mode-btn.active {
