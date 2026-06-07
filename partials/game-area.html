@@ -60,8 +60,8 @@
 
 <!-- Mode modifiers row -->
 <div id="mode-indicators">
-  <button id="peek-mode-btn"  onclick="toggleMemoryPeek()" title="Memory Peek: all cards flash briefly at game start">👁 PEEK</button>
-  <button id="ghost-mode-btn" onclick="toggleGhostMode()"  title="Ghost Mode: cards hide instantly on mismatch — pure memory">👻 GHOST</button>
+  <button id="peek-mode-btn"  onclick="toggleMemoryPeek()" title="Memory Peek: all cards flash briefly at game start"><span aria-hidden="true">👁</span> PEEK</button>
+  <button id="ghost-mode-btn" onclick="toggleGhostMode()"  title="Ghost Mode: cards hide instantly on mismatch — pure memory"><span aria-hidden="true">👻</span> GHOST</button>
 </div>
 
 <!-- Memory Peek countdown -->
@@ -70,10 +70,10 @@
 <div id="combo-display" class="hidden"></div>
 
 <!-- Time Warp overlay -->
-<div id="timewarp-flash" class="hidden">⏸ TIME WARP</div>
+<div id="timewarp-flash" class="hidden"><span aria-hidden="true">⏸</span> TIME WARP</div>
 
 <!-- Trap Sprung overlay -->
-<div id="trap-flash" class="hidden">⚠ TRAP SPRUNG</div>
+<div id="trap-flash" class="hidden"><span aria-hidden="true">⚠</span> TRAP SPRUNG</div>
 
 <main id="game-board"></main>
 

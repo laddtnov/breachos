@@ -131,7 +131,8 @@ function renderSoundThemeModal() {
     const isActive = activeId === id;
     return `
       <button class="sound-theme-item ${isActive ? 'active' : ''}"
-              onclick="selectSoundTheme('${id}')">
+              onclick="selectSoundTheme('${id}')"
+              aria-pressed="${isActive}">
         <span class="sound-theme-name">${theme.name}</span>
         <span class="sound-theme-desc">${theme.desc}</span>
         <button class="sound-theme-preview" onclick="event.stopPropagation(); previewSoundTheme('${id}')">&#9654; PREVIEW</button>
