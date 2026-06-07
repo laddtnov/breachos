@@ -194,6 +194,8 @@ function renderCollectionModal() {
   const grid = document.getElementById('collection-grid');
   const countEl = document.getElementById('collection-count');
   if (!grid) return;
+  // WCAG 4.1.2 — list semantics on the container (#50)
+  grid.setAttribute('role', 'list');
 
   const unlocked = getUnlockedRewardCount();
   const total = REWARD_CARDS.length;
@@ -220,7 +222,8 @@ function renderCollectionModal() {
     const lockLabel = RANK_LABELS[card.rank] ?? card.rank;
     return `
       <div class="reward-card reward-card-${card.id} ${cardUnlocked ? 'unlocked' : 'locked'}"
-           ${cardUnlocked ? `title="${card.desc}"` : `title="Unlock: ${lockLabel}"`}>
+           role="listitem"
+           aria-label="${card.name} — ${cardUnlocked ? card.desc : `Unlock: ${lockLabel}`}">
         <span class="reward-symbol">${card.symbol}</span>
         <span class="reward-name">${card.name}</span>
         <span class="reward-rank">${cardUnlocked ? card.rarity : lockLabel}</span>

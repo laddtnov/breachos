@@ -112,7 +112,7 @@ function startWithDifficulty(diff) {
   // Ensure we're not in survival mode when picking a standard difficulty
   if (gameState.mode === 'survival') gameState.mode = 'classic';
   gameState.difficulty = diff;
-  rulesModal.classList.add('hidden');
+  rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
   initGame();
 }
@@ -299,7 +299,7 @@ function startCustomDifficulty() {
   if (gameState.mode === 'blitz') gameState.mode = 'classic';
   const panel = document.getElementById('custom-panel');
   if (panel) panel.classList.add('hidden');
-  rulesModal.classList.add('hidden');
+  rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
   gameState.difficulty = 'custom';
   initGame();
@@ -320,7 +320,8 @@ let onboardingStep = 0;
 function initOnboarding() {
   if (localStorage.getItem('breachos_onboarding_done')) return;
   const modal = document.getElementById('onboarding-modal');
-  if (modal) modal.classList.remove('hidden');
+  // WCAG 2.1.2 — showModal() provides native focus trap (#51)
+  if (modal) modal.showModal();
 }
 
 function onboardingNext() {
@@ -351,7 +352,7 @@ function updateOnboardingStep() {
 function completeOnboarding() {
   localStorage.setItem('breachos_onboarding_done', '1');
   const modal = document.getElementById('onboarding-modal');
-  if (modal) modal.classList.add('hidden');
+  if (modal) modal.close();
 }
 
 // Stores the element that was focused before a modal opened so we can restore it on close (#33)
@@ -362,7 +363,8 @@ function showDifficultySelect() {
   clearInterval(gameState.timerInterval);
   document.body.classList.remove('countdown-critical');
   document.getElementById('back-to-game-btn').classList.remove('hidden');
-  rulesModal.classList.remove('hidden');
+  // WCAG 2.1.2 — showModal() provides native focus trap (#31)
+  rulesModal.showModal();
   updateBestTimes();
   if (typeof updateDailyButton === 'function') updateDailyButton();
   // WCAG 2.4.3 — move focus into the modal
@@ -371,7 +373,7 @@ function showDifficultySelect() {
 }
 
 function closeDifficultySelect() {
-  rulesModal.classList.add('hidden');
+  rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
   // Resume timer if game was in progress
   if (gameState.timerStarted && gameState.matchedPairs < gameState.totalPairs) {

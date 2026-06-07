@@ -32,7 +32,10 @@
       <div class="auth-field">
         <label class="auth-label" for="reg-password">PASSWORD</label>
         <input type="password" id="reg-password" class="auth-input"
-               placeholder="MIN 8 CHARS" autocomplete="new-password" />
+               placeholder="MIN 8 CHARS" autocomplete="new-password"
+               aria-describedby="reg-pw-hint" />
+        <!-- WCAG 3.3.2 — persistent hint; placeholder alone disappears while typing (#41) -->
+        <p id="reg-pw-hint" class="auth-hint">Minimum 8 characters</p>
       </div>
       <p class="auth-error" id="reg-error" role="alert"></p>
       <button class="auth-submit-btn" id="reg-btn" onclick="handleRegister()">CREATE ACCOUNT</button>
@@ -97,7 +100,9 @@
       <div class="auth-field">
         <label class="auth-label" for="reset-password">NEW PASSWORD</label>
         <input type="password" id="reset-password" class="auth-input"
-               placeholder="MIN 8 CHARS" autocomplete="new-password" />
+               placeholder="MIN 8 CHARS" autocomplete="new-password"
+               aria-describedby="reset-pw-hint" />
+        <p id="reset-pw-hint" class="auth-hint">Minimum 8 characters</p>
       </div>
       <div class="auth-field">
         <label class="auth-label" for="reset-confirm">CONFIRM PASSWORD</label>
