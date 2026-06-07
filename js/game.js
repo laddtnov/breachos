@@ -398,53 +398,46 @@ function resetIdleTimer() {
 }
 
 // ── Pause / Resume (WCAG 2.2.1 Timing Adjustable) ──
+
+// Updates the pause button's icon, label text and aria-pressed in one place.
+// Extracted to keep togglePause() cognitive complexity within Sonar limit.
+function setPauseBtnState(isPaused) {
+  const btn = document.getElementById('pause-btn');
+  if (!btn) return;
+  const icon = btn.querySelector('.pause-icon');
+  const label = btn.querySelector('.pause-label');
+  if (icon) icon.textContent = isPaused ? '▶' : '⏸';
+  if (label) label.textContent = isPaused ? 'RESUME' : 'PAUSE';
+  btn.setAttribute('aria-pressed', String(isPaused));
+}
+
 function togglePause() {
   // Only available during active countdown modes
   if (!gameState.timerStarted || !gameState.countdown) return;
 
-  const btn = document.getElementById('pause-btn');
   gameState.isPaused = !gameState.isPaused;
 
   if (gameState.isPaused) {
     clearInterval(gameState.timerInterval);
     gameState.isLocked = true;
     document.body.classList.add('game-paused');
-    if (btn) {
-      // Update inner spans so visible label matches accessible name (WCAG 2.5.3)
-      const icon = btn.querySelector('.pause-icon');
-      const label = btn.querySelector('.pause-label');
-      if (icon) icon.textContent = '▶';
-      if (label) label.textContent = 'RESUME';
-      btn.setAttribute('aria-pressed', 'true');
-    }
     srAnnounce('Timer paused');
   } else {
     resumeTimerTick();
     gameState.isLocked = false;
     document.body.classList.remove('game-paused');
-    if (btn) {
-      const icon = btn.querySelector('.pause-icon');
-      const label = btn.querySelector('.pause-label');
-      if (icon) icon.textContent = '⏸';
-      if (label) label.textContent = 'PAUSE';
-      btn.setAttribute('aria-pressed', 'false');
-    }
     srAnnounce('Timer resumed');
   }
+
+  setPauseBtnState(gameState.isPaused);
 }
 
 function resetPauseState() {
   gameState.isPaused = false;
   document.body.classList.remove('game-paused');
   const pauseBtn = document.getElementById('pause-btn');
-  if (pauseBtn) {
-    pauseBtn.classList.add('hidden');
-    const icon = pauseBtn.querySelector('.pause-icon');
-    const label = pauseBtn.querySelector('.pause-label');
-    if (icon) icon.textContent = '⏸';
-    if (label) label.textContent = 'PAUSE';
-    pauseBtn.setAttribute('aria-pressed', 'false');
-  }
+  if (pauseBtn) pauseBtn.classList.add('hidden');
+  setPauseBtnState(false);
 }
 
 // ── Timer ──
