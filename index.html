@@ -38,6 +38,9 @@
   <!-- Skip navigation — first focusable element, visually hidden until focused (#57) -->
   <a href="#game-board" class="skip-link">Skip to game</a>
 
+  <!-- SR live region — game events announced to screen readers (#29) -->
+  <div id="sr-announce" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
+
   <!-- Partials — each file lives in partials/ for easy editing -->
   <div data-partial="partials/rules-modal.html"></div>
   <div data-partial="partials/mobile-menu.html"></div>
