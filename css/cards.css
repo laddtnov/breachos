@@ -13,6 +13,7 @@
   aspect-ratio: 3 / 4;
   cursor: pointer;
   position: relative;
+  touch-action: manipulation; /* #14 — prevent scroll mis-trigger on tap; removes 300ms tap delay */
 }
 
 .card-inner {
