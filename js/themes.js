@@ -12,6 +12,8 @@ const TABLE_THEMES = [
   { id: 'midnight', name: 'MIDNIGHT',     desc: 'Deep indigo electric' },
   { id: 'sakura',   name: 'SAKURA',       desc: 'Cherry blossom pink' },
   { id: 'storm',    name: 'STORM SURGE',  desc: 'Electric silver lightning' },
+  // #16 — WCAG 1.4.3/1.4.11: high-contrast mode for low-vision players
+  { id: 'hc',       name: 'HIGH CONTRAST', desc: 'White/black/yellow — low-vision' },
 ];
 
 function applyTheme(themeId) {
