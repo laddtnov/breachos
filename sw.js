@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cybermatch-v38';
+const CACHE_NAME = 'cybermatch-v39';
 const ASSETS = [
   './',
   './index.html',
@@ -23,6 +23,7 @@ const ASSETS = [
   './css/responsive.css',
   './css/auth.css',
   './css/leaderboard.css',
+  './css/gameplay-mods.css',
   './js/load-partials.js',
   './js/sound.js',
   './js/haptics.js',
