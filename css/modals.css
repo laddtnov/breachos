@@ -196,7 +196,7 @@
 .diff-btn[data-difficulty="easy"] .diff-name { color: #00f3ff; }
 .diff-btn[data-difficulty="medium"] .diff-name { color: #fff; /* NOSONAR */ }
 .diff-btn[data-difficulty="hard"] .diff-name { color: #fff; /* NOSONAR */ text-shadow: 0 0 10px rgba(255, 0, 85, 0.6); }
-.diff-btn[data-difficulty="extreme"] .diff-name { color: #ff0000; text-shadow: 0 0 12px rgba(255, 0, 0, 0.8); letter-spacing: 3px; }
+.diff-btn[data-difficulty="extreme"] .diff-name { color: #e62020; /* #76 — toned down from #ff0000 */ text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); letter-spacing: 3px; }
 
 .diff-btn[data-difficulty="easy"]:hover,
 .diff-btn[data-difficulty="easy"].active { border-color: #00f3ff; }
@@ -205,7 +205,7 @@
 .diff-btn[data-difficulty="hard"]:hover,
 .diff-btn[data-difficulty="hard"].active { border-color: #fff; /* NOSONAR */ box-shadow: 0 0 25px rgba(255, 0, 85, 0.5); background: rgba(255, 0, 85, 0.15); }
 .diff-btn[data-difficulty="extreme"]:hover,
-.diff-btn[data-difficulty="extreme"].active { border-color: #ff0000; box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); background: rgba(255, 0, 0, 0.15); }
+.diff-btn[data-difficulty="extreme"].active { border-color: #e62020; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); background: rgba(255, 0, 0, 0.12); }
 
 .diff-best {
   font-family: 'Courier New', monospace;

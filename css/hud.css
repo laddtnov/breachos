@@ -86,9 +86,9 @@ body.game-paused .game-hud {
 }
 
 #restart-btn:hover {
-  background: #ff0055;
-  color: #000; /* NOSONAR - hover state has bright background */
-  box-shadow: 0 0 20px #ff0055;
+  background: rgba(255, 0, 85, 0.75); /* #75 — toned down from solid #ff0055 */
+  color: #fff; /* NOSONAR */
+  box-shadow: 0 0 14px rgba(255, 0, 85, 0.55);
 }
 
 /* WCAG 2.2.2 — stop blink and screen-shake animations when game is paused (#58) */
