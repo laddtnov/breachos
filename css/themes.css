@@ -368,6 +368,194 @@ body.theme-storm .cyber-table::after {
     linear-gradient(90deg, rgba(180, 200, 255, 0.05) 1px, transparent 1px);
 }
 
+/* ── HIGH CONTRAST — white/black/yellow, no neon glow (#16) ── */
+/* Designed for low-vision players: WCAG 1.4.3 (≥ 7:1 text contrast),
+   WCAG 1.4.11 (≥ 3:1 non-text contrast). All glows removed. */
+.theme-preview-hc {
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: none;
+}
+
+body.theme-hc {
+  background: #ffffff;
+  color: #000000;
+}
+
+body.theme-hc .cyber-table {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: none;
+}
+
+body.theme-hc .cyber-table::after {
+  background-image: none;
+}
+
+/* HUD */
+body.theme-hc .game-hud {
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: none;
+}
+
+body.theme-hc .hud-label {
+  color: #000000;
+}
+
+body.theme-hc .hud-value {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc .rank-xp-text {
+  color: #000000;
+}
+
+body.theme-hc progress.rank-bar::-webkit-progress-bar {
+  background: #dddddd;
+}
+
+body.theme-hc progress.rank-bar::-webkit-progress-value {
+  background: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc progress.rank-bar::-moz-progress-bar {
+  background: #000000;
+  box-shadow: none;
+}
+
+/* Buttons */
+body.theme-hc #restart-btn {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc #restart-btn:hover {
+  background: #000000;
+  color: #ffffff; /* NOSONAR */
+  box-shadow: none;
+}
+
+body.theme-hc #pause-btn {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc #ghost-mode-btn,
+body.theme-hc #peek-mode-btn {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.theme-hc #ghost-mode-btn.active,
+body.theme-hc #peek-mode-btn.active {
+  background: #ffff00;
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+/* Cards — back face */
+body.theme-hc .card-back {
+  background: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc .card-back::before {
+  color: #ffffff; /* NOSONAR */
+  text-shadow: none;
+}
+
+body.theme-hc .card:hover .card-back {
+  border-color: #000000;
+  box-shadow: none;
+}
+
+/* Cards — front face: larger text, solid borders, yellow matched */
+body.theme-hc .card-front {
+  background: #ffffff;
+}
+
+body.theme-hc .card.cyan .card-front,
+body.theme-hc .card.pink .card-front {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.theme-hc .card-symbol {
+  font-size: 42px;
+  text-shadow: none;
+}
+
+body.theme-hc .card-name {
+  font-size: 15px;
+  text-shadow: none;
+  letter-spacing: 1px;
+}
+
+body.theme-hc .card.matched .card-inner {
+  animation: none;
+}
+
+body.theme-hc .card.matched.cyan .card-front,
+body.theme-hc .card.matched.pink .card-front {
+  background: #ffff00;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc .card.error .card-front {
+  animation: none;
+  border-color: #ff0000;
+  box-shadow: none;
+}
+
+/* Remove hover glitch overlay */
+body.theme-hc .card:not(.flipped):not(.matched):hover .card-back::after {
+  animation: none;
+  opacity: 0;
+}
+
+/* Page title / nav colours */
+body.theme-hc .page-title {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc .controls button {
+  color: #000000;
+  border-color: #000000;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+body.theme-hc .controls button:hover {
+  background: #000000;
+  color: #ffffff; /* NOSONAR */
+}
+
+/* Win / Lose overlays */
+body.theme-hc #win-overlay,
+body.theme-hc #lose-overlay {
+  background: rgba(255, 255, 0, 0.95);
+  color: #000000;
+}
+
+body.theme-hc .win-title,
+body.theme-hc .lose-title {
+  color: #000000;
+  text-shadow: none;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .theme-modal-content {
