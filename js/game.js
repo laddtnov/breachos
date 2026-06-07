@@ -42,8 +42,31 @@ let loseOverlay, losePairs, loseTotal, loseMovesStat, loseSubtitle;
 let rulesModal, difficultyDisplay, particles;
 let rankDisplay, rankProgress, rankXP, skinModal;
 
+// Column count per grid class — mirrors repeat() values in cards.css
+const GRID_COLS = { 'grid-easy': 3, 'grid-medium': 4, 'grid-hard': 6, 'grid-extreme': 6 };
+
 function initDOMRefs() {
   board = document.getElementById('game-board');
+
+  // WCAG 2.1.1 — arrow-key navigation across the card grid
+  board.addEventListener('keydown', e => {
+    const dirs = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 0, ArrowUp: 0 };
+    if (!(e.key in dirs)) return;
+    const current = e.target.closest('.card');
+    if (!current) return;
+    e.preventDefault();
+    const gridClass = [...board.classList].find(c => c.startsWith('grid-')) ?? 'grid-medium';
+    const cols = GRID_COLS[gridClass] ?? 4;
+    const allCards = [...board.querySelectorAll('.card')];
+    const idx = allCards.indexOf(current);
+    let delta;
+    if (e.key === 'ArrowRight') delta = 1;
+    else if (e.key === 'ArrowLeft') delta = -1;
+    else if (e.key === 'ArrowDown') delta = cols;
+    else delta = -cols;
+    const next = allCards[idx + delta];
+    if (next) next.focus();
+  });
   movesDisplay = document.getElementById('moves-counter');
   movesLimit = document.getElementById('moves-limit');
   timerDisplay = document.getElementById('timer');
@@ -84,6 +107,12 @@ function createCardElement(character) {
   const card = document.createElement('div');
   card.classList.add('card', character.color);
   card.dataset.character = character.id;
+  card.dataset.name = character.name; // used for aria-label state updates
+
+  // WCAG 2.1.1 + 4.1.2 — keyboard access and accessible name/role/value
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-label', 'Card face down');
 
   card.innerHTML = `
     <div class="card-inner">
@@ -96,6 +125,12 @@ function createCardElement(character) {
   `;
 
   card.addEventListener('click', () => handleCardClick(card));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleCardClick(card);
+    }
+  });
   return card;
 }
 
@@ -119,6 +154,7 @@ function handleCardClick(card) {
   SoundEngine.flip();
   Haptics.flip();
   card.classList.add('flipped');
+  card.setAttribute('aria-label', `${card.dataset.name} — face up`);
   gameState.flippedCards.push(card);
 
   if (gameState.flippedCards.length === 2) {
@@ -157,6 +193,8 @@ function handleTrapCard(card1, card2) {
   setTimeout(() => {
     card1.classList.remove('flipped', 'trap-spring', 'trap-card');
     card2.classList.remove('flipped', 'trap-spring', 'trap-card');
+    card1.setAttribute('aria-label', 'Card face down');
+    card2.setAttribute('aria-label', 'Card face down');
     gameState.flippedCards = [];
     gameState.isLocked = false;
     if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
@@ -196,6 +234,8 @@ function handleMismatch(card1, card2) {
       setTimeout(() => {
         card1.classList.remove('flipped', 'error');
         card2.classList.remove('flipped', 'error');
+        card1.setAttribute('aria-label', 'Card face down');
+        card2.setAttribute('aria-label', 'Card face down');
         gameState.flippedCards = [];
         gameState.isLocked = false;
         loseSurvival();
@@ -207,6 +247,8 @@ function handleMismatch(card1, card2) {
   setTimeout(() => {
     card1.classList.remove('flipped', 'error');
     card2.classList.remove('flipped', 'error');
+    card1.setAttribute('aria-label', 'Card face down');
+    card2.setAttribute('aria-label', 'Card face down');
     gameState.flippedCards = [];
     gameState.isLocked = false;
     if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
@@ -224,6 +266,12 @@ function checkMatch() {
     Haptics.match();
     card1.classList.add('matched');
     card2.classList.add('matched');
+    // WCAG 4.1.2 — update accessible name and state on match
+    [card1, card2].forEach(c => {
+      c.setAttribute('aria-label', `${c.dataset.name} — matched`);
+      c.setAttribute('aria-disabled', 'true');
+      c.setAttribute('tabindex', '-1');
+    });
     gameState.matchedPairs++;
     gameState.combo++;
     if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
