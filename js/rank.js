@@ -41,6 +41,17 @@ function calculateXP(difficulty, moves, maxMoves, seconds, won, maxCombo = 0) {
   return (base[difficulty] || 20) + moveBonus + timeBonus + comboBonus;
 }
 
+// Reward skin unlock rules — each condition evaluated lazily at call time.
+// Table-driven to keep getUnlockedSkins() complexity within Sonar S3776 limit.
+const REWARD_SKIN_RULES = [
+  { id: 'survivor', met: () => (playerStats.bestWave    || 0) >= 5   },  // Survival Wave 5
+  { id: 'chrono',   met: () => (playerStats.dailyStreak || 0) >= 7   },  // 7-day streak
+  { id: 'plasma',   met: () => (playerStats.gamesWon    || 0) >= 20  },  // 20 total wins
+  { id: 'acid',     met: () => (playerStats.bestCombo   || 0) >= 7   },  // 7x combo
+  { id: 'shadow',   met: () => (playerStats.gamesPlayed || 0) >= 100 },  // 100 games played
+  { id: 'graffiti', met: () => typeof loadAchievements === 'function' && loadAchievements().length >= 5 }, // #18: 5 achievements
+];
+
 function getUnlockedSkins(xp) {
   const skins = ['default'];
   for (const r of RANKS) {
@@ -48,25 +59,8 @@ function getUnlockedSkins(xp) {
       skins.push(r.skin);
     }
   }
-  // Survival reward skin: reach wave 5
-  if ((playerStats.bestWave || 0) >= 5 && !skins.includes('survivor')) {
-    skins.push('survivor');
-  }
-  // Daily reward skin: 7-day streak
-  if ((playerStats.dailyStreak || 0) >= 7 && !skins.includes('chrono')) {
-    skins.push('chrono');
-  }
-  // Plasma: 20 total wins
-  if ((playerStats.gamesWon || 0) >= 20 && !skins.includes('plasma')) {
-    skins.push('plasma');
-  }
-  // Acid: reach 7x combo
-  if ((playerStats.bestCombo || 0) >= 7 && !skins.includes('acid')) {
-    skins.push('acid');
-  }
-  // Shadow: play 100 games
-  if ((playerStats.gamesPlayed || 0) >= 100 && !skins.includes('shadow')) {
-    skins.push('shadow');
+  for (const { id, met } of REWARD_SKIN_RULES) {
+    if (met()) skins.push(id);
   }
   return skins;
 }

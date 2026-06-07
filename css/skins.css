@@ -473,6 +473,58 @@
   animation: chrono-warp 4s linear infinite;
 }
 
+/* ── Neon Graffiti skin (#18) — spray-paint borders, drip gradient, VT323 name font ── */
+.skin-graffiti .card-back {
+  background:
+    /* drip streaks from top — simulated with vertical radial blobs */
+    radial-gradient(ellipse at 20% 0%, rgba(255, 0, 170, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 0%, rgba(0, 255, 100, 0.2) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 0%, rgba(255, 230, 0, 0.18) 0%, transparent 40%),
+    /* base coat — dark concrete */
+    rgba(8, 6, 8, 0.96);
+  border-color: #ff00aa;
+  border-width: 3px;
+  border-style: solid;
+  /* rough spray-paint shadow blur */
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 100, 0.5),
+    0 0 12px rgba(255, 0, 170, 0.4),
+    0 0 24px rgba(0, 255, 100, 0.2),
+    inset 0 0 10px rgba(255, 230, 0, 0.08);
+}
+
+.skin-graffiti .card-back::before {
+  content: "?";
+  color: rgba(255, 0, 170, 0.6);
+  text-shadow: 0 0 8px rgba(255, 0, 170, 0.5), 0 0 20px rgba(0, 255, 100, 0.3);
+}
+
+.skin-graffiti .card:hover .card-back {
+  border-color: #00ff64;
+  box-shadow:
+    0 0 0 2px rgba(255, 0, 170, 0.6),
+    0 0 18px rgba(0, 255, 100, 0.6),
+    0 0 35px rgba(255, 0, 170, 0.3),
+    inset 0 0 14px rgba(255, 230, 0, 0.12);
+}
+
+/* Grunge font for card names in graffiti skin */
+.skin-graffiti .card-name {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+
+/* Skin preview tile */
+.skin-preview-graffiti {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 0, 170, 0.35), transparent 50%),
+    radial-gradient(ellipse at 70% 0%, rgba(0, 255, 100, 0.3), transparent 45%),
+    rgba(8, 6, 8, 0.95);
+  border-color: #ff00aa;
+  box-shadow: 0 0 8px rgba(255, 0, 170, 0.4), 0 0 0 1px rgba(0, 255, 100, 0.3);
+}
+
 .skin-name {
   font-size: 13px;
   font-weight: bold;
