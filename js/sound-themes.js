@@ -29,7 +29,7 @@ const SOUND_THEMES = {
     // VHS-wobble: deep triangle with high detune for a pitch-warble feel
     error: { type: 'triangle', freq: 88, detune: 30, gain: 0.1, dur: 0.42 },
     // 80s major chord fanfare: two-octave C major sweep (C4–E4–G4–C5–E5–G5)
-    win: { type: 'sine', notes: [261.63, 329.63, 392.00, 523.25, 659.25, 783.99], gain: 0.1, spacing: 0.1 },
+    win: { type: 'sine', notes: [261.63, 329.63, 392, 523.25, 659.25, 783.99], gain: 0.1, spacing: 0.1 },
     tick: { type: 'sine', freq: 550, warnFreq: 770, gain: 0.04 },
   },
   glitch: {
