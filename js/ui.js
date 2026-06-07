@@ -422,6 +422,8 @@ function renderSkinModal() {
     { id: 'plasma',    name: 'PLASMA BURN',   rank: '__WINS_20',       desc: 'Electric violet plasma waves' },
     { id: 'acid',      name: 'ACID RAIN',     rank: '__COMBO_7',       desc: 'Toxic neon green drip' },
     { id: 'shadow',    name: 'SHADOW PROTOCOL', rank: '__PLAYED_100',  desc: 'Dark silver ghost shimmer' },
+    // #18 — Neon Graffiti skin: unlock at 5 achievements
+    { id: 'graffiti',  name: 'NEON GRAFFITI', rank: '__ACH_5',         desc: 'Spray-paint borders, drip gradient' },
   ];
 
   grid.innerHTML = skins.map(skin => {
@@ -434,6 +436,7 @@ function renderSkinModal() {
       '__WINS_20': 'Win 20 Games',
       '__COMBO_7': '7x Combo',
       '__PLAYED_100': 'Play 100 Games',
+      '__ACH_5': 'Unlock 5 Achievements', // #18 Graffiti skin
     };
     const lockLabel = LOCK_LABELS[skin.rank] ?? `Unlock at ${skin.rank}`;
     return `

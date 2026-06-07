@@ -68,5 +68,9 @@ function getUnlockedSkins(xp) {
   if ((playerStats.gamesPlayed || 0) >= 100 && !skins.includes('shadow')) {
     skins.push('shadow');
   }
+  // Graffiti (#18): unlock 5 achievements
+  if (typeof loadAchievements === 'function' && loadAchievements().length >= 5 && !skins.includes('graffiti')) {
+    skins.push('graffiti');
+  }
   return skins;
 }
