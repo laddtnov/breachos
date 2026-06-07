@@ -23,6 +23,7 @@ const gameState = {
   ghostMode: false,       // cards flip back instantly on mismatch
   memoryPeek: false,      // all cards briefly shown at game start
   timewarpActive: false,  // timer is frozen during time warp
+  isPaused: false,        // user-initiated pause (WCAG 2.2.1)
   trapCharId: null,       // character id of the trap pair (hard/extreme only)
   trapSprung: false,      // trap fires only once per game
   glitchFired: false,     // glitch event fires once per hard/extreme game
@@ -396,6 +397,49 @@ function resetIdleTimer() {
   }, 5000);
 }
 
+// ── Pause / Resume (WCAG 2.2.1 Timing Adjustable) ──
+
+// Updates the pause button's icon, label text and aria-pressed in one place.
+// Extracted to keep togglePause() cognitive complexity within Sonar limit.
+function setPauseBtnState(isPaused) {
+  const btn = document.getElementById('pause-btn');
+  if (!btn) return;
+  const icon = btn.querySelector('.pause-icon');
+  const label = btn.querySelector('.pause-label');
+  if (icon) icon.textContent = isPaused ? '▶' : '⏸';
+  if (label) label.textContent = isPaused ? 'RESUME' : 'PAUSE';
+  btn.setAttribute('aria-pressed', String(isPaused));
+}
+
+function togglePause() {
+  // Only available during active countdown modes
+  if (!gameState.timerStarted || !gameState.countdown) return;
+
+  gameState.isPaused = !gameState.isPaused;
+
+  if (gameState.isPaused) {
+    clearInterval(gameState.timerInterval);
+    gameState.isLocked = true;
+    document.body.classList.add('game-paused');
+    srAnnounce('Timer paused');
+  } else {
+    resumeTimerTick();
+    gameState.isLocked = false;
+    document.body.classList.remove('game-paused');
+    srAnnounce('Timer resumed');
+  }
+
+  setPauseBtnState(gameState.isPaused);
+}
+
+function resetPauseState() {
+  gameState.isPaused = false;
+  document.body.classList.remove('game-paused');
+  const pauseBtn = document.getElementById('pause-btn');
+  if (pauseBtn) pauseBtn.classList.add('hidden');
+  setPauseBtnState(false);
+}
+
 // ── Timer ──
 function startTimer() {
   const isBlitz = gameState.mode === 'blitz';
@@ -405,6 +449,9 @@ function startTimer() {
   if (isCountdown) {
     gameState.countdown = config.countdown;
     timerDisplay.textContent = formatTime(gameState.countdown);
+    // WCAG 2.2.1 — reveal pause button for timed modes
+    const pauseBtn = document.getElementById('pause-btn');
+    if (pauseBtn) pauseBtn.classList.remove('hidden');
   }
 
   gameState.timerInterval = setInterval(() => {
@@ -443,6 +490,7 @@ function winGame() {
   clearInterval(gameState.timerInterval);
   clearTimeout(gameState.glitchTimeout);
   clearTimeout(idleTimer);
+  resetPauseState();
   document.body.classList.remove('countdown-critical', 'glitch-event');
   board?.querySelectorAll('.card').forEach(c => c.classList.remove('idle-pulse'));
 
@@ -572,6 +620,7 @@ function loseGame(timeExpired = false) {
   clearInterval(gameState.timerInterval);
   clearTimeout(gameState.glitchTimeout);
   clearTimeout(idleTimer);
+  resetPauseState();
   gameState.isLocked = true;
   document.body.classList.remove('countdown-critical', 'glitch-event');
   board?.querySelectorAll('.card').forEach(c => c.classList.remove('idle-pulse'));
