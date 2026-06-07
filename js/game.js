@@ -83,7 +83,7 @@ function initDOMRefs() {
   difficultyDisplay = document.getElementById('difficulty-display');
   particles = document.getElementById('win-particles');
   rankDisplay = document.getElementById('rank-display');
-  rankProgress = document.getElementById('rank-progress');
+  rankProgress = document.getElementById('rank-bar'); // <progress> element — was #rank-progress fill div
   rankXP = document.getElementById('rank-xp');
   skinModal = document.getElementById('skin-modal');
 }
