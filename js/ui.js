@@ -1,3 +1,12 @@
+// ── SR Live Region Announcer (#29) ──
+// Clear-then-set pattern forces re-announcement even for repeated messages.
+function srAnnounce(msg) {
+  const el = document.getElementById('sr-announce');
+  if (!el) return;
+  el.textContent = '';
+  requestAnimationFrame(() => { el.textContent = msg; });
+}
+
 // ── Combo Display ──
 function showCombo(combo) {
   if (combo < 2) return;
@@ -23,6 +32,7 @@ function showCombo(combo) {
       el.classList.add('combo-pop');
     });
   });
+  srAnnounce(`${combo}x combo`);
 }
 
 function hideCombo() {
@@ -121,6 +131,7 @@ function runMemoryPeek() {
     countdown.classList.remove('hidden');
     let t = 2;
     countdown.textContent = `MEMORIZE — ${t}s`;
+    srAnnounce(`Memory peek — memorize the cards for ${t} seconds`);
     const tick = setInterval(() => {
       t--;
       if (t <= 0) {
@@ -341,13 +352,20 @@ function completeOnboarding() {
   if (modal) modal.classList.add('hidden');
 }
 
+// Stores the element that was focused before a modal opened so we can restore it on close (#33)
+let _prevFocus = null;
+
 function showDifficultySelect() {
+  _prevFocus = document.activeElement;
   clearInterval(gameState.timerInterval);
   document.body.classList.remove('countdown-critical');
   document.getElementById('back-to-game-btn').classList.remove('hidden');
   rulesModal.classList.remove('hidden');
   updateBestTimes();
   if (typeof updateDailyButton === 'function') updateDailyButton();
+  // WCAG 2.4.3 — move focus into the modal
+  const firstBtn = rulesModal.querySelector('button:not([disabled])');
+  if (firstBtn) firstBtn.focus();
 }
 
 function closeDifficultySelect() {
@@ -357,6 +375,8 @@ function closeDifficultySelect() {
   if (gameState.timerStarted && gameState.matchedPairs < gameState.totalPairs) {
     startTimer();
   }
+  // WCAG 2.4.3 — return focus to the element that triggered the modal
+  if (_prevFocus) { _prevFocus.focus(); _prevFocus = null; }
 }
 
 // ── Card Skins ──

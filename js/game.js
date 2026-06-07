@@ -304,6 +304,7 @@ function activateTimeWarp(duration) {
     flash.classList.remove('hidden', 'timewarp-active');
     requestAnimationFrame(() => requestAnimationFrame(() => flash.classList.add('timewarp-active')));
   }
+  srAnnounce(`Time warp — timer paused for ${duration} seconds`);
 
   setTimeout(() => {
     gameState.timewarpActive = false;
@@ -346,6 +347,7 @@ function showTrapFlash() {
   const el = document.getElementById('trap-flash');
   if (!el) return;
   el.classList.remove('hidden');
+  srAnnounce('Trap sprung!');
   setTimeout(() => el.classList.add('hidden'), 1500);
 }
 
@@ -515,6 +517,9 @@ function winGame() {
     setTimeout(() => {
       winOverlay.classList.remove('hidden');
       spawnParticles();
+      // WCAG 4.1.3 + 2.4.3 — announce and move focus to win overlay
+      srAnnounce(`Mission complete! ${gameState.moves} moves, time ${winTime.textContent}.`);
+      winOverlay.querySelector('button')?.focus();
     }, 600);
     updateRankHUD();
     return;
@@ -523,6 +528,8 @@ function winGame() {
   showRankUp(newRank.name, () => {
     winOverlay.classList.remove('hidden');
     spawnParticles();
+    srAnnounce(`Mission complete! ${gameState.moves} moves, time ${winTime.textContent}.`);
+    winOverlay.querySelector('button')?.focus();
   });
 
   updateRankHUD();
@@ -617,6 +624,10 @@ function loseGame(timeExpired = false) {
 
   setTimeout(() => {
     loseOverlay.classList.remove('hidden');
+    // WCAG 4.1.3 + 2.4.3 — announce and move focus to lose overlay
+    const subtitle = loseSubtitle.textContent;
+    srAnnounce(`${subtitle}. ${gameState.matchedPairs} of ${gameState.totalPairs} pairs found.`);
+    loseOverlay.querySelector('button')?.focus();
   }, 400);
 
   updateRankHUD();

@@ -207,6 +207,9 @@ function showSurvivalGameOver(wave, score, xpEarned) {
 
   setTimeout(() => {
     overlay.classList.remove('hidden');
+    // WCAG 4.1.3 + 2.4.3 — announce result and move focus into overlay
+    srAnnounce(`Terminated. Wave ${wave} reached, score ${score}.`);
+    overlay.querySelector('button')?.focus();
   }, 400);
 }
 
