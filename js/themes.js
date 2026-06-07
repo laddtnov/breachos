@@ -47,7 +47,8 @@ function renderThemeModal() {
     const isActive = activeTheme === theme.id;
     return `
       <button class="theme-item ${isActive ? 'active' : ''}"
-              onclick="selectTheme('${theme.id}')">
+              onclick="selectTheme('${theme.id}')"
+              aria-pressed="${isActive}">
         <div class="theme-preview theme-preview-${theme.id}"></div>
         <span class="theme-name">${theme.name}</span>
         <span class="theme-desc">${theme.desc}</span>

@@ -409,6 +409,7 @@ function renderSkinModal() {
     return `
       <button class="skin-item ${unlocked ? 'unlocked' : 'locked'} ${active ? 'active' : ''}"
               onclick="${unlocked ? `selectSkin('${skin.id}')` : ''}"
+              aria-pressed="${active}"
               ${isDisabled ? 'disabled' : ''}>
         <div class="skin-preview skin-preview-${skin.id}"></div>
         <span class="skin-name">${skin.name}</span>
@@ -422,11 +423,15 @@ function renderSkinModal() {
 function toggleEffects() {
   const body = document.body;
   body.classList.toggle('safe-mode');
-  const label = body.classList.contains('safe-mode') ? 'SAFE MODE' : 'CYBER MODE';
+  const isSafe = body.classList.contains('safe-mode');
+  const label = isSafe ? 'SAFE MODE' : 'CYBER MODE';
   const dt = document.getElementById('status-text');
   const mb = document.getElementById('status-text-mobile');
   if (dt) dt.innerText = label;
   if (mb) mb.innerText = label;
+  // Keep aria-pressed in sync on both desktop and mobile buttons
+  const btn = document.getElementById('glitch-toggle');
+  if (btn) btn.setAttribute('aria-pressed', String(isSafe));
 }
 
 window.onblur = () => document.title = "SYSTEM ERROR...";

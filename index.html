@@ -35,6 +35,9 @@
 </head>
 
 <body>
+  <!-- Skip navigation — first focusable element, visually hidden until focused (#57) -->
+  <a href="#game-board" class="skip-link">Skip to game</a>
+
   <!-- Partials — each file lives in partials/ for easy editing -->
   <div data-partial="partials/rules-modal.html"></div>
   <div data-partial="partials/mobile-menu.html"></div>
@@ -75,18 +78,21 @@
         <p class="onboarding-desc">Chain matches to earn XP, trigger Time Warp, and climb ranks</p>
       </div>
       <div class="onboarding-nav">
-        <button id="onboarding-prev" class="hidden" onclick="onboardingPrev()">◀</button>
-        <div class="onboarding-dots">
-          <span class="onboarding-dot active" id="dot-0"></span>
-          <span class="onboarding-dot" id="dot-1"></span>
-          <span class="onboarding-dot" id="dot-2"></span>
+        <button id="onboarding-prev" class="hidden" onclick="onboardingPrev()" aria-label="Previous step">◀</button>
+        <div class="onboarding-dots" role="tablist" aria-label="Onboarding steps">
+          <span class="onboarding-dot active" id="dot-0" role="tab" aria-selected="true" aria-label="Step 1"></span>
+          <span class="onboarding-dot" id="dot-1" role="tab" aria-selected="false" aria-label="Step 2"></span>
+          <span class="onboarding-dot" id="dot-2" role="tab" aria-selected="false" aria-label="Step 3"></span>
         </div>
-        <button id="onboarding-next" onclick="onboardingNext()">▶</button>
+        <button id="onboarding-next" onclick="onboardingNext()" aria-label="Next step">▶</button>
       </div>
-      <button id="onboarding-start" class="hidden" onclick="completeOnboarding()">▶ START MISSION</button>
+      <button id="onboarding-start" class="hidden" onclick="completeOnboarding()"><span aria-hidden="true">▶</span> START MISSION</button>
       <button id="onboarding-skip" onclick="completeOnboarding()">SKIP</button>
     </div>
   </div>
+
+  <!-- Page title for AT — visually hidden, preserves neon design (#43) -->
+  <h1 class="sr-only">Breachos</h1>
 
   <div class="cyber-table">
     <div data-partial="partials/game-area.html"></div>
