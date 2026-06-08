@@ -1,8 +1,9 @@
-const CACHE_NAME = 'cybermatch-v39';
+const CACHE_NAME = 'cybermatch-v40';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './icons/favicon.svg',
   './css/base.css',
   './css/hud.css',
   './css/cards.css',

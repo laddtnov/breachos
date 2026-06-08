@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark cyberpunk background -->
+  <rect width="32" height="32" rx="4" fill="#0a0a14"/>
+  <!-- Pixel-art "B" in neon cyan (#00f3ff) -->
+  <!-- Left vertical bar -->
+  <rect x="6"  y="5"  width="4" height="22" fill="#00f3ff"/>
+  <!-- Top horizontal -->
+  <rect x="10" y="5"  width="9"  height="4"  fill="#00f3ff"/>
+  <!-- Top-right bump -->
+  <rect x="19" y="9"  width="4"  height="5"  fill="#00f3ff"/>
+  <!-- Middle horizontal -->
+  <rect x="10" y="14" width="9"  height="4"  fill="#00f3ff"/>
+  <!-- Bottom-right bump -->
+  <rect x="19" y="18" width="4"  height="5"  fill="#00f3ff"/>
+  <!-- Bottom horizontal -->
+  <rect x="10" y="23" width="9"  height="4"  fill="#00f3ff"/>
+  <!-- Subtle neon glow via a semi-transparent overlay duplicate (soft bloom) -->
+  <rect x="6"  y="5"  width="4"  height="22" fill="#00f3ff" opacity="0.25"/>
+  <rect x="10" y="5"  width="9"  height="4"  fill="#00f3ff" opacity="0.25"/>
+  <rect x="10" y="14" width="9"  height="4"  fill="#00f3ff" opacity="0.25"/>
+  <rect x="10" y="23" width="9"  height="4"  fill="#00f3ff" opacity="0.25"/>
+</svg>
