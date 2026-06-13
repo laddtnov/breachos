@@ -56,7 +56,7 @@ body {
   box-shadow:
     0 0 20px rgba(0, 243, 255, 0.5),
     inset 0 0 30px rgba(0, 243, 255, 0.3),
-    0 0 60px rgba(255, 0, 85, 0.2);
+    0 0 20px rgba(255, 0, 85, 0.15); /* #82 — matched cyan spread so glow reads cyan, not pink */
   backdrop-filter: blur(5px);
 }
 
