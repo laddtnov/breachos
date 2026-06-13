@@ -47,6 +47,7 @@ body {
 
 .cyber-table {
   position: relative;
+  box-sizing: border-box;
   width: 95%;
   max-width: 750px;
   padding: 30px;
