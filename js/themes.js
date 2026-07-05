@@ -14,6 +14,8 @@ const TABLE_THEMES = [
   { id: 'storm',    name: 'STORM SURGE',  desc: 'Electric silver lightning' },
   // #16 — WCAG 1.4.3/1.4.11: high-contrast mode for low-vision players
   { id: 'hc',       name: 'HIGH CONTRAST', desc: 'White/black/yellow — low-vision' },
+  // #92 — outdoor / mobile readability in bright sunlight
+  { id: 'daylight', name: 'DAYLIGHT',      desc: 'Light mode — outdoor readable' },
 ];
 
 function applyTheme(themeId) {
