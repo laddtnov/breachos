@@ -368,6 +368,207 @@ body.theme-storm .cyber-table::after {
     linear-gradient(90deg, rgba(180, 200, 255, 0.05) 1px, transparent 1px);
 }
 
+/* ── DAYLIGHT — light mode for outdoor / bright-sunlight readability (#92) ── */
+/* Palette: bg #eef2ff, surface #fff, accent #005f88 (deep teal), secondary #cc0044 */
+
+.theme-preview-daylight {
+  background: radial-gradient(circle, #dce8f5, #eef2ff);
+  border-color: rgba(0, 95, 136, 0.5);
+  box-shadow: inset 0 0 10px rgba(0, 95, 136, 0.15);
+}
+
+body.theme-daylight {
+  background: radial-gradient(circle at center, #dce8f5 0%, #eef2ff 100%);
+  color: #0a1628;
+}
+
+/* Table container */
+body.theme-daylight .cyber-table {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #005f88;
+  box-shadow:
+    0 0 16px rgba(0, 95, 136, 0.25),
+    inset 0 0 20px rgba(0, 95, 136, 0.08);
+}
+
+body.theme-daylight .cyber-table::after {
+  background-image:
+    linear-gradient(rgba(0, 95, 136, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 95, 136, 0.06) 1px, transparent 1px);
+}
+
+/* HUD */
+body.theme-daylight .game-hud {
+  background: rgba(220, 232, 245, 0.8);
+  border-color: rgba(0, 95, 136, 0.4);
+  box-shadow: none;
+}
+
+body.theme-daylight .hud-label {
+  color: #336688;
+}
+
+body.theme-daylight .hud-value {
+  color: #005f88;
+  text-shadow: none;
+}
+
+body.theme-daylight .rank-xp-text {
+  color: #336688;
+}
+
+body.theme-daylight progress.rank-bar::-webkit-progress-bar {
+  background: rgba(0, 95, 136, 0.12);
+}
+
+body.theme-daylight progress.rank-bar::-webkit-progress-value {
+  background: #005f88;
+  box-shadow: none;
+}
+
+body.theme-daylight progress.rank-bar::-moz-progress-bar {
+  background: #005f88;
+  box-shadow: none;
+}
+
+/* Buttons — pause */
+body.theme-daylight #pause-btn {
+  color: #005f88;
+  border-color: rgba(0, 95, 136, 0.5);
+  box-shadow: none;
+}
+
+body.theme-daylight #pause-btn:hover {
+  background: rgba(0, 95, 136, 0.1);
+  border-color: #005f88;
+}
+
+/* Buttons — restart */
+body.theme-daylight #restart-btn {
+  color: #0a1628;
+  border-color: #cc0044;
+  box-shadow: none;
+}
+
+body.theme-daylight #restart-btn:hover {
+  background: #cc0044;
+  color: #ffffff; /* NOSONAR */
+  box-shadow: none;
+}
+
+/* Buttons — ghost / peek */
+body.theme-daylight #ghost-mode-btn,
+body.theme-daylight #peek-mode-btn {
+  color: #005f88;
+  border-color: rgba(0, 95, 136, 0.4);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+body.theme-daylight #ghost-mode-btn.active,
+body.theme-daylight #peek-mode-btn.active {
+  background: #005f88;
+  color: #ffffff; /* NOSONAR */
+  border-color: #005f88;
+  box-shadow: none;
+}
+
+/* Controls toolbar */
+body.theme-daylight .controls button {
+  color: #005f88;
+  border-color: rgba(0, 95, 136, 0.4);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+body.theme-daylight .controls button:hover {
+  background: rgba(0, 95, 136, 0.1);
+  border-color: #005f88;
+}
+
+/* Cards — back face (dark so the "?" reads clearly) */
+body.theme-daylight .card-back {
+  background: linear-gradient(135deg, #0a1e38 0%, #12305a 100%);
+  border-color: #005f88;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+body.theme-daylight .card-back::before {
+  color: rgba(0, 180, 220, 0.7);
+  text-shadow: none;
+}
+
+body.theme-daylight .card:hover .card-back {
+  border-color: #0090c0;
+  box-shadow: 0 4px 12px rgba(0, 95, 136, 0.4);
+}
+
+/* Cards — front face */
+body.theme-daylight .card-front {
+  background: #f8fbff;
+}
+
+body.theme-daylight .card.cyan .card-front {
+  color: #005f88;
+  border-color: #005f88;
+  box-shadow: 0 2px 8px rgba(0, 95, 136, 0.2);
+  text-shadow: none;
+}
+
+body.theme-daylight .card.pink .card-front {
+  color: #cc0044;
+  border-color: #cc0044;
+  box-shadow: 0 2px 8px rgba(204, 0, 68, 0.2);
+  text-shadow: none;
+}
+
+body.theme-daylight .card.matched .card-inner {
+  animation: none;
+}
+
+body.theme-daylight .card.matched.cyan .card-front {
+  background: #e0f4ff;
+  border-color: #005f88;
+  box-shadow: 0 2px 8px rgba(0, 95, 136, 0.3);
+}
+
+body.theme-daylight .card.matched.pink .card-front {
+  background: #ffe0ea;
+  border-color: #cc0044;
+  box-shadow: 0 2px 8px rgba(204, 0, 68, 0.3);
+}
+
+body.theme-daylight .card.error .card-front {
+  animation: none;
+  border-color: #cc0000;
+  box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
+}
+
+/* Remove hover glitch overlay */
+body.theme-daylight .card:not(.flipped):not(.matched):hover .card-back::after {
+  animation: none;
+  opacity: 0;
+}
+
+/* Win / Lose overlays */
+body.theme-daylight #win-overlay,
+body.theme-daylight #lose-overlay {
+  background: rgba(238, 242, 255, 0.96);
+  color: #0a1628;
+}
+
+body.theme-daylight .win-title,
+body.theme-daylight .lose-title {
+  color: #005f88;
+  text-shadow: none;
+}
+
+/* Page title */
+body.theme-daylight .page-title {
+  color: #005f88;
+  text-shadow: none;
+}
+
 /* ── HIGH CONTRAST — white/black/yellow, no neon glow (#16) ── */
 /* Designed for low-vision players: WCAG 1.4.3 (≥ 7:1 text contrast),
    WCAG 1.4.11 (≥ 3:1 non-text contrast). All glows removed. */
