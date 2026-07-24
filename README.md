@@ -92,7 +92,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 
 ### Audio & Visuals
 - **11 Sound Themes** — Cyber, Retro 8-Bit, Synthwave, Glitch, Minimal, Horror, Jazz Runner, Rave Core, Ambient Void, Arcade, Neon Bass
-- **11 Table Themes** — Cyber, Blood Circuit, Matrix, Solar Flare, Void, Ice Cold, Toxic Waste, Ember Core, Midnight, Sakura, Storm Surge
+- **13 Table Themes** — Cyber, Blood Circuit, Matrix, Solar Flare, Void, Ice Cold, Toxic Waste, Ember Core, Midnight, Sakura, Storm Surge, High Contrast, Daylight
 - **Particle effects**, scanline animations, glitch overlays, rank-up cinematic
 
 ### Cross-Device Sync
@@ -108,6 +108,8 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Cyber / Safe Mode** — toggle animations for accessibility
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
+- **DAYLIGHT theme** — light mode for outdoor / bright-sunlight play on mobile
+- **HIGH CONTRAST theme** — white/black/yellow palette for low-vision players (WCAG 1.4.3)
 - **PWA** — installable, works offline
 - **Konami Code** — hidden easter egg with achievement
 
@@ -119,7 +121,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (cache-first, v22)
+├── sw.js                   # Service worker (network-first, breachos-v41)
 ├── vercel.json             # Cron job schedule
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
@@ -177,6 +179,24 @@ Open `http://localhost:8080`. Note: API routes require Vercel dev or environment
 ## Roadmap
 
 See [`ROADMAP.md`](ROADMAP.md) for planned features.
+
+---
+
+## Changelog
+
+### v1.1.0
+- **New:** DAYLIGHT theme — light mode for outdoor mobile readability
+- **Fix:** Game board was empty on first load (cards required a manual click to appear)
+- **Fix:** Service worker switched to network-first to prevent stale asset caching after deploys
+- **Fix:** Service worker cache renamed from `cybermatch` to `breachos`
+- **Fix:** `.cyber-table` horizontal overflow on mobile (added `box-sizing: border-box`)
+- **Fix:** Default table border glow appeared pink instead of cyan
+- **Fix:** BLOOD CIRCUIT theme glow intensity toned down
+- **Fix:** Win/Lose overlay text invisible in DAYLIGHT and HIGH CONTRAST themes
+- **Fix:** SVG favicon added for browser tabs and PWA
+
+### v1.0.0
+- Initial public launch
 
 ---
 
