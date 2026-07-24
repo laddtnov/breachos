@@ -569,6 +569,68 @@ body.theme-daylight .page-title {
   text-shadow: none;
 }
 
+
+/* Win / Lose overlays — text/button contrast on light bg */
+body.theme-daylight .win-stats {
+  color: #0a1628;
+  text-shadow: none;
+}
+
+body.theme-daylight .win-xp {
+  color: #005f33;
+  text-shadow: none;
+}
+
+body.theme-daylight #share-btn {
+  color: #005f33;
+  border-color: #005f33;
+  box-shadow: none;
+}
+
+body.theme-daylight #share-btn:hover {
+  background: #005f33;
+  color: #ffffff; /* NOSONAR */
+  box-shadow: none;
+}
+
+body.theme-daylight #play-again-btn {
+  color: #005f88;
+  border-color: #005f88;
+  box-shadow: none;
+}
+
+body.theme-daylight #play-again-btn:hover {
+  background: #005f88;
+  color: #ffffff; /* NOSONAR */
+  box-shadow: none;
+}
+
+body.theme-daylight .lose-subtitle {
+  color: #880000;
+}
+
+body.theme-daylight .lose-stats {
+  color: #0a1628;
+  text-shadow: none;
+}
+
+body.theme-daylight .lose-xp {
+  color: #005f33;
+  text-shadow: none;
+}
+
+body.theme-daylight #retry-btn {
+  color: #0a1628;
+  border-color: #880000;
+  box-shadow: none;
+}
+
+body.theme-daylight #retry-btn:hover {
+  background: #880000;
+  color: #ffffff; /* NOSONAR */
+  box-shadow: none;
+}
+
 /* ── HIGH CONTRAST — white/black/yellow, no neon glow (#16) ── */
 /* Designed for low-vision players: WCAG 1.4.3 (≥ 7:1 text contrast),
    WCAG 1.4.11 (≥ 3:1 non-text contrast). All glows removed. */
@@ -755,6 +817,58 @@ body.theme-hc .win-title,
 body.theme-hc .lose-title {
   color: #000000;
   text-shadow: none;
+}
+
+
+/* Win / Lose overlays */
+body.theme-hc .win-stats {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc .win-xp {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc #share-btn,
+body.theme-hc #play-again-btn {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc #share-btn:hover,
+body.theme-hc #play-again-btn:hover {
+  background: #000000;
+  color: #ffff00; /* NOSONAR - high-contrast hover, yellow on black */
+  box-shadow: none;
+}
+
+body.theme-hc .lose-subtitle {
+  color: #000000;
+}
+
+body.theme-hc .lose-stats {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc .lose-xp {
+  color: #000000;
+  text-shadow: none;
+}
+
+body.theme-hc #retry-btn {
+  color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+body.theme-hc #retry-btn:hover {
+  background: #000000;
+  color: #ffff00; /* NOSONAR - high-contrast hover */
+  box-shadow: none;
 }
 
 /* ── Responsive ── */
