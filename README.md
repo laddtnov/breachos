@@ -137,13 +137,17 @@ breachos/
 ├── api/
 │   ├── auth/
 │   │   ├── register.js     # Create account + welcome email
-│   │   └── login.js        # Authenticate + return JWT
+│   │   ├── login.js        # Authenticate + return JWT
+│   │   ├── forgot-password.js
+│   │   └── reset-password.js
 │   ├── sync/
 │   │   ├── save.js         # Push playerStats to Supabase
 │   │   └── load.js         # Pull + merge from Supabase
 │   ├── cron/
 │   │   └── re-engage.js    # Daily re-engagement email job
-│   └── thank-you.js        # Post-donation thank you email
+│   └── leaderboard/
+│       ├── get.js          # Fetch leaderboard entries
+│       └── daily.js        # Daily challenge leaderboard
 ├── lib/
 │   ├── db.js               # Supabase client (single instance)
 │   └── emails.js           # Shared HTML email templates
@@ -184,6 +188,12 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.2.0
+- **New:** Buy Me a Coffee support link in README
+- **Removed:** In-game donation UI (DONATE button, modal, all related CSS/JS)
+- **Chore:** CI — Claude Code security review workflow
+- **Chore:** Dependency bumps (brace-expansion, resend)
 
 ### v1.1.0
 - **New:** DAYLIGHT theme — light mode for outdoor mobile readability
