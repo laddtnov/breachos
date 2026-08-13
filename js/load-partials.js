@@ -6,7 +6,6 @@ const ALLOWED_PARTIALS = new Set([
   'partials/dossier-modal.html',
   'partials/theme-modal.html',
   'partials/sound-theme-modal.html',
-  'partials/donate-modal.html',
   'partials/achievement-modal.html',
   'partials/collection-modal.html',
   'partials/auth-modal.html',
