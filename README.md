@@ -189,6 +189,9 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.2.1
+- **Fix:** Desktop control buttons lost neon styling after donation UI removal (trailing comma in CSS selector)
+
 ### v1.2.0
 - **New:** Buy Me a Coffee support link in README
 - **Removed:** In-game donation UI (DONATE button, modal, all related CSS/JS)
