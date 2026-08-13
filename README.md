@@ -18,6 +18,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 ![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)
 ![Web Audio API](https://img.shields.io/badge/Web%20Audio%20API-FF6B35?style=for-the-badge&logo=webaudio&logoColor=white)
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/laddtnov)
 
 - **Frontend** — Vanilla HTML5/CSS3/JS, zero frameworks, zero bundler
 - **Backend** — Vercel serverless functions (Node.js)
