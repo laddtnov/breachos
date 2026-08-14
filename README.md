@@ -129,7 +129,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v43)
+├── sw.js                   # Service worker (network-first, breachos-v44)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
