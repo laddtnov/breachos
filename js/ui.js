@@ -468,6 +468,31 @@ function toggleEffects() {
   if (btn) btn.setAttribute('aria-pressed', String(isSafe));
 }
 
+// ── Color Blind Mode ──
+function toggleColorBlind() {
+  document.body.classList.toggle('colorblind-mode');
+  const isOn = document.body.classList.contains('colorblind-mode');
+  localStorage.setItem('breachos_colorblind', isOn ? 'on' : 'off');
+  const statusLabel = isOn ? 'ON' : 'OFF';
+  const dtSpan = document.getElementById('cb-status');
+  const mbSpan = document.getElementById('cb-status-mobile');
+  if (dtSpan) dtSpan.textContent = statusLabel;
+  if (mbSpan) mbSpan.textContent = statusLabel;
+  const btn = document.getElementById('colorblind-btn');
+  if (btn) btn.setAttribute('aria-pressed', String(isOn));
+}
+
+function initColorBlind() {
+  if (localStorage.getItem('breachos_colorblind') !== 'on') return;
+  document.body.classList.add('colorblind-mode');
+  const dtSpan = document.getElementById('cb-status');
+  const mbSpan = document.getElementById('cb-status-mobile');
+  if (dtSpan) dtSpan.textContent = 'ON';
+  if (mbSpan) mbSpan.textContent = 'ON';
+  const btn = document.getElementById('colorblind-btn');
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+}
+
 window.onblur = () => document.title = "SYSTEM ERROR...";
 window.onfocus = () => document.title = "Breachos";
 

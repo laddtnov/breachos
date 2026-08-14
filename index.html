@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/gameplay-mods.css">
   <link rel="stylesheet" href="css/quests.css">
+  <link rel="stylesheet" href="css/colorblind.css">
 </head>
 
 <body>
@@ -131,6 +132,7 @@
     updateBestTimes();
     if (typeof updateDailyButton === 'function') updateDailyButton();
     if (typeof updateQuestsHUD === 'function') updateQuestsHUD();
+    if (typeof initColorBlind === 'function') initColorBlind();
     syncSoundButton();
     initOnboarding();
     initGame();

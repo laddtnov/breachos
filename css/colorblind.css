@@ -1,0 +1,43 @@
+/* ── Color Blind Mode ──
+   Replaces cyan / pink card palette with blue / orange — distinguishable
+   across Deuteranopia, Protanopia, and Tritanopia.
+   Orange group additionally uses a dashed border as a shape cue so
+   groups remain distinct without relying on hue alone.
+*/
+
+/* Group A (was cyan) → Blue #4d9fff */
+.colorblind-mode .card.cyan .card-front {
+  color: #4d9fff;
+  border-color: #4d9fff;
+  box-shadow: 0 0 20px rgba(77, 159, 255, 0.4), inset 0 0 10px rgba(77, 159, 255, 0.2);
+}
+
+.colorblind-mode .card.matched.cyan .card-front {
+  box-shadow: 0 0 40px rgba(77, 159, 255, 0.8), inset 0 0 20px rgba(77, 159, 255, 0.4);
+}
+
+/* Group B (was pink) → Orange #ff8c00, dashed border for shape cue */
+.colorblind-mode .card.pink .card-front {
+  color: #ff8c00;
+  border-color: #ff8c00;
+  border-style: dashed;
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.4), inset 0 0 10px rgba(255, 140, 0, 0.2);
+}
+
+.colorblind-mode .card.matched.pink .card-front {
+  border-style: dashed;
+  box-shadow: 0 0 40px rgba(255, 140, 0, 0.8), inset 0 0 20px rgba(255, 140, 0, 0.4);
+}
+
+/* Button active state */
+.colorblind-mode #colorblind-btn {
+  color: #4d9fff;
+  border-color: #4d9fff;
+  box-shadow: 0 0 10px rgba(77, 159, 255, 0.3);
+}
+
+.colorblind-mode #colorblind-btn:hover {
+  background: #4d9fff;
+  color: #000; /* NOSONAR — bright background ensures contrast */
+  box-shadow: 0 0 20px #4d9fff;
+}

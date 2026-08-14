@@ -10,6 +10,7 @@
 }
 
 #glitch-toggle,
+#colorblind-btn,
 #sound-toggle,
 #skin-btn,
 #collection-btn,
@@ -33,6 +34,7 @@
 }
 
 #glitch-toggle:hover,
+#colorblind-btn:hover,
 #sound-toggle:hover,
 #skin-btn:hover,
 #collection-btn:hover,
