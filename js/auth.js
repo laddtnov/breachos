@@ -83,7 +83,6 @@ async function syncLoad() {
     if (typeof refreshLeaderboardIfOpen === 'function') refreshLeaderboardIfOpen();
   } catch (e) {
     console.warn('[SYNC] Load failed', e?.message);
-    throw e;
   }
 }
 
