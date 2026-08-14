@@ -140,9 +140,11 @@ Invite a friend using a unique code.
 - No social login required — purely code-based
 
 ### iOS App
-Same Capacitor approach as Android.
-- Requires Mac + Xcode + Apple Developer account ($99/yr)
-- Dependent on Android release success
+PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `manifest.json`, similar to Bubblewrap for Android.
+- Requires Mac + Xcode (already have Mac ✅) + Apple Developer account ($99/yr annual fee)
+- Use PWABuilder to generate WKWebView wrapper — no Swift code required
+- `assetlinks.json` equivalent: Apple App Site Association (`/.well-known/apple-app-site-association`)
+- Dependent on Android Play Store traction first
 
 ---
 
