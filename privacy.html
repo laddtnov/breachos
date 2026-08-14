@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BreachOS Privacy Policy — what data we collect, how we use it, and your rights.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://breachos.laddtnov.xyz/privacy">
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <title>Privacy Policy — BreachOS</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at center, #10101a 0%, #000000 100%);
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    a { color: #00f3ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #00f3ff33;
+      padding-bottom: 2rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #00f3ff;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; text-decoration: none; }
+
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      letter-spacing: 0.15em;
+      color: #00f3ff;
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: #ffffff66;
+      letter-spacing: 0.1em;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: #00f3ff;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #00f3ff22;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #cccccc;
+      margin-bottom: 0.75rem;
+    }
+
+    ul {
+      list-style: none;
+      margin-bottom: 0.75rem;
+    }
+
+    ul li {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #cccccc;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '›';
+      color: #00f3ff;
+      position: absolute;
+      left: 0;
+    }
+
+    .card {
+      background: rgba(10, 10, 25, 0.85);
+      border: 1px solid #00f3ff33;
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: #00f3ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+      color: #00f3ff;
+      font-weight: bold;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid #00f3ff55;
+      border-radius: 3px;
+      color: #00f3ff99;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #00f3ff22;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #ffffff44;
+      letter-spacing: 0.05em;
+    }
+
+    footer a { color: #00f3ff88; }
+
+    @media (max-width: 480px) {
+      body { padding: 1.25rem 0.75rem; }
+      .card { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="/">← RETURN TO BREACHOS</a>
+      <h1>PRIVACY POLICY</h1>
+      <p class="subtitle">LAST UPDATED: AUGUST 2026 &nbsp;·&nbsp; EFFECTIVE IMMEDIATELY</p>
+    </header>
+
+    <section>
+      <h2>01 &mdash; OVERVIEW</h2>
+      <p>
+        BreachOS is a cyberpunk memory card game operated by <span class="highlight">laddtnov</span>
+        and hosted at <a href="https://breachos.laddtnov.xyz">breachos.laddtnov.xyz</a>.
+        This policy explains what data we collect, why we collect it, and how it is used.
+      </p>
+      <p>
+        We collect only what is necessary to run the game. We do not sell your data,
+        run advertising networks, or share your information with third parties except
+        the services listed below.
+      </p>
+    </section>
+
+    <section>
+      <h2>02 &mdash; DATA WE COLLECT</h2>
+
+      <div class="card">
+        <div class="card-title">ACCOUNT DATA</div>
+        <ul>
+          <li>Email address — used for login and transactional emails</li>
+          <li>Username — shown publicly on the leaderboard</li>
+          <li>Password — hashed by Supabase Auth; we never store plaintext passwords</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">GAME PROGRESS</div>
+        <ul>
+          <li>XP, rank, and win/loss statistics</li>
+          <li>Unlocked skins, achievements, and collection cards</li>
+          <li>Daily challenge streaks and quest progress</li>
+          <li>Game history (last 10 games)</li>
+          <li>Active theme, sound theme, and skin preferences</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">TECHNICAL DATA</div>
+        <ul>
+          <li>IP address — used transiently for rate limiting; never stored persistently</li>
+          <li>Auth token (JWT) — stored in your browser's localStorage; never sent to third parties</li>
+          <li>Standard server logs produced by Vercel (request method, path, timestamp, status code)</li>
+        </ul>
+      </div>
+
+      <p>We do <span class="highlight">not</span> collect: device identifiers, location data, advertising IDs, browsing history, or any biometric data.</p>
+    </section>
+
+    <section>
+      <h2>03 &mdash; HOW WE USE YOUR DATA</h2>
+      <ul>
+        <li>Authenticate your account and keep your session active</li>
+        <li>Sync your game progress across devices</li>
+        <li>Display your score and username on the public leaderboard</li>
+        <li>Send a one-time welcome email on registration</li>
+        <li>Send a re-engagement email if you have not played in 14 days (max once per 30 days)</li>
+        <li>Rate-limit authentication requests to protect your account from brute-force attacks</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>04 &mdash; THIRD-PARTY SERVICES</h2>
+      <p>We use the following services to operate BreachOS:</p>
+
+      <div class="card">
+        <div class="card-title">SUPABASE</div>
+        <p>Database (Postgres) and authentication provider. Your account credentials and game stats are stored on Supabase infrastructure hosted in the EU or US depending on your region.</p>
+        <p><a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a></p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">RESEND</div>
+        <p>Transactional email delivery. Your email address is passed to Resend only when sending welcome and re-engagement emails.</p>
+        <p><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">resend.com/legal/privacy-policy</a></p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">VERCEL</div>
+        <p>Hosting and serverless functions. Standard web server logs (IP, path, timestamp) are retained by Vercel per their data retention policy.</p>
+        <p><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a></p>
+      </div>
+
+      <p>No advertising networks, analytics platforms, or data brokers are used.</p>
+    </section>
+
+    <section>
+      <h2>05 &mdash; DATA RETENTION</h2>
+      <ul>
+        <li>Account data and game progress are retained as long as your account is active</li>
+        <li>If you delete your account, your data is removed from our database within 30 days</li>
+        <li>Vercel server logs are retained per Vercel's own policy (typically 30 days)</li>
+        <li>Re-engagement email timestamps are cleared when you return to the game</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>06 &mdash; YOUR RIGHTS</h2>
+      <p>Depending on your jurisdiction, you may have the right to:</p>
+      <ul>
+        <li>Access the personal data we hold about you</li>
+        <li>Request correction of inaccurate data</li>
+        <li>Request deletion of your account and associated data</li>
+        <li>Object to processing or request restriction</li>
+        <li>Withdraw consent at any time (where processing is based on consent)</li>
+      </ul>
+      <p>
+        To exercise any of these rights, contact us at
+        <a href="mailto:novytskiyvladislav@proton.me">novytskiyvladislav@proton.me</a>.
+        We will respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h2>07 &mdash; LEADERBOARD &amp; PUBLIC DATA</h2>
+      <p>
+        Your <span class="highlight">username</span> and <span class="highlight">XP score</span>
+        are displayed publicly on the in-game leaderboard. If you do not want your data
+        visible on the leaderboard, you may play without creating an account — guest play
+        is fully supported and no data is sent to our servers.
+      </p>
+    </section>
+
+    <section>
+      <h2>08 &mdash; CHILDREN</h2>
+      <p>
+        BreachOS is not directed at children under 13 years of age. We do not knowingly
+        collect personal data from children under 13. If you believe a child has provided
+        us with personal data, contact us and we will delete it promptly.
+      </p>
+    </section>
+
+    <section>
+      <h2>09 &mdash; SECURITY</h2>
+      <p>
+        We apply industry-standard security measures: HTTPS for all connections, bcrypt-hashed
+        passwords via Supabase Auth, JWT-based session tokens, rate limiting on authentication
+        endpoints, and HTTP security headers (HSTS, CSP, X-Frame-Options) on all responses.
+      </p>
+      <p>
+        No method of transmission over the internet is 100% secure. If you discover a
+        security vulnerability, please disclose it responsibly via email before public disclosure.
+      </p>
+    </section>
+
+    <section>
+      <h2>10 &mdash; CHANGES TO THIS POLICY</h2>
+      <p>
+        We may update this policy as the game evolves. Material changes will be noted
+        by updating the date at the top of this page. Continued use of BreachOS after
+        changes constitutes acceptance of the updated policy.
+      </p>
+    </section>
+
+    <section>
+      <h2>11 &mdash; CONTACT</h2>
+      <p>Questions about this policy or requests regarding your data:</p>
+      <div class="card">
+        <p><span class="highlight">Email:</span> <a href="mailto:novytskiyvladislav@proton.me">novytskiyvladislav@proton.me</a></p>
+        <p><span class="highlight">Game:</span> <a href="https://breachos.laddtnov.xyz">breachos.laddtnov.xyz</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 BreachOS &nbsp;·&nbsp; <a href="/">Play Now</a></p>
+    </footer>
+  </div>
+</body>
+</html>
