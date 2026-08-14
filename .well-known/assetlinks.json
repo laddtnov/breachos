@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.laddtnov.breachos",
+      "sha256_cert_fingerprints": [
+        "21:51:63:4C:1D:94:9F:84:75:50:01:E3:6A:A3:D8:95:BD:04:BB:6E:E8:EA:81:C8:43:5B:1F:3D:E0:1F:8F:73"
+      ]
+    }
+  }
+]
