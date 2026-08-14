@@ -198,6 +198,13 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.2
+- **New:** Privacy Policy page (`/privacy`) — covers data collected, third-party services (Supabase, Resend, Vercel), retention, user rights, COPPA, and contact; required for Google Play Store submission
+- **PWA:** Maskable icon declared in manifest — enables Android adaptive icon support
+- **PWA:** Screenshots added to manifest (4 game scenes) — required for Play Store install sheet
+- **PWA:** HTTP → HTTPS redirect via Vercel config; `robots.txt` added; `<meta description>` and canonical URL in index
+- **Chore:** Service worker cache bumped to v44
+
 ### v1.4.1
 - **Fix:** `blitzWins` and `perfectWins` missing from default stats — fresh-install players could get NaN propagating into saves and sync
 - **Fix:** Expired auth token mid-session now reverts the SYNC button instead of silently losing stat updates
