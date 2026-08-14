@@ -215,6 +215,27 @@
   box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 }
 
+/* ── Support Button (desktop) ── */
+#support-btn {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffdd00;
+  border: 2px solid #ffdd00;
+  padding: 8px 16px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 221, 0, 0.3);
+}
+
+#support-btn:hover {
+  background: #ffdd00;
+  color: #000; /* NOSONAR - hover has bright background */
+  box-shadow: 0 0 22px #ffdd00;
+}
+
 /* ── Sync Button (desktop) ── */
 #sync-btn {
   background: rgba(0, 0, 0, 0.8);
@@ -246,6 +267,19 @@
 @keyframes sync-pulse {
   0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 136, 0.3); border-color: #00ff88; }
   50%       { box-shadow: 0 0 22px rgba(0, 255, 136, 0.7); border-color: #00ffaa; }
+}
+
+/* ── Support Button (mobile menu) ── */
+.menu-item-support {
+  color: #ffdd00;
+  border-color: rgba(255, 221, 0, 0.35);
+}
+
+.menu-item-support:hover,
+.menu-item-support:active {
+  background: rgba(255, 221, 0, 0.1);
+  border-color: #ffdd00;
+  box-shadow: 0 0 12px rgba(255, 221, 0, 0.3);
 }
 
 /* ── Sync Button (mobile menu) ── */
