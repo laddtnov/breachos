@@ -189,6 +189,12 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.0
+- **New:** Daily Quests — 3 rotating objectives per day (win games, hit combos, clear difficulties, perfect wins, survival waves); bonus XP on completion, resets at midnight, seeded so all players share the same quests
+- **New:** Extreme Combo Time Bonus — each consecutive match in Extreme difficulty adds +10 seconds to the countdown timer
+- **New:** Color Blind Mode — replaces cyan/pink card palette with blue/orange; orange group uses a dashed border as an additional shape cue; persists across sessions
+- **New:** Game History — last 10 games shown in Dossier (mode, difficulty, time, moves, combo, XP)
+
 ### v1.3.0
 - **New:** SUPPORT button in desktop controls and mobile menu — opens Buy Me a Coffee in a new tab
 
