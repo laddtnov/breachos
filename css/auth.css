@@ -563,10 +563,10 @@
 .auth-delete-confirm-btn {
   width: 100%;
   padding: 12px;
-  background: rgba(255, 0, 85, 0.15);
+  background: #1c000e;
   border: 1px solid rgba(255, 0, 85, 0.6);
   border-radius: 4px;
-  color: #ffffff;
+  color: #ff6699;
   font-family: 'Courier New', monospace;
   font-size: 12px;
   letter-spacing: 0.15em;
@@ -576,7 +576,7 @@
 }
 
 .auth-delete-confirm-btn:hover {
-  background: rgba(255, 0, 85, 0.25);
+  background: #2d0017;
   border-color: #ff0055;
 }
 
