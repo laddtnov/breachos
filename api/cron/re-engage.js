@@ -70,7 +70,7 @@ export default async function handler(req, res) {
 
       sent++;
     } catch (e) {
-      console.error(`[RE-ENGAGE] Failed for ${email}:`, e?.message);
+      console.error(`[RE-ENGAGE] Failed for user ${profile.user_id}:`, e?.message);
     }
   }
 

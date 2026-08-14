@@ -1,9 +1,9 @@
-import supabase from '../../lib/db.js';
+import { supabasePublic } from '../../lib/db.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { data, error } = await supabase.rpc('get_leaderboard');
+  const { data, error } = await supabasePublic.rpc('get_leaderboard');
 
   if (error) {
     console.error('[LEADERBOARD] RPC error:', error.message);
