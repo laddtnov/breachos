@@ -32,6 +32,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Password must be at least 8 characters' });
   if (username.length < 2 || username.length > 20)
     return res.status(400).json({ error: 'Username must be 2–20 characters' });
+  if (!/^[A-Za-z0-9_\-. ]{2,20}$/.test(username))
+    return res.status(400).json({ error: 'Username may only contain letters, numbers, _, -, . and spaces' });
 
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email,
@@ -43,7 +45,8 @@ export default async function handler(req, res) {
     const msg = authError.message.toLowerCase();
     if (msg.includes('already registered') || msg.includes('already exists'))
       return res.status(409).json({ error: 'Email already registered' });
-    return res.status(400).json({ error: authError.message });
+    console.error('[REGISTER] Auth error:', authError.message);
+    return res.status(400).json({ error: 'Registration failed — please check your details and try again' });
   }
 
   await supabase.from('profiles').insert({

@@ -1,11 +1,11 @@
-import supabase from '../../lib/db.js';
+import { supabasePublic } from '../../lib/db.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-  const { data, error } = await supabase.rpc('get_daily_leaderboard', { today });
+  const { data, error } = await supabasePublic.rpc('get_daily_leaderboard', { today });
 
   if (error) {
     console.error('[DAILY LB] RPC error:', error.message);
