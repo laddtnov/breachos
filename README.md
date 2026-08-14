@@ -202,6 +202,11 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.4
+- **Fix:** `privacy.html` added to service worker cache — privacy policy now available offline
+- **SEO:** `sitemap.xml` added with root and `/privacy` URLs; referenced in `robots.txt`
+- **Chore:** Service worker cache bumped to `breachos-v47`
+
 ### v1.4.3
 - **Play Store:** `/.well-known/assetlinks.json` added for TWA domain verification (package `xyz.laddtnov.breachos`)
 - **Play Store:** Google Play badge added to README
