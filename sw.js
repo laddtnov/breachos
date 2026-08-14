@@ -1,9 +1,10 @@
-const CACHE_NAME = 'breachos-v46';
+const CACHE_NAME = 'breachos-v47';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './robots.txt',
+  './sitemap.xml',
   './privacy.html',
   './icons/favicon.svg',
   './css/base.css',
