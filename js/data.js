@@ -60,6 +60,7 @@ const DEFAULT_STATS = {
   activeSoundTheme: 'cyber',
   activeSkin: 'default',
   unlockedSkins: ['default'],
+  gameHistory: [],
 };
 
 // ── Difficulty Config ──
