@@ -202,6 +202,10 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.5
+- **New:** Delete account flow — Profile → Delete Account permanently removes all data from Supabase Auth and the profiles table immediately; GDPR compliant
+- **Fix:** Privacy policy updated to reflect immediate deletion (was "within 30 days")
+
 ### v1.4.4
 - **Fix:** `privacy.html` added to service worker cache — privacy policy now available offline
 - **SEO:** `sitemap.xml` added with root and `/privacy` URLs; referenced in `robots.txt`
