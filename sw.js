@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v42';
+const CACHE_NAME = 'breachos-v43';
 const ASSETS = [
   './',
   './index.html',
@@ -25,6 +25,7 @@ const ASSETS = [
   './css/leaderboard.css',
   './css/gameplay-mods.css',
   './css/quests.css',
+  './css/colorblind.css',
   './js/load-partials.js',
   './js/sound.js',
   './js/haptics.js',

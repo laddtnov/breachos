@@ -12,10 +12,7 @@ Nothing currently in active development.
 
 ## Short Term (High Impact)
 
-### Color Blind Mode
-Alternative palette with high-contrast colours and patterns.
-- Toggle in menu alongside Safe Mode
-- One afternoon of CSS work, important accessibility gap
+Nothing currently planned — see Medium Term for next priorities.
 
 ---
 
@@ -113,6 +110,7 @@ Same Capacitor approach as Android.
 - [x] Game History — last 10 games in Dossier (mode, difficulty, time, moves, combo, XP)
 - [x] Daily Quests — 3 rotating objectives per day, bonus XP, resets midnight
 - [x] Extreme combo time bonus — each combo in Extreme adds +10s to the countdown
+- [x] Color Blind Mode — blue/orange palette + dashed border shape cue, persists across sessions
 - [x] Leaderboard — top 10 by XP, gold/silver/bronze medals, self-highlight
 - [x] Haptic feedback — flip/match/error/combo/win/lose with toggle
 - [x] Haptics toggle persists across sessions
