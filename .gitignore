@@ -16,6 +16,12 @@ Thumbs.db
 .obsidian/
 .vscode/
 .claude/
+# Signing keys — never commit
+*.jks
+*.keystore
+*.p12
+*.pem
+
 # Logs
 *.log
 npm-debug.log*
