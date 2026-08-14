@@ -122,6 +122,63 @@
 .dos-hard { color: #fff; /* NOSONAR */ text-shadow: 0 0 8px rgba(255, 0, 85, 0.4); }
 .dos-extreme { color: #ff0000; text-shadow: 0 0 8px rgba(255, 0, 0, 0.6); }
 
+/* ── Mission History ── */
+.dos-history-wrap {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.dos-history-table td {
+  font-size: 12px;
+  padding: 5px 6px;
+}
+
+.dos-history-table th {
+  font-size: 11px;
+  padding: 5px 6px;
+}
+
+.dos-result-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.dos-result-win {
+  background: rgba(0, 255, 136, 0.15);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.4);
+}
+
+.dos-result-lose {
+  background: rgba(255, 0, 85, 0.15);
+  color: #ff0055;
+  border: 1px solid rgba(255, 0, 85, 0.4);
+}
+
+.dos-history-xp {
+  color: #00ff88;
+}
+
+.dos-history-meta td {
+  font-size: 11px;
+  color: rgba(0, 243, 255, 0.35);
+  padding: 2px 8px 8px;
+  border-bottom: 1px solid rgba(0, 243, 255, 0.08);
+  letter-spacing: 1px;
+}
+
+.dos-history-empty {
+  text-align: center;
+  color: rgba(0, 243, 255, 0.3);
+  padding: 16px;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
 /* ── Close Button ── */
 .dossier-close-btn {
   display: block;

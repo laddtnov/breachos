@@ -487,6 +487,22 @@ function formatTime(totalSeconds) {
   return `${mins}:${secs}`;
 }
 
+// ── Game History ──
+function recordGame(result, xpEarned) {
+  if (!playerStats.gameHistory) playerStats.gameHistory = [];
+  playerStats.gameHistory.unshift({
+    mode:       gameState.mode,
+    difficulty: gameState.difficulty,
+    result,
+    moves:  gameState.moves,
+    time:   gameState.seconds,
+    combo:  gameState.maxCombo,
+    xp:     xpEarned,
+    ts:     Date.now(),
+  });
+  playerStats.gameHistory = playerStats.gameHistory.slice(0, 10);
+}
+
 // ── Win ──
 function winGame() {
   // Capture glitch-event state BEFORE removing the class (#20 Glitch Hunter)
@@ -542,6 +558,7 @@ function winGame() {
 
   const newRank = getRankForXP(playerStats.xp);
   playerStats.rank = newRank.name;
+  recordGame('win', xpEarned);
   saveStats(playerStats);
 
   winMoves.textContent = gameState.moves;
@@ -654,6 +671,7 @@ function loseGame(timeExpired = false) {
   if (gameState.maxCombo > (playerStats.bestCombo || 0)) playerStats.bestCombo = gameState.maxCombo;
   playerStats.unlockedSkins = getUnlockedSkins(playerStats.xp);
   playerStats.rank = getRankForXP(playerStats.xp).name;
+  recordGame('lose', xpEarned);
   saveStats(playerStats);
 
   losePairs.textContent = gameState.matchedPairs;

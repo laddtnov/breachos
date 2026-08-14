@@ -45,4 +45,44 @@ function renderDossier() {
       </tr>
     `;
   }).join('');
+
+  renderGameHistory();
+}
+
+function renderGameHistory() {
+  const tbody = document.getElementById('dos-history-body');
+  if (!tbody) return;
+  const history = playerStats.gameHistory || [];
+
+  if (history.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="dos-history-empty">No missions recorded yet</td></tr>';
+    return;
+  }
+
+  const modeLabel = { classic: 'CLASSIC', blitz: 'BLITZ', survival: 'SURVIVAL', daily: 'DAILY' };
+  const diffLabel  = { easy: 'EASY', medium: 'MED', hard: 'HARD', extreme: 'EXT' };
+
+  function timeAgo(ts) {
+    const diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60)   return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+  }
+
+  tbody.innerHTML = history.map(g => {
+    const resultClass = g.result === 'win' ? 'dos-result-win' : 'dos-result-lose';
+    const resultText  = g.result === 'win' ? 'WIN' : 'LOSE';
+    return `
+      <tr>
+        <td><span class="dos-result-badge ${resultClass}">${resultText}</span></td>
+        <td>${modeLabel[g.mode] || g.mode.toUpperCase()}</td>
+        <td class="dos-diff-name dos-${g.difficulty}">${diffLabel[g.difficulty] || g.difficulty.toUpperCase()}</td>
+        <td>${g.moves}</td>
+        <td>${formatTime(g.time)}</td>
+        <td class="dos-history-xp">+${g.xp}</td>
+      </tr>
+      <tr class="dos-history-meta"><td colspan="6">${timeAgo(g.ts)} · combo ${g.combo}x</td></tr>
+    `;
+  }).join('');
 }
