@@ -48,6 +48,8 @@ const DEFAULT_STATS = {
   bestTimes: { easy: null, medium: null, hard: null, extreme: null },
   winsPerDifficulty: { easy: 0, medium: 0, hard: 0, extreme: 0 },
   bestCombo: 0,
+  blitzWins: 0,
+  perfectWins: 0,
   totalMatches: 0,
   bestWave: 0,
   bestSurvivalScore: 0,
