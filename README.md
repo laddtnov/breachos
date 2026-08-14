@@ -4,6 +4,10 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 
 **[Play Now →](https://breachos.laddtnov.xyz/)**
 
+<a href="https://play.google.com/store/apps/details?id=xyz.laddtnov.breachos">
+  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="60" />
+</a>
+
 ---
 
 ## Tech Stack
