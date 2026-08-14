@@ -40,7 +40,7 @@ function getTodayQuests() {
 
 function getOrInitQuestState() {
   const today = getTodayString();
-  if (playerStats.dailyQuests && playerStats.dailyQuests.date === today) {
+  if (playerStats.dailyQuests?.date === today) {
     return playerStats.dailyQuests;
   }
   const quests = getTodayQuests();
@@ -53,6 +53,32 @@ function getOrInitQuestState() {
   return playerStats.dailyQuests;
 }
 
+function computeQuestValue(quest, p, event) {
+  switch (quest.type) {
+    case 'win_count':
+      return event.won ? p.value + 1 : p.value;
+    case 'combo_reach':
+      return (event.combo !== undefined && event.combo > p.value) ? event.combo : p.value;
+    case 'win_difficulty':
+      return (event.won && quest.target.includes(event.difficulty)) ? 1 : p.value;
+    case 'win_mode':
+      return (event.won && event.mode === quest.target) ? 1 : p.value;
+    case 'perfect_win':
+      return (event.won && event.perfect) ? 1 : p.value;
+    case 'survive_wave':
+      return (event.wave !== undefined && event.wave >= quest.target) ? quest.target : p.value;
+    default:
+      return p.value;
+  }
+}
+
+function awardQuestCompletion(quest) {
+  playerStats.xp += quest.xp;
+  playerStats.rank = getRankForXP(playerStats.xp).name;
+  playerStats.unlockedSkins = getUnlockedSkins(playerStats.xp);
+  showQuestComplete(quest);
+}
+
 function updateQuestProgress(event) {
   const state = getOrInitQuestState();
   const quests = getTodayQuests();
@@ -62,29 +88,7 @@ function updateQuestProgress(event) {
     const p = state.progress[quest.id];
     if (!p || p.completed) continue;
 
-    let newValue = p.value;
-
-    switch (quest.type) {
-      case 'win_count':
-        if (event.won) newValue = p.value + 1;
-        break;
-      case 'combo_reach':
-        if (event.combo !== undefined && event.combo > p.value) newValue = event.combo;
-        break;
-      case 'win_difficulty':
-        if (event.won && quest.target.includes(event.difficulty)) newValue = 1;
-        break;
-      case 'win_mode':
-        if (event.won && event.mode === quest.target) newValue = 1;
-        break;
-      case 'perfect_win':
-        if (event.won && event.perfect) newValue = 1;
-        break;
-      case 'survive_wave':
-        if (event.wave !== undefined && event.wave >= quest.target) newValue = quest.target;
-        break;
-    }
-
+    const newValue = computeQuestValue(quest, p, event);
     if (newValue !== p.value) {
       p.value = newValue;
       changed = true;
@@ -93,10 +97,7 @@ function updateQuestProgress(event) {
     if (!p.completed && p.value >= quest.target) {
       p.completed = true;
       changed = true;
-      playerStats.xp += quest.xp;
-      playerStats.rank = getRankForXP(playerStats.xp).name;
-      playerStats.unlockedSkins = getUnlockedSkins(playerStats.xp);
-      showQuestComplete(quest);
+      awardQuestCompletion(quest);
     }
   }
 
@@ -153,7 +154,8 @@ function renderQuestsModal() {
     const capped = Math.min(p.value, quest.target);
     const pct = Math.round((capped / quest.target) * 100);
     const isNumeric = quest.type === 'win_count' || quest.type === 'combo_reach' || quest.type === 'survive_wave';
-    const progressLabel = isNumeric ? (capped + '/' + quest.target) : (completed ? '1/1' : '0/1');
+    const binaryLabel = completed ? '1/1' : '0/1';
+    const progressLabel = isNumeric ? (capped + '/' + quest.target) : binaryLabel;
 
     return `
       <div class="quest-card${completed ? ' quest-done' : ''}">
@@ -174,7 +176,7 @@ function renderQuestsModal() {
 
   const totalEarned = quests.reduce((sum, q) => {
     const p = state.progress[q.id];
-    return sum + (p && p.completed ? q.xp : 0);
+    return sum + (p?.completed ? q.xp : 0);
   }, 0);
   const totalAvail = quests.reduce((sum, q) => sum + q.xp, 0);
   const xpEl = document.getElementById('quests-xp-total');
