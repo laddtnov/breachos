@@ -61,6 +61,7 @@ const DEFAULT_STATS = {
   activeSkin: 'default',
   unlockedSkins: ['default'],
   gameHistory: [],
+  dailyQuests: null,
 };
 
 // ── Difficulty Config ──

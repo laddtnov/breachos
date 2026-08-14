@@ -184,6 +184,12 @@ function winDailyChallenge() {
   const newRank = getRankForXP(playerStats.xp);
   playerStats.rank = newRank.name;
   saveStats(playerStats);
+  updateQuestProgress({
+    won: true,
+    mode: 'daily',
+    difficulty: gameState.difficulty,
+    perfect: gameState.moves === gameState.totalPairs,
+  });
 
   // Show daily win overlay
   const overlay = document.getElementById('daily-win-overlay');

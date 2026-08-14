@@ -93,6 +93,7 @@ function winSurvivalWave() {
   playerStats.unlockedSkins = getUnlockedSkins(playerStats.xp);
   playerStats.rank = getRankForXP(playerStats.xp).name;
   saveStats(playerStats);
+  updateQuestProgress({ wave: gameState.survivalWave });
 
   SoundEngine.match();
 

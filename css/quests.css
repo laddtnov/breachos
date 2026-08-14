@@ -1,0 +1,238 @@
+/* ── Quests Modal ── */
+#quests-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.92);
+  justify-content: center;
+  align-items: center;
+  z-index: 250;
+  backdrop-filter: blur(8px);
+}
+#quests-modal[open] { display: flex; }
+#quests-modal::backdrop { display: none; }
+
+.quests-content {
+  max-width: 440px;
+  width: 92%;
+  padding: 28px;
+  background: rgba(10, 10, 25, 0.95);
+  border: 2px solid #9d00ff;
+  border-radius: 12px;
+  box-shadow:
+    0 0 30px rgba(157, 0, 255, 0.4),
+    inset 0 0 20px rgba(157, 0, 255, 0.1);
+  font-family: 'Courier New', monospace;
+}
+
+.quests-title {
+  font-size: 20px;
+  color: #9d00ff;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 15px rgba(157, 0, 255, 0.6);
+}
+
+.quests-date-line {
+  font-size: 12px;
+  color: rgba(157, 0, 255, 0.5);
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+/* ── Quest Cards ── */
+.quest-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(157, 0, 255, 0.2);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.quest-card.quest-done {
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(0, 42, 21, 0.3);
+}
+
+.quest-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.quest-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 2px;
+}
+
+.quest-xp-reward {
+  font-size: 12px;
+  color: #00ff88;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.quest-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quest-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(157, 0, 255, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9d00ff, #cc44ff);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.quest-done .quest-progress-fill {
+  background: linear-gradient(90deg, #00cc66, #00ff88);
+}
+
+.quest-progress-text {
+  font-size: 11px;
+  color: rgba(157, 0, 255, 0.7);
+  min-width: 36px;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+.quest-done .quest-progress-text {
+  color: rgba(0, 255, 136, 0.8);
+}
+
+.quest-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  border-radius: 3px;
+  padding: 2px 6px;
+  background: rgba(0, 42, 21, 0.6);
+}
+
+/* ── XP Total ── */
+.quests-xp-total {
+  font-size: 12px;
+  color: rgba(157, 0, 255, 0.6);
+  text-align: center;
+  letter-spacing: 2px;
+  margin: 4px 0 16px;
+}
+
+/* ── Close Button ── */
+.quests-close-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: #fff; /* NOSONAR */
+  border: 2px solid #9d00ff;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+}
+
+.quests-close-btn:hover {
+  background: #9d00ff;
+  color: #fff; /* NOSONAR */
+  box-shadow: 0 0 20px #9d00ff;
+}
+
+/* ── Quest Complete Banner ── */
+.quest-complete-banner {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: rgba(10, 0, 25, 0.95);
+  border: 2px solid #9d00ff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #bf5fff;
+  letter-spacing: 2px;
+  text-align: center;
+  z-index: 400;
+  box-shadow: 0 0 20px rgba(157, 0, 255, 0.6);
+  transition: transform 0.3s ease, opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quest-complete-banner.hidden { display: none; }
+
+.quest-complete-banner.quest-banner-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.quest-complete-banner.quest-banner-fade {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+.quest-banner-title {
+  font-size: 10px;
+  color: rgba(157, 0, 255, 0.7);
+  letter-spacing: 3px;
+  margin-bottom: 2px;
+}
+
+.quest-banner-label {
+  display: block;
+  font-size: 13px;
+  color: #fff; /* NOSONAR */
+  margin: 2px 0;
+}
+
+.quest-banner-xp {
+  display: block;
+  font-size: 12px;
+  color: #00ff88;
+}
+
+/* ── Quest HUD Dot ── */
+.quest-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #9d00ff;
+  border-radius: 50%;
+  margin-left: 4px;
+  vertical-align: middle;
+  box-shadow: 0 0 6px #9d00ff;
+  animation: quest-dot-pulse 1.5s ease-in-out infinite;
+}
+
+.quest-dot.hidden { display: none; }
+
+@keyframes quest-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
