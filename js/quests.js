@@ -53,23 +53,18 @@ function getOrInitQuestState() {
   return playerStats.dailyQuests;
 }
 
+const QUEST_VALUE_HANDLERS = {
+  win_count:      (quest, p, event) => event.won ? p.value + 1 : p.value,
+  combo_reach:    (quest, p, event) => (event.combo !== undefined && event.combo > p.value) ? event.combo : p.value,
+  win_difficulty: (quest, p, event) => (event.won && quest.target.includes(event.difficulty)) ? 1 : p.value,
+  win_mode:       (quest, p, event) => (event.won && event.mode === quest.target) ? 1 : p.value,
+  perfect_win:    (quest, p, event) => (event.won && event.perfect) ? 1 : p.value,
+  survive_wave:   (quest, p, event) => (event.wave !== undefined && event.wave >= quest.target) ? quest.target : p.value,
+};
+
 function computeQuestValue(quest, p, event) {
-  switch (quest.type) {
-    case 'win_count':
-      return event.won ? p.value + 1 : p.value;
-    case 'combo_reach':
-      return (event.combo !== undefined && event.combo > p.value) ? event.combo : p.value;
-    case 'win_difficulty':
-      return (event.won && quest.target.includes(event.difficulty)) ? 1 : p.value;
-    case 'win_mode':
-      return (event.won && event.mode === quest.target) ? 1 : p.value;
-    case 'perfect_win':
-      return (event.won && event.perfect) ? 1 : p.value;
-    case 'survive_wave':
-      return (event.wave !== undefined && event.wave >= quest.target) ? quest.target : p.value;
-    default:
-      return p.value;
-  }
+  const handler = QUEST_VALUE_HANDLERS[quest.type];
+  return handler ? handler(quest, p, event) : p.value;
 }
 
 function awardQuestCompletion(quest) {
