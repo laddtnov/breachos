@@ -55,9 +55,10 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 
 ### Core Gameplay
 - **4 Difficulty Levels** — Easy (3×2), Medium (4×4), Hard (4×6), Extreme (6×6)
-- **18 Cyber Operatives** to match
+- **28 Cyber Operatives** to match
 - **Combo System** — chain consecutive matches for bonus XP
 - **Move + Time Limits** — strategic pressure per mode and difficulty
+- **Extreme Combo Time Bonus** — each consecutive match in Extreme adds +10 seconds to the countdown
 
 ### Progression
 - **5 Ranks** — ROOKIE → AGENT → SPECIALIST → GHOST → NETRUNNER ELITE
@@ -103,10 +104,16 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Welcome email** — cyberpunk greeting sent on signup via Resend
 - **Re-engagement email** — "SIGNAL LOST" email sent after 14 days of inactivity
 
+### Daily Quests
+- **3 rotating objectives per day** — win games, hit combos, clear difficulties, perfect wins, survival waves
+- **Seeded** — all players share the same quests each day
+- **Bonus XP** on completion, resets at midnight
+
 ### Quality of Life
-- **Player Dossier** — full stats dashboard
+- **Player Dossier** — full stats dashboard with game history (last 10 games)
 - **Share Card** — Canvas-generated result image
 - **Cyber / Safe Mode** — toggle animations for accessibility
+- **Color Blind Mode** — blue/orange palette replaces cyan/pink; dashed border as shape cue; persists across sessions
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
 - **DAYLIGHT theme** — light mode for outdoor / bright-sunlight play on mobile
@@ -122,8 +129,8 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v41)
-├── vercel.json             # Cron job schedule
+├── sw.js                   # Service worker (network-first, breachos-v43)
+├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
 │   ├── auth.js             # Auth state, sync, panel navigation
@@ -133,6 +140,7 @@ breachos/
 │   ├── collections.js      # 16 collection cards
 │   ├── survival.js         # Survival mode
 │   ├── daily.js            # Daily challenge + streaks
+│   ├── quests.js           # Daily quests
 │   └── ...
 ├── api/
 │   ├── auth/
@@ -149,7 +157,8 @@ breachos/
 │       ├── get.js          # Fetch leaderboard entries
 │       └── daily.js        # Daily challenge leaderboard
 ├── lib/
-│   ├── db.js               # Supabase client (single instance)
+│   ├── db.js               # Supabase clients (admin + public)
+│   ├── ratelimit.js        # In-memory sliding window rate limiter
 │   └── emails.js           # Shared HTML email templates
 ├── partials/               # HTML fragments loaded at runtime
 └── supabase-*.sql          # Database schema + migrations
