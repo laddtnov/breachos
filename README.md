@@ -198,6 +198,15 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.1
+- **Fix:** `blitzWins` and `perfectWins` missing from default stats — fresh-install players could get NaN propagating into saves and sync
+- **Fix:** Expired auth token mid-session now reverts the SYNC button instead of silently losing stat updates
+- **Fix:** Network failure on sync load no longer produces an unhandled promise rejection in the console
+- **Security:** HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy headers added to all responses
+- **Security:** Rate limiting on auth endpoints — login (10/15 min), register (5/hour), forgot-password (3/hour) per IP
+- **Security:** Username character allowlist on registration prevents HTML injection in transactional emails
+- **Security:** Leaderboard routes now use the anon (publishable) key instead of the service role key
+
 ### v1.4.0
 - **New:** Daily Quests — 3 rotating objectives per day (win games, hit combos, clear difficulties, perfect wins, survival waves); bonus XP on completion, resets at midnight, seeded so all players share the same quests
 - **New:** Extreme Combo Time Bonus — each consecutive match in Extreme difficulty adds +10 seconds to the countdown timer
