@@ -60,6 +60,7 @@ async function syncSave() {
     },
     body: JSON.stringify({ stats: playerStats }),
   });
+  if (res.status === 401) { clearAuth(); updateAuthUI(); return; }
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `Save failed (${res.status})`);
