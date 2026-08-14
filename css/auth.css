@@ -539,6 +539,52 @@
   color: #fff; /* NOSONAR */
 }
 
+/* ── Delete account ── */
+.auth-delete-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 0, 85, 0.35);
+  border-radius: 4px;
+  color: rgba(255, 0, 85, 0.6);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.auth-delete-btn:hover {
+  border-color: rgba(255, 0, 85, 0.7);
+  color: #ff0055;
+}
+
+.auth-delete-confirm-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 0, 85, 0.15);
+  border: 1px solid rgba(255, 0, 85, 0.6);
+  border-radius: 4px;
+  color: #ff0055;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.auth-delete-confirm-btn:hover {
+  background: rgba(255, 0, 85, 0.25);
+  border-color: #ff0055;
+}
+
+.auth-delete-confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ── Responsive ── */
 @media (max-width: 480px) {
   .auth-modal-content {
