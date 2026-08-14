@@ -202,6 +202,11 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.4.3
+- **Play Store:** `/.well-known/assetlinks.json` added for TWA domain verification (package `xyz.laddtnov.breachos`)
+- **Play Store:** Google Play badge added to README
+- **Chore:** Service worker cache bumped to `breachos-v45`
+
 ### v1.4.2
 - **New:** Privacy Policy page (`/privacy`) — covers data collected, third-party services (Supabase, Resend, Vercel), retention, user rights, COPPA, and contact; required for Google Play Store submission
 - **PWA:** Maskable icon declared in manifest — enables Android adaptive icon support
