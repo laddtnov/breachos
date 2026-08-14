@@ -1,11 +1,18 @@
 import { Resend } from 'resend';
 import supabase from '../../lib/db.js';
 import { resetEmail } from '../../lib/emails.js';
+import { checkRateLimit } from '../../lib/ratelimit.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const rl = checkRateLimit(req, 'forgot', 3, 60 * 60 * 1000);
+  if (!rl.allowed) {
+    res.setHeader('Retry-After', Math.ceil((rl.resetMs - Date.now()) / 1000));
+    return res.status(429).json({ error: 'Too many requests — try again later' });
+  }
 
   const body  = req.body || {};
   const email = typeof body.email === 'string' ? body.email.trim() : '';
