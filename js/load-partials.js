@@ -10,6 +10,7 @@ const ALLOWED_PARTIALS = new Set([
   'partials/collection-modal.html',
   'partials/auth-modal.html',
   'partials/leaderboard-modal.html',
+  'partials/quests-modal.html',
   'partials/game-area.html'
 ]);
 

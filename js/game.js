@@ -34,6 +34,9 @@ const gameState = {
 // ── Idle Animation Timer ──
 let idleTimer = null;
 
+// ── Extreme Combo Time Bonus flash timer ──
+let comboTimeBonusTimer = null;
+
 // ── Player Stats (loaded from localStorage) ──
 let playerStats = loadStats();
 
@@ -280,6 +283,8 @@ function checkMatch() {
     SoundEngine.comboMatch(gameState.combo);
     Haptics.combo(gameState.combo);
     showCombo(gameState.combo);
+    awardExtremeTimeBonus();
+    updateQuestProgress({ combo: gameState.combo });
 
     if (shouldTriggerTimeWarp()) activateTimeWarp(3);
 
@@ -293,6 +298,23 @@ function checkMatch() {
   }
 
   if (gameState.mode !== 'survival' && gameState.moves >= gameState.maxMoves) loseGame();
+}
+
+// ── Extreme Combo Time Bonus ──
+function awardExtremeTimeBonus() {
+  if (gameState.difficulty !== 'extreme') return;
+  if (!gameState.countdown || gameState.countdown <= 0) return;
+
+  gameState.countdown += 10;
+  timerDisplay.textContent = formatTime(gameState.countdown);
+  if (gameState.countdown > 10) document.body.classList.remove('countdown-critical');
+  srAnnounce('+10 seconds');
+
+  const el = document.getElementById('combo-time-bonus');
+  if (!el) return;
+  el.classList.remove('hidden');
+  clearTimeout(comboTimeBonusTimer);
+  comboTimeBonusTimer = setTimeout(() => el.classList.add('hidden'), 1200);
 }
 
 // ── Time Warp ──
@@ -560,6 +582,12 @@ function winGame() {
   playerStats.rank = newRank.name;
   recordGame('win', xpEarned);
   saveStats(playerStats);
+  updateQuestProgress({
+    won: true,
+    mode: gameState.mode,
+    difficulty: gameState.difficulty,
+    perfect: gameState.moves === gameState.totalPairs,
+  });
 
   winMoves.textContent = gameState.moves;
   winTime.textContent = formatTime(gameState.seconds);

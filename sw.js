@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v41';
+const CACHE_NAME = 'breachos-v42';
 const ASSETS = [
   './',
   './index.html',
@@ -24,6 +24,7 @@ const ASSETS = [
   './css/auth.css',
   './css/leaderboard.css',
   './css/gameplay-mods.css',
+  './css/quests.css',
   './js/load-partials.js',
   './js/sound.js',
   './js/haptics.js',
@@ -42,6 +43,7 @@ const ASSETS = [
   './js/ui.js',
   './js/auth.js',
   './js/leaderboard.js',
+  './js/quests.js',
   './partials/rules-modal.html',
   './partials/mobile-menu.html',
   './partials/controls.html',
@@ -53,6 +55,7 @@ const ASSETS = [
   './partials/collection-modal.html',
   './partials/auth-modal.html',
   './partials/leaderboard-modal.html',
+  './partials/quests-modal.html',
   './partials/game-area.html',
 ];
 

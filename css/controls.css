@@ -17,7 +17,8 @@
 #dossier-btn,
 #theme-btn,
 #sound-theme-btn,
-#leaderboard-btn {
+#leaderboard-btn,
+#quests-btn {
   background: rgba(0, 0, 0, 0.8);
   color: #00f3ff;
   border: 2px solid #00f3ff;
@@ -39,7 +40,8 @@
 #dossier-btn:hover,
 #theme-btn:hover,
 #sound-theme-btn:hover,
-#leaderboard-btn:hover {
+#leaderboard-btn:hover,
+#quests-btn:hover {
   background: #00f3ff;
   color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 20px #00f3ff;
@@ -234,6 +236,19 @@
   background: #ffdd00;
   color: #000; /* NOSONAR - hover has bright background */
   box-shadow: 0 0 22px #ffdd00;
+}
+
+/* ── Quests Button (desktop) ── */
+#quests-btn {
+  color: #9d00ff;
+  border-color: #9d00ff;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+}
+
+#quests-btn:hover {
+  background: #9d00ff;
+  color: #fff; /* NOSONAR */
+  box-shadow: 0 0 20px #9d00ff;
 }
 
 /* ── Sync Button (desktop) ── */

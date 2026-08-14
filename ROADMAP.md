@@ -12,17 +12,6 @@ Nothing currently in active development.
 
 ## Short Term (High Impact)
 
-### Daily Quests
-3 rotating goals per day — e.g. "Win 2 games", "Get a 5x combo", "Complete daily under par".
-- Bonus XP on completion
-- Resets at midnight
-- Stored in playerStats, syncs across devices
-
-### Game History
-Last 10 games stored locally — mode, difficulty, time, moves, combo, XP earned.
-- Small table in the dossier
-- Shows improvement trend over time
-
 ### Color Blind Mode
 Alternative palette with high-contrast colours and patterns.
 - Toggle in menu alongside Safe Mode
@@ -121,6 +110,9 @@ Same Capacitor approach as Android.
 - [x] Post-donation thank-you email
 - [x] Vercel cron job for daily re-engagement
 - [x] Zero Sonar issues
+- [x] Game History — last 10 games in Dossier (mode, difficulty, time, moves, combo, XP)
+- [x] Daily Quests — 3 rotating objectives per day, bonus XP, resets midnight
+- [x] Extreme combo time bonus — each combo in Extreme adds +10s to the countdown
 - [x] Leaderboard — top 10 by XP, gold/silver/bronze medals, self-highlight
 - [x] Haptic feedback — flip/match/error/combo/win/lose with toggle
 - [x] Haptics toggle persists across sessions

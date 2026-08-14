@@ -1,5 +1,31 @@
 /* ── Gameplay Modifiers ─────────────────────────────────────────────────── */
 
+/* ── Extreme Combo Time Bonus Flash ── */
+#combo-time-bonus {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffdd00;
+  text-shadow: 0 0 20px rgba(255, 221, 0, 0.9);
+  letter-spacing: 3px;
+  z-index: 200;
+  pointer-events: none;
+  animation: combo-time-pop 1.2s ease-out forwards;
+}
+
+#combo-time-bonus.hidden { display: none; }
+
+@keyframes combo-time-pop {
+  0%   { transform: translateX(-50%) scale(0.8); opacity: 0; }
+  20%  { transform: translateX(-50%) scale(1.2); opacity: 1; }
+  60%  { transform: translateX(-50%) scale(1);   opacity: 1; }
+  100% { transform: translateX(-50%) scale(1);   opacity: 0; }
+}
+
 /* ── Memory Peek: countdown banner ── */
 #peek-countdown {
   text-align: center;

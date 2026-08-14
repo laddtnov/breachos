@@ -1,0 +1,17 @@
+<!-- Quests Modal -->
+<dialog id="quests-modal" aria-label="Daily Quests">
+  <div class="quests-content">
+    <h2 class="quests-title">DAILY QUESTS</h2>
+    <p class="quests-date-line">OBJECTIVES FOR <span id="quests-date"></span></p>
+    <div id="quests-list"></div>
+    <p id="quests-xp-total" class="quests-xp-total"></p>
+    <button class="quests-close-btn" onclick="toggleQuestsModal()">CLOSE</button>
+  </div>
+</dialog>
+
+<!-- Quest Complete Banner -->
+<div id="quest-complete-banner" class="quest-complete-banner hidden" aria-live="polite">
+  <div class="quest-banner-title">QUEST COMPLETE</div>
+  <span class="quest-banner-label"></span>
+  <span class="quest-banner-xp"></span>
+</div>
