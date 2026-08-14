@@ -148,14 +148,14 @@
 }
 
 .dos-result-win {
-  background: rgba(0, 255, 136, 0.15);
-  color: #00ff88;
+  background: #002a15;
+  color: #00ff88; /* NOSONAR — #00ff88 on #002a15 = 11.4:1, exceeds AA */
   border: 1px solid rgba(0, 255, 136, 0.4);
 }
 
 .dos-result-lose {
-  background: rgba(255, 0, 85, 0.15);
-  color: #ff0055;
+  background: #2a0010;
+  color: #ff0055; /* NOSONAR — #ff0055 on #2a0010 = 4.8:1, meets AA */
   border: 1px solid rgba(255, 0, 85, 0.4);
 }
 
