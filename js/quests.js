@@ -13,23 +13,9 @@ const QUEST_POOL = [
   { id: 'survival3',   label: 'REACH WAVE 3 IN SURVIVAL', type: 'survive_wave',   target: 3,                   xp: 35 },
 ];
 
-function questDailySeed(dateStr) {
-  let h = 0;
-  for (const char of dateStr) {
-    const code = char.codePointAt(0);
-    h = Math.trunc(Math.imul(31, h) + code);
-  }
-  return function () {
-    h = Math.trunc(h + 0x6D2B79F5);
-    let t = Math.imul(h ^ h >>> 15, 1 | h);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-
 function getTodayQuests() {
   const today = getTodayString();
-  const rng = questDailySeed(today);
+  const rng = createDailySeed(today);
   const indices = Array.from({ length: QUEST_POOL.length }, (_, i) => i);
   for (let i = indices.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
