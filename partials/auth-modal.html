@@ -191,6 +191,30 @@
         <span class="profile-progress-item" id="profile-collection"></span>
         <span class="profile-progress-item" id="profile-streak"></span>
       </div>
+
+      <div class="auth-divider"></div>
+      <button class="auth-delete-btn" onclick="showAuthPanel('deleteconfirm')">DELETE ACCOUNT</button>
+    </div>
+
+    <!-- ── Panel: Delete Confirm ── -->
+    <div id="auth-panel-deleteconfirm" class="auth-panel hidden">
+      <button class="auth-back-btn" onclick="showAuthPanel('profile')">← BACK</button>
+      <h2 class="auth-modal-title" style="color:#ff0055;">TERMINATE ACCOUNT</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg" style="color:rgba(255,0,85,0.85);margin-bottom:12px;">
+        This will permanently delete your account, stats, and all progress.<br>This cannot be undone.
+      </p>
+      <p class="auth-error" id="delete-account-error" role="alert"></p>
+      <button class="auth-delete-confirm-btn" id="delete-account-btn" onclick="handleDeleteAccount()">YES, DELETE MY ACCOUNT</button>
+      <button class="auth-close-btn" onclick="showAuthPanel('profile')">CANCEL</button>
+    </div>
+
+    <!-- ── Panel: Deleted ── -->
+    <div id="auth-panel-deleted" class="auth-panel hidden">
+      <h2 class="auth-modal-title" style="color:#ff0055;">ACCOUNT TERMINATED</h2>
+      <div class="auth-divider"></div>
+      <p class="auth-emailsent-msg" style="color:rgba(255,0,85,0.7);">Your account and all data have been permanently erased.</p>
+      <button class="auth-close-btn" onclick="toggleAuthModal()">CLOSE</button>
     </div>
 
     <!-- ── Panel: Logged Out confirmation ── -->

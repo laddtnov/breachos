@@ -196,6 +196,7 @@ const ALL_PANELS = [
   'choose','signup','emailsent','login',
   'forgot','forgotdone','reset','resetsuccess',
   'syncing','loggedin','loggedout','profile',
+  'deleteconfirm','deleted',
 ];
 
 function showAuthPanel(name) {
@@ -281,6 +282,28 @@ async function handleResetPassword() {
     if (err) err.textContent = e.message;
   } finally {
     if (btn) { btn.textContent = 'SET NEW PASSWORD'; btn.disabled = false; }
+  }
+}
+
+// ── Delete account ──
+async function handleDeleteAccount() {
+  const btn = document.getElementById('delete-account-btn');
+  const err = document.getElementById('delete-account-error');
+  if (err) err.textContent = '';
+  if (btn) { btn.textContent = 'PURGING...'; btn.disabled = true; }
+
+  try {
+    const res = await fetch('/api/auth/delete-account', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${authState.token}` },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Deletion failed');
+    clearAuth();
+    showAuthPanel('deleted');
+  } catch (e) {
+    if (err) err.textContent = e.message;
+    if (btn) { btn.textContent = 'YES, DELETE MY ACCOUNT'; btn.disabled = false; }
   }
 }
 
