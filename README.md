@@ -189,6 +189,9 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.3.0
+- **New:** SUPPORT button in desktop controls and mobile menu — opens Buy Me a Coffee in a new tab
+
 ### v1.2.1
 - **Fix:** Desktop control buttons lost neon styling after donation UI removal (trailing comma in CSS selector)
 
