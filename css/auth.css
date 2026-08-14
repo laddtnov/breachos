@@ -539,6 +539,24 @@
   color: #fff; /* NOSONAR */
 }
 
+/* ── Privacy note ── */
+.auth-privacy-note {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-privacy-note a {
+  color: rgba(0, 243, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.auth-privacy-note a:hover {
+  color: #00f3ff;
+}
+
 /* ── Delete account ── */
 .auth-delete-btn {
   width: 100%;
