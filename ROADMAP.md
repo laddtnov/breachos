@@ -10,20 +10,80 @@ Nothing currently in active development.
 
 ---
 
-## Short Term (High Impact)
+## v1.5.0 — Core Depth (Short Term)
 
-Nothing currently planned — see Medium Term for next priorities.
+### Weekly Challenge
+A special seeded board that resets every Monday (ISO week seed, reuses `createDailySeed` infrastructure).
+- Separate leaderboard from daily challenge
+- Higher XP reward
+- Streak tracked independently
+
+### Daily Login Streak
+Bonus XP awarded for consecutive days logging in.
+- Streak counter in HUD
+- Stored in player profile
+- Missed day resets streak (streak freeze applies)
+
+### Card Flip Animations
+CSS 3D transform flip effect on card reveal and match.
+- No framework — pure CSS
+- Match effect (glow pulse) on successful pair
+- Configurable via settings (can disable for performance)
+
+### Onboarding Tutorial
+First-run overlay guiding new players through the game.
+- localStorage flag prevents repeat
+- Interactive step-by-step (click to advance)
+- Skippable
+
+---
+
+## v1.6.0 — Progression
+
+### Achievement Badges on Profile
+Visual badge grid in Dossier showing earned achievements.
+- Locked badges shown as silhouettes
+- Tooltip with unlock condition
+
+### Timed Mode Variant
+Race the clock — single fixed timer regardless of difficulty.
+- No per-move time, just survive the countdown
+- Separate leaderboard entry
+
+### Haptic Patterns
+Distinct haptic patterns per game event (flip, match, combo, win, lose).
+- Extends existing `haptics.js`
+- Pattern presets selectable in settings
+
+---
+
+## v1.7.0 — Social & Monetization
+
+### Friend Challenges
+Generate a shareable link with a fixed board seed.
+- "Beat my score on THIS board"
+- Extends existing `share.js`
+- Zero backend cost
+
+### "Support the Dev" IAP
+One-time €2.99 in-app purchase via Google Play Billing.
+- No paywalled features — purely optional tip
+- Unlocks a cosmetic "Supporter" badge in Dossier
+
+### Cosmetic Skin Packs
+Additional card back and board theme bundles.
+- Purchasable via Play Billing
+- Free tier always has full gameplay access
+
+---
+
+## Long Term
 
 ---
 
 ## Medium Term
 
-### Android App (Capacitor)
-Wrap the existing PWA into a native Android APK.
-- Remove donation button for the app build
-- Generate icons and splash screen
-- Handle Android back button
-- Publish to Google Play ($25 one-time fee)
+### Push Notifications (PWA)
 
 ### Weekly Challenge
 A special seeded board that resets every Monday.
@@ -121,3 +181,7 @@ Same Capacitor approach as Android.
 - [x] Daily leaderboard — GLOBAL/TODAY tabs, fastest time wins, resets daily
 - [x] Profile page — rank, XP bar, stats, best times, achievements/collection count
 - [x] Streak freeze — earned every 7 days, auto-burns on missed day, HUD indicator
+- [x] Android TWA — signed AAB published to Google Play (`xyz.laddtnov.breachos`)
+- [x] Privacy policy page (`/privacy`) — GDPR + COPPA compliant
+- [x] `assetlinks.json` — TWA domain verification
+- [x] Security hardening — HSTS, CSP, rate limiting, service role key isolation
