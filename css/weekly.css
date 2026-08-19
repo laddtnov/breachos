@@ -57,6 +57,11 @@
   box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
+/* No global .hidden exists in this codebase — each component declares its own. */
+.weekly-badge.hidden {
+  display: none;
+}
+
 /* ── Weekly HUD ── */
 #weekly-hud {
   display: flex;
@@ -68,6 +73,10 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
   border-radius: 6px;
   background: rgba(0, 255, 136, 0.04);
+}
+
+#weekly-hud.hidden {
+  display: none;
 }
 
 .weekly-hud-item {
@@ -110,6 +119,10 @@
   background: rgba(0, 8, 4, 0.92);
   backdrop-filter: blur(6px);
   z-index: 100;
+}
+
+#weekly-win-overlay.hidden {
+  display: none;
 }
 
 .weekly-win-content {
@@ -210,14 +223,27 @@
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
 }
 
+#login-streak-item.hidden,
+#login-streak-banner.hidden {
+  display: none;
+}
+
+/* Bottom toast — a top-anchored banner covered the HUD's PAUSE/RESTART controls
+   on narrow screens while it was up. */
 #login-streak-banner {
   position: fixed;
-  top: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 120;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: min(92vw, 420px);
   text-align: center;
-  padding: 14px 28px;
+  padding: 10px 20px;
   border: 2px solid #ffff00;
   border-radius: 6px;
   background: rgba(12, 12, 4, 0.95);
@@ -231,27 +257,30 @@
 }
 
 .login-streak-days {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: #ffff00;
   text-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
   margin: 0;
+  white-space: nowrap;
 }
 
 .login-streak-xp {
   font-size: 14px;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: #00ff88;
-  margin: 4px 0 0;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .login-streak-note {
   font-size: 14px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: rgba(255, 255, 255, 0.45);
-  margin: 4px 0 0;
+  margin: 0;
+  flex-basis: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
