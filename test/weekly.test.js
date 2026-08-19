@@ -63,7 +63,8 @@ describe('daysUntilWeeklyReset', () => {
   test('never reports zero on any day of the week', () => {
     for (let day = 17; day <= 23; day++) {
       const days = weekly.daysUntilWeeklyReset(new Date(2026, 7, day));
-      assert.ok(days >= 1 && days <= 7, `day ${day} produced ${days}`);
+      assert.ok(days >= 1, `day ${day} produced ${days}, expected at least 1`);
+      assert.ok(days <= 7, `day ${day} produced ${days}, expected at most 7`);
     }
   });
 });

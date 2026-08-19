@@ -87,11 +87,12 @@
 </div>
 
 <!-- Login streak banner — shown once per day on load -->
-<div id="login-streak-banner" class="hidden" role="status">
-  <p class="login-streak-days">0 DAY STREAK</p>
-  <p class="login-streak-xp">+0 XP</p>
-  <p class="login-streak-note">WELCOME BACK, NETRUNNER</p>
-</div>
+<!-- <output> carries an implicit status role; spans keep it valid phrasing content -->
+<output id="login-streak-banner" class="hidden">
+  <span class="login-streak-days">0 DAY STREAK</span>
+  <span class="login-streak-xp">+0 XP</span>
+  <span class="login-streak-note">WELCOME BACK, NETRUNNER</span>
+</output>
 
 <!-- Mode modifiers row -->
 <div id="mode-indicators">

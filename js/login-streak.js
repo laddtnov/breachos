@@ -76,8 +76,10 @@ function updateLoginStreakHUD() {
   const el = document.getElementById('login-streak-value');
   if (el) el.textContent = playerStats.loginStreak || 0;
 
+  // `|| 0` matters: a bare `undefined <= 1` is false, which would show the HUD
+  // item for a player who has never logged in.
   const item = document.getElementById('login-streak-item');
-  if (item) item.classList.toggle('hidden', !(playerStats.loginStreak > 1));
+  if (item) item.classList.toggle('hidden', (playerStats.loginStreak || 0) <= 1);
 }
 
 function showLoginStreakBanner(streak, bonus, freezeUsed) {

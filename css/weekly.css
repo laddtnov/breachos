@@ -3,7 +3,9 @@
   display: block;
   width: 100%;
   margin-top: 8px;
-  background: rgba(0, 255, 136, 0.08);
+  /* Opaque equivalent of rgba(0,255,136,0.08) composited over the modal's
+     #0a0a19 — same pixels, but contrast is now statically analysable (16.4:1). */
+  background: #091e22;
   color: #e8fff4;
   border: 2px solid #00ff88;
   padding: 12px;
