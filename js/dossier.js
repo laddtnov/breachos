@@ -13,9 +13,9 @@ function toggleDossierModal() {
 
 function renderDossier() {
   const stats = playerStats;
-  const winRate = stats.gamesPlayed > 0
-    ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100)
-    : 0;
+  // Clamped — saves predating the survival accounting fix can hold more wins
+  // than games played. See js/stats-rules.js.
+  const winRate = calculateWinRate(stats.gamesWon, stats.gamesPlayed);
 
   // Overall stats
   document.getElementById('dos-games-played').textContent = stats.gamesPlayed;

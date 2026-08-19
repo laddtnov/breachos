@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v49';
+const CACHE_NAME = 'breachos-v50';
 const ASSETS = [
   './',
   './index.html',
@@ -35,6 +35,7 @@ const ASSETS = [
   './js/haptic-patterns.js',
   './js/haptics.js',
   './js/data.js',
+  './js/stats-rules.js',
   './js/rank.js',
   './js/game.js',
   './js/collections.js',

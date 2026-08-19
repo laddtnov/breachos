@@ -120,6 +120,11 @@ function winSurvivalWave() {
   // XP for clearing a wave
   const xpEarned = calculateXP(gameState.difficulty, gameState.moves, 999, gameState.seconds, true, gameState.maxCombo);
   playerStats.xp += xpEarned;
+  // Each cleared wave counts as both a play and a win. gamesPlayed was missing
+  // here while gamesWon advanced per wave, so a multi-wave run pushed the win
+  // rate permanently above 100%. The run-ending loss adds one more play in
+  // loseSurvival(), so a run always finishes below 100%.
+  playerStats.gamesPlayed++;
   playerStats.gamesWon++;
   playerStats.totalMatches = (playerStats.totalMatches || 0) + gameState.matchedPairs;
   if (gameState.maxCombo > (playerStats.bestCombo || 0)) playerStats.bestCombo = gameState.maxCombo;
