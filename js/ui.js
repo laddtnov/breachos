@@ -83,9 +83,12 @@ function setGameMode(mode) {
   });
   const desc = document.getElementById('mode-desc');
   if (desc) {
-    desc.textContent = mode === 'blitz'
-      ? 'Race the clock! Every difficulty has a countdown. No move limits.'
-      : 'Standard rules — limited moves, no timer (except EXTREME).';
+    const MODE_DESCRIPTIONS = {
+      blitz: 'Race the clock! Every difficulty has a countdown. No move limits.',
+      timed: `One fixed ${timedCountdown()}s clock for every difficulty. No move limits — a bigger board is simply harder.`,
+      classic: 'Standard rules — limited moves, no timer (except EXTREME).',
+    };
+    desc.textContent = MODE_DESCRIPTIONS[mode] ?? MODE_DESCRIPTIONS.classic;
   }
   // Update blitz countdown display on diff buttons
   updateBlitzTimers();
@@ -93,12 +96,15 @@ function setGameMode(mode) {
 
 function updateBlitzTimers() {
   const isBlitz = gameState.mode === 'blitz';
+  const isTimed = isTimedMode(gameState.mode);
   ['easy', 'medium', 'hard', 'extreme'].forEach(d => {
     const btn = document.querySelector(`.diff-btn[data-difficulty="${d}"]`);
     if (!btn) return;
     const desc = btn.querySelector('.diff-desc');
     const base = difficulties[d];
-    if (isBlitz) {
+    if (isTimed) {
+      desc.textContent = base.pairs * 2 + ' cards — ' + timedCountdown() + 's';
+    } else if (isBlitz) {
       desc.textContent = base.pairs * 2 + ' cards — ' + BLITZ_CONFIG[d].countdown + 's';
     } else {
       const cols = { easy: '3 x 2', medium: '4 x 4', hard: '4 x 6', extreme: '6 x 6' }[d];
@@ -156,7 +162,10 @@ function runMemoryPeek() {
 function initGame() {
   const config = difficulties[gameState.difficulty];
   const isBlitz = gameState.mode === 'blitz';
-  const blitz = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : null;
+  const isTimed = isTimedMode(gameState.mode);
+  // One resolver for every clocked mode — see js/timed-mode.js.
+  const overrides = modeOverrides(gameState.mode, gameState.difficulty, BLITZ_CONFIG);
+  const blitz = overrides;
 
   gameState.flippedCards = [];
   gameState.matchedPairs = 0;
@@ -181,6 +190,7 @@ function initGame() {
   if (typeof resetPauseState === 'function') resetPauseState();
   document.body.classList.remove('countdown-critical');
   document.body.classList.toggle('blitz-mode', isBlitz);
+  document.body.classList.toggle('timed-mode', isTimed);
   document.body.classList.remove('survival-mode', 'daily-mode');
   document.getElementById('survival-hud').classList.add('hidden');
   document.getElementById('wave-clear-overlay').classList.add('hidden');
@@ -189,11 +199,12 @@ function initGame() {
   document.getElementById('daily-win-overlay').classList.add('hidden');
 
   movesDisplay.childNodes[0].textContent = '0';
-  movesLimit.textContent = isBlitz ? '' : '/' + config.maxMoves;
+  movesLimit.textContent = overrides ? '' : '/' + config.maxMoves;
   timerDisplay.textContent = gameState.countdown ? formatTime(gameState.countdown) : '00:00';
   winOverlay.classList.add('hidden');
   loseOverlay.classList.add('hidden');
-  difficultyDisplay.textContent = (isBlitz ? 'BLITZ ' : '') + config.label;
+  const modePrefix = isBlitz ? 'BLITZ ' : (isTimed ? 'TIMED ' : '');
+  difficultyDisplay.textContent = modePrefix + config.label;
   particles.innerHTML = '';
 
   const hudItem = movesDisplay.closest('.hud-item');

@@ -345,8 +345,9 @@ function activateTimeWarp(duration) {
 }
 
 function resumeTimerTick() {
-  const isBlitz = gameState.mode === 'blitz';
-  const config = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : difficulties[gameState.difficulty];
+  // Routes every clocked mode through one resolver — see js/timed-mode.js.
+  const config = modeOverrides(gameState.mode, gameState.difficulty, BLITZ_CONFIG)
+    ?? difficulties[gameState.difficulty];
   const isCountdown = !!config.countdown;
 
   gameState.timerInterval = setInterval(() => {
@@ -470,8 +471,9 @@ function resetPauseState() {
 
 // ── Timer ──
 function startTimer() {
-  const isBlitz = gameState.mode === 'blitz';
-  const config = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : difficulties[gameState.difficulty];
+  // Routes every clocked mode through one resolver — see js/timed-mode.js.
+  const config = modeOverrides(gameState.mode, gameState.difficulty, BLITZ_CONFIG)
+    ?? difficulties[gameState.difficulty];
   const isCountdown = !!config.countdown;
 
   if (isCountdown) {
@@ -576,6 +578,13 @@ function winGame() {
   // Blitz wins
   if (gameState.mode === 'blitz') {
     playerStats.blitzWins = (playerStats.blitzWins || 0) + 1;
+  }
+
+  // Timed mode: track the fastest clear, keyed by difficulty.
+  if (isTimedMode(gameState.mode)) {
+    playerStats.timedWins = (playerStats.timedWins || 0) + 1;
+    if (!playerStats.timedBestTimes) playerStats.timedBestTimes = {};
+    playerStats.timedBestTimes[diff] = bestTimedTime(playerStats.timedBestTimes[diff], gameState.seconds);
   }
 
   // Perfect wins (no wrong flips — moves equals exactly totalPairs)
