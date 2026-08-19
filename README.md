@@ -52,6 +52,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 | **Blitz** | Race the clock — every difficulty has a countdown, no move limits |
 | **Survival** | Endless escalating waves with 3 lives |
 | **Daily Challenge** | Seeded daily puzzle — same cards for everyone, tracks streaks |
+| **Weekly Challenge** | One seeded Hard board per week, resets Monday — double XP on first clear |
 
 ---
 
@@ -113,11 +114,17 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Seeded** — all players share the same quests each day
 - **Bonus XP** on completion, resets at midnight
 
+### Streaks
+- **Daily streak** — advances on each Daily Challenge clear; streak freeze earned every 7 days covers one missed day
+- **Weekly streak** — tracked independently; advances only when the previous week's board was also cleared
+- **Login streak** — consecutive days the game is opened, with bonus XP for returning; a streak freeze covers one missed day
+
 ### Quality of Life
 - **Player Dossier** — full stats dashboard with game history (last 10 games)
 - **Share Card** — Canvas-generated result image
 - **Cyber / Safe Mode** — toggle animations for accessibility
 - **Color Blind Mode** — blue/orange palette replaces cyan/pink; dashed border as shape cue; persists across sessions
+- **Card Flip Animations toggle** — turn the 3D flip off for lower-end devices; persists across sessions
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
 - **DAYLIGHT theme** — light mode for outdoor / bright-sunlight play on mobile
@@ -133,7 +140,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v44)
+├── sw.js                   # Service worker (network-first, breachos-v48)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
@@ -144,6 +151,8 @@ breachos/
 │   ├── collections.js      # 16 collection cards
 │   ├── survival.js         # Survival mode
 │   ├── daily.js            # Daily challenge + streaks
+│   ├── weekly.js           # Weekly challenge (Monday-seeded board)
+│   ├── login-streak.js     # Consecutive-day login streak + bonus XP
 │   ├── quests.js           # Daily quests
 │   └── ...
 ├── api/
@@ -165,6 +174,7 @@ breachos/
 │   ├── ratelimit.js        # In-memory sliding window rate limiter
 │   └── emails.js           # Shared HTML email templates
 ├── partials/               # HTML fragments loaded at runtime
+├── test/                   # node:test unit tests (zero dependencies)
 └── supabase-*.sql          # Database schema + migrations
 ```
 
@@ -192,6 +202,15 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080`. Note: API routes require Vercel dev or environment variables to function.
 
+### Tests
+
+```bash
+npm test
+```
+
+Runs the `node:test` suite (Node 18+, no dependencies) covering the date and streak
+arithmetic behind the weekly challenge and login streak.
+
 ---
 
 ## Roadmap
@@ -201,6 +220,16 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.5.0
+- **New:** Weekly Challenge — one seeded Hard board per week, identical for every player, resetting each Monday. First clear of the week pays double XP plus a streak bonus; replays pay base XP. Week streak is tracked independently of the daily streak and advances only when the previous week was also cleared
+- **New:** Daily Login Streak — consecutive days the game is opened, with bonus XP for returning players and a HUD counter. Separate from the daily-challenge streak; an earned streak freeze covers one missed day. Bonus is capped so long streaks cannot award unbounded XP
+- **New:** Card flip animation toggle — disable the 3D flip from desktop controls or the mobile menu for lower-end devices; persists across sessions
+- **A11y:** Card grid now honours `prefers-reduced-motion` — flip transitions and match-glow animations were previously unconditional
+- **Fix:** Weekly badge, weekly HUD, win overlay, and login banner rendered while carrying the `hidden` class — this codebase has no global `.hidden` rule, so each component must declare its own
+- **Fix:** Login streak banner overlapped the HUD's PAUSE and RESTART controls on mobile; moved to a bottom toast
+- **Chore:** `npm test` added — `node:test` suite (zero dependencies) covering week boundaries across months and years, reset countdown, and every streak transition including the freeze path
+- **Chore:** Service worker cache bumped to `breachos-v48`
 
 ### v1.4.5
 - **New:** Delete account flow — Profile → Delete Account permanently removes all data from Supabase Auth and the profiles table immediately; GDPR compliant

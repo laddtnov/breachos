@@ -28,6 +28,26 @@
   transform: rotateY(180deg);
 }
 
+/* Flip animations off — cards snap instead of rotating. Set by toggleFlipAnimations()
+   for players on low-end devices, and honoured automatically for reduced-motion users. */
+body.no-flip-anim .card-inner {
+  transition: none;
+}
+
+body.no-flip-anim .card.matched .card-inner {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-inner {
+    transition: none;
+  }
+
+  .card.matched .card-inner {
+    animation: none;
+  }
+}
+
 .card-front,
 .card-back {
   position: absolute;

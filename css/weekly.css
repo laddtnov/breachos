@@ -1,0 +1,292 @@
+/* ── Weekly Challenge Button ── */
+#weekly-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  /* Opaque equivalent of rgba(0,255,136,0.08) composited over the modal's
+     #0a0a19 — same pixels, but contrast is now statically analysable (16.4:1). */
+  background: #091e22;
+  color: #e8fff4;
+  border: 2px solid #00ff88;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.25);
+  border-radius: 6px;
+  position: relative;
+}
+
+#weekly-btn:hover {
+  background: #00ff88;
+  color: #000; /* NOSONAR - hover state has bright background */
+  box-shadow: 0 0 25px #00ff88;
+}
+
+.weekly-btn-desc {
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  margin-top: 4px;
+  font-weight: normal;
+}
+
+#weekly-btn-reset {
+  display: block;
+  font-size: 14px;
+  color: #00f3ff;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  font-weight: normal;
+}
+
+.weekly-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #00f3ff;
+  color: #000; /* NOSONAR - badge sits on a bright background */
+  font-size: 14px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* No global .hidden exists in this codebase — each component declares its own. */
+.weekly-badge.hidden {
+  display: none;
+}
+
+/* ── Weekly HUD ── */
+#weekly-hud {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 255, 136, 0.04);
+}
+
+#weekly-hud.hidden {
+  display: none;
+}
+
+.weekly-hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.weekly-hud-label {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: 'Courier New', monospace;
+}
+
+.weekly-hud-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00ff88;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+.weekly-hud-streak {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffff00;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+/* ── Weekly Win Overlay ── */
+#weekly-win-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 8, 4, 0.92);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+}
+
+#weekly-win-overlay.hidden {
+  display: none;
+}
+
+.weekly-win-content {
+  text-align: center;
+  padding: 32px 40px;
+  border: 2px solid #00ff88;
+  border-radius: 8px;
+  background: rgba(5, 12, 8, 0.95);
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+  font-family: 'Courier New', monospace;
+  position: relative;
+  z-index: 2;
+}
+
+.weekly-win-title {
+  font-size: 28px;
+  letter-spacing: 5px;
+  color: #00ff88;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+  margin: 0 0 8px;
+}
+
+.weekly-win-week {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 16px;
+}
+
+.weekly-win-stats {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.weekly-win-streak-label {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+.weekly-win-streak-display {
+  font-size: 42px;
+  font-weight: bold;
+  color: #ffff00;
+  text-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+  margin: 4px 0;
+}
+
+.weekly-win-bonus {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #00f3ff;
+  margin: 0 0 8px;
+}
+
+.weekly-win-xp {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #00ff88;
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+  margin: 0 0 20px;
+}
+
+.weekly-win-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.weekly-win-actions button {
+  background: transparent;
+  border: 2px solid #00ff88;
+  color: #00ff88;
+  padding: 10px 22px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.weekly-win-actions button:hover {
+  background: #00ff88;
+  color: #000; /* NOSONAR - hover state has bright background */
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+}
+
+/* ── Login Streak ── */
+.login-streak-value {
+  color: #ffff00;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+#login-streak-item.hidden,
+#login-streak-banner.hidden {
+  display: none;
+}
+
+/* Bottom toast — a top-anchored banner covered the HUD's PAUSE/RESTART controls
+   on narrow screens while it was up. */
+#login-streak-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 120;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: min(92vw, 420px);
+  text-align: center;
+  padding: 10px 20px;
+  border: 2px solid #ffff00;
+  border-radius: 6px;
+  background: rgba(12, 12, 4, 0.95);
+  box-shadow: 0 0 30px rgba(255, 255, 0, 0.35);
+  font-family: 'Courier New', monospace;
+  transition: opacity 0.5s ease;
+}
+
+#login-streak-banner.login-streak-fade {
+  opacity: 0;
+}
+
+.login-streak-days {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffff00;
+  text-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.login-streak-xp {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #00ff88;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.login-streak-note {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  flex-basis: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #login-streak-banner {
+    transition: none;
+  }
+}
