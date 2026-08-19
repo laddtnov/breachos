@@ -20,6 +20,10 @@
     <span class="hud-label">TIME</span>
     <span id="timer" class="hud-value" aria-live="off" aria-label="Time elapsed">00:00</span>
   </div>
+  <div class="hud-item hidden" id="login-streak-item">
+    <span class="hud-label">LOGIN</span>
+    <span id="login-streak-value" class="hud-value login-streak-value" aria-label="Consecutive login days">0</span>
+  </div>
   <!-- WCAG 2.2.1 — pause button, visible only during countdown modes -->
   <!-- aria-label removed: visible label text IS the accessible name (WCAG 2.5.3) -->
   <button id="pause-btn" class="hidden" onclick="togglePause()" aria-pressed="false"><span class="pause-icon" aria-hidden="true">⏸</span> <span class="pause-label">PAUSE</span></button>
@@ -60,6 +64,33 @@
     <span class="daily-hud-label">FREEZE</span>
     <span class="daily-hud-freeze" id="daily-freeze">0</span>
   </div>
+</div>
+
+<!-- Weekly HUD -->
+<div id="weekly-hud" class="hidden">
+  <div class="weekly-hud-item">
+    <span class="weekly-hud-label">WEEK OF</span>
+    <span class="weekly-hud-value" id="weekly-week"></span>
+  </div>
+  <div class="weekly-hud-item">
+    <span class="weekly-hud-label">DIFFICULTY</span>
+    <span class="weekly-hud-value" id="weekly-diff"></span>
+  </div>
+  <div class="weekly-hud-item">
+    <span class="weekly-hud-label">STREAK</span>
+    <span class="weekly-hud-streak" id="weekly-streak">0</span>
+  </div>
+  <div class="weekly-hud-item">
+    <span class="weekly-hud-label">RESETS IN</span>
+    <span class="weekly-hud-value" id="weekly-reset">7d</span>
+  </div>
+</div>
+
+<!-- Login streak banner — shown once per day on load -->
+<div id="login-streak-banner" class="hidden" role="status">
+  <p class="login-streak-days">0 DAY STREAK</p>
+  <p class="login-streak-xp">+0 XP</p>
+  <p class="login-streak-note">WELCOME BACK, NETRUNNER</p>
 </div>
 
 <!-- Mode modifiers row -->
@@ -167,4 +198,25 @@
     </div>
   </div>
   <div id="daily-particles" class="particles"></div>
+</div>
+
+<!-- Weekly Win Overlay -->
+<div id="weekly-win-overlay" class="hidden">
+  <div class="weekly-win-content">
+    <h2 class="weekly-win-title">WEEKLY BREACHED</h2>
+    <p class="weekly-win-week" id="weekly-win-week"></p>
+    <p class="weekly-win-stats">
+      MOVES: <span id="weekly-win-moves">0</span><br>
+      TIME: <span id="weekly-win-time">00:00</span>
+    </p>
+    <p class="weekly-win-streak-label">WEEK STREAK</p>
+    <p class="weekly-win-streak-display" id="weekly-win-streak">1</p>
+    <p class="weekly-win-bonus" id="weekly-win-bonus"></p>
+    <p class="weekly-win-xp" id="weekly-win-xp">+0 XP</p>
+    <div class="weekly-win-actions">
+      <button id="weekly-retry-btn" onclick="retryWeekly()">RETRY</button>
+      <button id="weekly-exit-btn" onclick="exitWeekly()">EXIT</button>
+    </div>
+  </div>
+  <div id="weekly-particles" class="particles"></div>
 </div>

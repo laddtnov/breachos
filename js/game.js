@@ -548,6 +548,12 @@ function winGame() {
     return;
   }
 
+  // Weekly challenge: custom win flow
+  if (gameState.mode === 'weekly') {
+    winWeeklyChallenge();
+    return;
+  }
+
   hideCombo();
   const xpEarned = calculateXP(gameState.difficulty, gameState.moves, gameState.maxMoves, gameState.seconds, true, gameState.maxCombo);
   const oldRank = getRankForXP(playerStats.xp);
@@ -690,6 +696,12 @@ function loseGame(timeExpired = false) {
   if (gameState.mode === 'daily') {
     document.getElementById('daily-hud').classList.add('hidden');
     document.body.classList.remove('daily-mode');
+  }
+
+  // Weekly mode: hide weekly HUD on loss — streak only advances on a clear
+  if (gameState.mode === 'weekly') {
+    document.getElementById('weekly-hud').classList.add('hidden');
+    document.body.classList.remove('weekly-mode');
   }
 
   const xpEarned = calculateXP(gameState.difficulty, gameState.moves, gameState.maxMoves, gameState.seconds, false);

@@ -493,6 +493,30 @@ function initColorBlind() {
   if (btn) btn.setAttribute('aria-pressed', 'true');
 }
 
+// ── Card Flip Animations ──
+function _syncFlipAnimLabels(isOn) {
+  const statusLabel = isOn ? 'ON' : 'OFF';
+  ['flip-status', 'flip-status-mobile'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = statusLabel;
+  });
+  const btn = document.getElementById('flip-anim-btn');
+  if (btn) btn.setAttribute('aria-pressed', String(isOn));
+}
+
+function toggleFlipAnimations() {
+  document.body.classList.toggle('no-flip-anim');
+  const isOn = !document.body.classList.contains('no-flip-anim');
+  localStorage.setItem('breachos_flip_anim', isOn ? 'on' : 'off');
+  _syncFlipAnimLabels(isOn);
+}
+
+function initFlipAnimations() {
+  const isOn = localStorage.getItem('breachos_flip_anim') !== 'off';
+  document.body.classList.toggle('no-flip-anim', !isOn);
+  _syncFlipAnimLabels(isOn);
+}
+
 window.onblur = () => document.title = "SYSTEM ERROR...";
 window.onfocus = () => document.title = "Breachos";
 
