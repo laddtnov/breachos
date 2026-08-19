@@ -540,7 +540,10 @@ function toggleMenu() {
       soundBtn.classList.toggle('sound-off', !on);
     }
     // Sync haptic button state each time menu opens
-    if (typeof Haptics !== 'undefined') Haptics.syncButton();
+    if (typeof Haptics !== 'undefined') {
+      Haptics.syncButton();
+      Haptics.syncPresetButton();
+    }
   }
 }
 
