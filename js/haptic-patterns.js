@@ -63,11 +63,10 @@ const HAPTIC_PRESETS = {
 
 const HAPTIC_DEFAULT_PRESET = 'standard';
 
-function hapticComboPattern(tiers, level) {
-  const combo = level || 0;
+function hapticComboPattern(tiers, level = 0) {
   let chosen = tiers[0].pattern;
   for (const tier of tiers) {
-    if (combo >= tier.min) chosen = tier.pattern;
+    if (level >= tier.min) chosen = tier.pattern;
   }
   return chosen;
 }

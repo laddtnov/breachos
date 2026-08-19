@@ -94,6 +94,15 @@ describe('hapticPattern — combo tiers', () => {
 
     assert.deepStrictEqual(norm(noLevel), norm(lowest));
   });
+
+  test('treats a null combo level as the lowest tier', () => {
+    // A default parameter only fires on undefined, so null takes a different
+    // path through the tier comparison and is worth pinning down.
+    const nullLevel = h.hapticPattern('standard', 'combo', null);
+    const lowest = h.hapticPattern('standard', 'combo', 0);
+
+    assert.deepStrictEqual(norm(nullLevel), norm(lowest));
+  });
 });
 
 describe('hapticPattern — fallbacks', () => {
