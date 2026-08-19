@@ -34,7 +34,6 @@ const ASSETS = [
   './js/sound.js',
   './js/haptic-patterns.js',
   './js/haptics.js',
-  './js/timed-mode.js',
   './js/data.js',
   './js/rank.js',
   './js/game.js',

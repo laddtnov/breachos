@@ -50,8 +50,6 @@ const DEFAULT_STATS = {
   bestCombo: 0,
   blitzWins: 0,
   perfectWins: 0,
-  timedWins: 0,
-  timedBestTimes: {},
   totalMatches: 0,
   bestWave: 0,
   bestSurvivalScore: 0,
