@@ -167,7 +167,8 @@ function renderProfile() {
   const won    = s.gamesWon    || 0;
   set('profile-played',  played);
   set('profile-won',     won);
-  set('profile-winrate', played > 0 ? Math.round((won / played) * 100) + '%' : '—');
+  // Clamped for the same reason as the Dossier — see js/stats-rules.js.
+  set('profile-winrate', played > 0 ? calculateWinRate(won, played) + '%' : '—');
   set('profile-combo',   (s.bestCombo || 0) + 'x');
 
   const timesEl = document.getElementById('profile-times');
