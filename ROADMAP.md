@@ -76,11 +76,22 @@ Additional card back and board theme bundles.
 
 ---
 
-## Long Term
-
----
-
 ## Medium Term
+
+### Player Guide Page
+A player-facing guide at `/guide` — how to play, mode explanations, and the full
+unlock table for skins, collection cards and achievements.
+
+Considered a GitHub wiki for this and rejected it: wiki content lives in a separate
+`.wiki.git` repo, so it never passes through a PR and skips Build Check, SonarCloud
+and CodeQL. It also would not reach players, who do not browse the repo.
+
+- Most of the content already exists in `README.md` (Unlock Conditions table, How to Play, Game Modes) but sits where only developers see it
+- Ships through the normal PR and deploy pipeline; Play Store users get it via the TWA with no new AAB
+- Indexable for long-tail search — "breachos how to unlock chrono skin", "breachos survival tips"
+- Follow `privacy.html` for page structure and `sw.js` registration; add to `sitemap.xml`
+- Single source of truth: generate the unlock table from the same data the game uses, rather than hand-copying it, so it cannot drift from `RANKS` / `REWARD_SKIN_RULES`
+- Pairs naturally with v1.6.0's Achievement Badges — both surface unlock conditions
 
 ### Push Notifications (PWA)
 Remind players about the daily challenge via browser push.
