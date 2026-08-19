@@ -55,7 +55,11 @@ const Haptics = {
   },
 
   syncPresetButton() {
-    const label = HAPTIC_PRESET_LABELS[Haptics.preset] ?? Haptics.preset;
+    // Match the HAPTICS toggle: on a device with no Vibration API the control
+    // reads N/A rather than sitting there inert with no explanation.
+    const label = Haptics._supported
+      ? (HAPTIC_PRESET_LABELS[Haptics.preset] ?? Haptics.preset)
+      : 'N/A';
     ['haptic-preset-status', 'haptic-preset-status-mobile'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = label;
