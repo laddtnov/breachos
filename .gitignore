@@ -6,15 +6,16 @@
 dist/
 build/
 .next/
-# IDE
+# IDE / agent tooling
 .vscode/
 .idea/
+.cursor/
+.omc/
 node_modules/
 # OS
 .DS_Store
 Thumbs.db
 .obsidian/
-.vscode/
 .claude/
 # Signing keys — never commit
 *.jks
