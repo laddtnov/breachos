@@ -234,6 +234,10 @@ function handleMismatch(card1, card2) {
 
   if (gameState.mode === 'survival') {
     gameState.survivalLives--;
+    // Breaks the wave's flawless status and the score streak — the risk half of
+    // the risk/reward lever.
+    gameState.survivalWaveMismatches = (gameState.survivalWaveMismatches || 0) + 1;
+    gameState.survivalStreak = 0;
     updateSurvivalHUD();
     if (gameState.survivalLives <= 0) {
       setTimeout(() => {

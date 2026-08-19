@@ -125,6 +125,20 @@ body.survival-mode .hud-diff {
   text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
+/* Flawless-wave life award. Needs its own .hidden rule — this codebase has no
+   global one, so each component declares its own. */
+.wave-clear-bonus {
+  font-size: 14px;
+  color: #ff5c8a;
+  letter-spacing: 3px;
+  margin-top: 8px;
+  text-shadow: 0 0 10px rgba(255, 92, 138, 0.5);
+}
+
+.wave-clear-bonus.hidden {
+  display: none;
+}
+
 .wave-clear-next {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);

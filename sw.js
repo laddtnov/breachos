@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v48';
+const CACHE_NAME = 'breachos-v49';
 const ASSETS = [
   './',
   './index.html',
@@ -43,6 +43,7 @@ const ASSETS = [
   './js/share.js',
   './js/themes.js',
   './js/achievements.js',
+  './js/survival-rules.js',
   './js/survival.js',
   './js/daily.js',
   './js/weekly.js',
