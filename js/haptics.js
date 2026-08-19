@@ -35,21 +35,50 @@ const Haptics = {
     btn.disabled = false;
   },
 
-  flip()  { Haptics._fire(50); },
-  match() { Haptics._fire([80, 40, 80]); },
-  error() { Haptics._fire(150); },
-
-  combo(n) {
-    if (!Haptics._supported || !Haptics.enabled) return;
-    if      (n >= 7) navigator.vibrate([100, 30, 100, 30, 100, 30, 100]);
-    else if (n >= 5) navigator.vibrate([80, 25, 80, 25, 80]);
-    else if (n >= 3) navigator.vibrate([70, 20, 70, 20, 70]);
-    else             navigator.vibrate([60, 20, 60]);
+  // Patterns come from js/haptic-patterns.js so they stay testable.
+  _pattern(event, level) {
+    return hapticPattern(Haptics.preset, event, level);
   },
 
-  win()  { Haptics._fire([100, 40, 100, 40, 180]); },
-  lose() { Haptics._fire([220, 60, 150]); },
+  setPreset(id) {
+    Haptics.preset = hapticPresetIds().includes(id) ? id : HAPTIC_DEFAULT_PRESET;
+    localStorage.setItem('breachos_haptic_preset', Haptics.preset);
+    Haptics.syncPresetButton();
+    // Preview the new strength so the choice is felt, not just read.
+    if (Haptics.enabled && Haptics._supported) navigator.vibrate(Haptics._pattern('match'));
+  },
+
+  cyclePreset() {
+    const ids = hapticPresetIds();
+    const next = ids[(ids.indexOf(Haptics.preset) + 1) % ids.length];
+    Haptics.setPreset(next);
+  },
+
+  syncPresetButton() {
+    // Match the HAPTICS toggle: on a device with no Vibration API the control
+    // reads N/A rather than sitting there inert with no explanation.
+    const label = Haptics._supported
+      ? (HAPTIC_PRESET_LABELS[Haptics.preset] ?? Haptics.preset)
+      : 'N/A';
+    ['haptic-preset-status', 'haptic-preset-status-mobile'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = label;
+    });
+    ['haptic-preset-btn', 'haptic-preset-btn-mobile'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.disabled = !Haptics._supported;
+    });
+  },
+
+  flip()  { Haptics._fire(Haptics._pattern('flip')); },
+  match() { Haptics._fire(Haptics._pattern('match')); },
+  error() { Haptics._fire(Haptics._pattern('error')); },
+  combo(n) { Haptics._fire(Haptics._pattern('combo', n)); },
+  win()  { Haptics._fire(Haptics._pattern('win')); },
+  lose() { Haptics._fire(Haptics._pattern('lose')); },
 };
 
-// Read saved preference after object is fully created
+// Read saved preferences after object is fully created
 Haptics.enabled = localStorage.getItem('breachos_haptics') !== 'off';
+Haptics.preset = localStorage.getItem('breachos_haptic_preset') ?? HAPTIC_DEFAULT_PRESET;
+if (!hapticPresetIds().includes(Haptics.preset)) Haptics.preset = HAPTIC_DEFAULT_PRESET;

@@ -218,3 +218,65 @@
     font-size: 14px;
   }
 }
+
+/* ── Achievement Badge Grid (v1.6.0) ── */
+.dos-badge-summary {
+  font-size: 14px;
+  color: #00f3ff;
+  letter-spacing: 2px;
+  margin-left: 8px;
+  font-weight: normal;
+}
+
+#dos-badge-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+
+.dos-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  border: 2px solid;
+  cursor: help;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dos-badge-symbol {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.dos-badge.unlocked {
+  border-color: #00f3ff;
+  background: #08222b;
+  color: #d6fbff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.35);
+}
+
+/* Locked badges read as silhouettes — shape visible, detail withheld. */
+.dos-badge.locked {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: #14141c;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+}
+
+.dos-badge:hover,
+.dos-badge:focus-visible {
+  transform: translateY(-2px);
+}
+
+.dos-badge.unlocked:hover {
+  box-shadow: 0 0 16px rgba(0, 243, 255, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dos-badge { transition: none; }
+  .dos-badge:hover, .dos-badge:focus-visible { transform: none; }
+}

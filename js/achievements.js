@@ -249,6 +249,63 @@ function showAchievementPopup(achievements) {
   showNext();
 }
 
+// ── Badge view-model (pure) ──
+// Exposed as a function because the tests evaluate this file in a vm sandbox,
+// where top-level const bindings are not readable off the context.
+function getAchievements() {
+  return ACHIEVEMENTS;
+}
+
+function buildAchievementBadges(achievements, unlockedIds) {
+  const earned = unlockedIds || [];
+  return achievements.map(ach => ({
+    id: ach.id,
+    name: ach.name,
+    symbol: ach.symbol,
+    desc: ach.desc,
+    unlocked: earned.includes(ach.id),
+  }));
+}
+
+function achievementProgress(achievements, unlockedIds) {
+  const total = achievements.length;
+  // Count against the real list so a stale saved id cannot report 7/6.
+  const unlocked = buildAchievementBadges(achievements, unlockedIds)
+    .filter(b => b.unlocked).length;
+  return {
+    unlocked,
+    total,
+    percent: total === 0 ? 0 : Math.round((unlocked / total) * 100),
+  };
+}
+
+// ── Dossier badge grid ──
+function renderAchievementBadges() {
+  const grid = document.getElementById('dos-badge-grid');
+  if (!grid) return;
+  grid.setAttribute('role', 'list');
+
+  const badges = buildAchievementBadges(ACHIEVEMENTS, unlockedAchievements);
+  const progress = achievementProgress(ACHIEVEMENTS, unlockedAchievements);
+
+  const summary = document.getElementById('dos-badge-summary');
+  if (summary) {
+    summary.textContent = `${progress.unlocked} / ${progress.total} — ${progress.percent}%`;
+  }
+
+  grid.innerHTML = badges.map(badge => {
+    const state = badge.unlocked ? 'unlocked' : 'locked';
+    const status = badge.unlocked ? 'Unlocked' : `Locked — ${badge.desc}`;
+    return `
+      <span class="dos-badge ${state}" role="listitem"
+            title="${badge.name} — ${badge.desc}"
+            aria-label="${badge.name}. ${status}">
+        <span class="dos-badge-symbol" aria-hidden="true">${badge.symbol}</span>
+      </span>
+    `;
+  }).join('');
+}
+
 function toggleAchievementModal() {
   const modal = document.getElementById('achievement-modal');
   if (!modal) return;

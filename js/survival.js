@@ -6,6 +6,8 @@ function startSurvivalMode() {
   gameState.survivalLives = SURVIVAL_CONFIG.startLives;
   gameState.survivalScore = 0;
   gameState.survivalLoop = 0;
+  gameState.survivalStreak = 0;
+  gameState.survivalWaveMismatches = 0;
 
   // Close modals
   rulesModal.close();
@@ -23,13 +25,13 @@ function initSurvivalWave() {
   const config = difficulties[diffKey];
   gameState.survivalLoop = Math.floor((gameState.survivalWave - 1) / SURVIVAL_WAVES.length);
 
-  // Determine countdown for this wave (loops add time pressure)
-  const loopCountdowns = SURVIVAL_CONFIG.loopCountdowns;
-  const index = Math.min(gameState.survivalLoop, loopCountdowns.length - 1);
-  const countdownBase = loopCountdowns.at(index);
-  // Scale countdown by difficulty within loop
-  const countdownMultiplier = { easy: 1, medium: 1.5, hard: 2, extreme: 2 }[diffKey];
-  const countdown = countdownBase > 0 ? Math.round(countdownBase * countdownMultiplier) : 0;
+  // Countdown decays toward a floor instead of clamping at a fixed array index,
+  // so pressure keeps rising past wave 13. See js/survival-rules.js.
+  const countdown = survivalCountdownFor(gameState.survivalLoop, diffKey);
+  const modifiers = survivalModifiersFor(gameState.survivalLoop);
+
+  // Flawless-wave tracking for the life award.
+  gameState.survivalWaveMismatches = 0;
 
   gameState.difficulty = diffKey;
   gameState.flippedCards = [];
@@ -71,6 +73,21 @@ function initSurvivalWave() {
   board.innerHTML = '';
   deck.forEach(char => board.appendChild(createCardElement(char)));
 
+  // ── Loop modifiers — how survival keeps escalating once the countdown floors ──
+  clearTimeout(gameState.glitchTimeout);
+  gameState.glitchTimeout = null;
+  gameState.ghostMode = modifiers.ghost;
+  gameState.trapSprung = false;
+  gameState.trapCharId = null;
+  gameState.glitchFired = false;
+
+  if (modifiers.trap) {
+    gameState.trapCharId = selected[secureRandomInt(selected.length)].id;
+    board.querySelectorAll(`[data-character="${gameState.trapCharId}"]`)
+      .forEach(c => c.classList.add('trap-card'));
+  }
+  if (modifiers.glitch) scheduleGlitchEvent();
+
   updateSurvivalHUD();
   updateRankHUD();
 }
@@ -79,10 +96,26 @@ function winSurvivalWave() {
   hideCombo();
   clearInterval(gameState.timerInterval);
 
-  // Score: pairs * wave multiplier + time bonus
-  const wavePoints = gameState.totalPairs * gameState.survivalWave * 10;
-  const comboBonus = gameState.maxCombo * 5;
-  gameState.survivalScore += wavePoints + comboBonus;
+  // A flawless wave extends the streak and returns a life; any mismatch during
+  // the wave has already reset the streak in handleMismatch().
+  const flawless = gameState.survivalWaveMismatches === 0;
+  if (flawless) {
+    gameState.survivalStreak = (gameState.survivalStreak || 0) + 1;
+    gameState.survivalLives = survivalLivesAfterWave(gameState.survivalLives, 0);
+    // Re-render immediately: the wave-clear overlay announces the restored life,
+    // so the heart count must not still read the pre-award value behind it.
+    updateSurvivalHUD();
+  }
+
+  // Score scales with the running streak, so it reflects how cleanly the run was
+  // played. Neutral at streak 0, which keeps old bestSurvivalScore comparable.
+  const wavePoints = survivalWaveScore({
+    pairs: gameState.totalPairs,
+    wave: gameState.survivalWave,
+    maxCombo: gameState.maxCombo,
+    waveStreak: gameState.survivalStreak || 0,
+  });
+  gameState.survivalScore += wavePoints;
 
   // XP for clearing a wave
   const xpEarned = calculateXP(gameState.difficulty, gameState.moves, 999, gameState.seconds, true, gameState.maxCombo);
@@ -109,7 +142,7 @@ function winSurvivalWave() {
   });
 
   // Show wave clear overlay
-  showWaveClear(gameState.survivalWave, wavePoints + comboBonus, () => {
+  showWaveClear(gameState.survivalWave, wavePoints, () => {
     gameState.survivalWave++;
     initSurvivalWave();
   });
@@ -163,7 +196,9 @@ function updateSurvivalHUD() {
   const scoreEl = document.getElementById('survival-score');
   if (livesEl) {
     livesEl.innerHTML = '';
-    for (let i = 0; i < SURVIVAL_CONFIG.startLives; i++) {
+    // Grows past startLives so an earned 4th or 5th heart is actually visible.
+    const slots = Math.max(SURVIVAL_CONFIG.startLives, gameState.survivalLives);
+    for (let i = 0; i < slots; i++) {
       const heart = document.createElement('span');
       heart.classList.add('survival-heart');
       if (i >= gameState.survivalLives) heart.classList.add('lost');
@@ -180,7 +215,22 @@ function showWaveClear(wave, points, callback) {
   if (!overlay) return callback();
 
   document.getElementById('wave-clear-num').textContent = wave;
-  document.getElementById('wave-clear-points').textContent = '+' + points + ' PTS';
+
+  // Surface the streak multiplier and any earned life, so the risk/reward lever
+  // is legible rather than an invisible number.
+  const streak = gameState.survivalStreak || 0;
+  const multiplier = survivalScoreMultiplier(streak);
+  const pointsEl = document.getElementById('wave-clear-points');
+  pointsEl.textContent = multiplier > 1
+    ? `+${points} PTS  (${multiplier}× STREAK)`
+    : '+' + points + ' PTS';
+
+  const bonusEl = document.getElementById('wave-clear-bonus');
+  if (bonusEl) {
+    const earnedLife = gameState.survivalWaveMismatches === 0;
+    bonusEl.textContent = earnedLife ? '♥ FLAWLESS — LIFE RESTORED' : '';
+    bonusEl.classList.toggle('hidden', !earnedLife);
+  }
 
   const nextWaveIndex = wave % SURVIVAL_WAVES.length;
   const nextDiff = SURVIVAL_WAVES[nextWaveIndex];

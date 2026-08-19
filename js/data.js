@@ -134,6 +134,6 @@ const BLITZ_CONFIG = {
 const SURVIVAL_WAVES = ['easy', 'medium', 'hard', 'extreme'];
 const SURVIVAL_CONFIG = {
   startLives: 3,
-  // After completing all 4 difficulties, loop with countdown pressure
-  loopCountdowns: [0, 60, 45, 30],  // seconds per loop iteration (0 = first loop, no timer)
+  // Countdown and modifier escalation now live in js/survival-rules.js, which
+  // decays toward a floor rather than clamping at a fixed array index.
 };

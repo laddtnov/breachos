@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v48';
+const CACHE_NAME = 'breachos-v49';
 const ASSETS = [
   './',
   './index.html',
@@ -32,6 +32,7 @@ const ASSETS = [
   './css/weekly.css',
   './js/load-partials.js',
   './js/sound.js',
+  './js/haptic-patterns.js',
   './js/haptics.js',
   './js/data.js',
   './js/rank.js',
@@ -43,6 +44,7 @@ const ASSETS = [
   './js/share.js',
   './js/themes.js',
   './js/achievements.js',
+  './js/survival-rules.js',
   './js/survival.js',
   './js/daily.js',
   './js/weekly.js',

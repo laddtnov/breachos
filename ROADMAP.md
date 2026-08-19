@@ -18,41 +18,18 @@ Shipped — see Completed.
 
 ## v1.6.0 — Progression
 
-### Survival Mode — Challenge Rework
-Survival currently stops getting harder. `SURVIVAL_CONFIG.loopCountdowns` is
-`[0, 60, 45, 30]` and `initSurvivalWave()` clamps the lookup with
-`Math.min(loop, length - 1)`, so from loop 3 (wave 13) onward every wave uses the
-same 30s base forever. Long runs become endurance, not escalation. Three changes:
+Shipped — see Completed. Timed Mode Variant was dropped; see below.
 
-**Uncapped escalation past wave 13**
-- Replace the fixed `loopCountdowns` array with a decay formula toward a floor, so pressure keeps rising instead of flattening
-- Introduce the existing gameplay modifiers at later loops — ghost flips, trap cards, glitch swaps — which today only appear in Hard/Extreme classic play
-- Keep loop 0 untimed, so the opening four waves still ease players in
+### Timed Mode Variant — dropped
+Built and then reverted. A single fixed clock for every difficulty turned out to
+sit too close to Blitz: both are "clear the board before a countdown", differing
+only in whether the clock scales with difficulty. Two near-identical modes in the
+briefing screen cost more in player confusion than the variety was worth.
 
-**Earn lives back on strong play**
-- Award a life for a flawless wave (cleared with no mismatches) and/or at wave milestones
-- Cap at the 3-heart HUD so `updateSurvivalHUD()` needs no layout change
-- Gives a comeback path — today a single early mistake follows the whole run
-
-**Risk/reward scoring**
-- Let players opt into a harder next wave for a score multiplier, and/or add a streak multiplier that resets on life loss
-- Current score is purely linear (`pairs × wave × 10 + combo × 5`), so it measures how long you survived rather than how well you played
-- Feeds `bestSurvivalScore`, so the change should preserve or migrate existing records
-
-### Achievement Badges on Profile
-Visual badge grid in Dossier showing earned achievements.
-- Locked badges shown as silhouettes
-- Tooltip with unlock condition
-
-### Timed Mode Variant
-Race the clock — single fixed timer regardless of difficulty.
-- No per-move time, just survive the countdown
-- Separate leaderboard entry
-
-### Haptic Patterns
-Distinct haptic patterns per game event (flip, match, combo, win, lose).
-- Extends existing `haptics.js`
-- Pattern presets selectable in settings
+If revisited, it needs a mechanic that distinguishes it from Blitz rather than a
+different countdown value — e.g. time added per match, or a clock shared across
+consecutive boards. The separate leaderboard the original entry called for was
+never built, and would need a Supabase schema change plus API and UI work.
 
 ---
 
@@ -157,7 +134,7 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 - [x] 5 rank progression system
 - [x] 10 card skins with unlock conditions
 - [x] 16 collection cards
-- [x] 16 achievements
+- [x] 24 achievements
 - [x] 11 sound themes
 - [x] 11 table themes
 - [x] Combo system with XP bonuses
@@ -192,3 +169,8 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 - [x] Privacy policy page (`/privacy`) — GDPR + COPPA compliant
 - [x] `assetlinks.json` — TWA domain verification
 - [x] Security hardening — HSTS, CSP, rate limiting, service role key isolation
+- [x] Survival rework — escalation continues past wave 13 via countdown decay plus ghost/trap/glitch modifiers
+- [x] Survival lives earned back — flawless wave restores one life, capped at 5
+- [x] Survival risk/reward scoring — streak multiplier grows on clean waves, resets on life loss
+- [x] Achievement badges — Dossier badge grid, locked entries as silhouettes with unlock tooltips
+- [x] Haptic presets — SUBTLE / STANDARD / INTENSE, selectable and persisted
