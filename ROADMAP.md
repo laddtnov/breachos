@@ -18,6 +18,27 @@ Shipped — see Completed.
 
 ## v1.6.0 — Progression
 
+### Survival Mode — Challenge Rework
+Survival currently stops getting harder. `SURVIVAL_CONFIG.loopCountdowns` is
+`[0, 60, 45, 30]` and `initSurvivalWave()` clamps the lookup with
+`Math.min(loop, length - 1)`, so from loop 3 (wave 13) onward every wave uses the
+same 30s base forever. Long runs become endurance, not escalation. Three changes:
+
+**Uncapped escalation past wave 13**
+- Replace the fixed `loopCountdowns` array with a decay formula toward a floor, so pressure keeps rising instead of flattening
+- Introduce the existing gameplay modifiers at later loops — ghost flips, trap cards, glitch swaps — which today only appear in Hard/Extreme classic play
+- Keep loop 0 untimed, so the opening four waves still ease players in
+
+**Earn lives back on strong play**
+- Award a life for a flawless wave (cleared with no mismatches) and/or at wave milestones
+- Cap at the 3-heart HUD so `updateSurvivalHUD()` needs no layout change
+- Gives a comeback path — today a single early mistake follows the whole run
+
+**Risk/reward scoring**
+- Let players opt into a harder next wave for a score multiplier, and/or add a streak multiplier that resets on life loss
+- Current score is purely linear (`pairs × wave × 10 + combo × 5`), so it measures how long you survived rather than how well you played
+- Feeds `bestSurvivalScore`, so the change should preserve or migrate existing records
+
 ### Achievement Badges on Profile
 Visual badge grid in Dossier showing earned achievements.
 - Locked badges shown as silhouettes
