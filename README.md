@@ -50,7 +50,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 |------|-------------|
 | **Classic** | Standard rules — limited moves, no timer (except Extreme) |
 | **Blitz** | Race the clock — every difficulty has a countdown, no move limits |
-| **Survival** | Endless escalating waves with 3 lives |
+| **Survival** | Endless escalating waves — earn lives back, streak multiplier on score |
 | **Daily Challenge** | Seeded daily puzzle — same cards for everyone, tracks streaks |
 | **Weekly Challenge** | One seeded Hard board per week, resets Monday — double XP on first clear |
 
@@ -70,7 +70,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **XP Calculation** — difficulty × move efficiency × speed × combo chains
 - **10 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono, Plasma Burn, Acid Rain, Shadow Protocol
 - **16 Collection Cards** — unlocked by rank, survival waves, daily streaks, win milestones, blitz wins and more
-- **16 Achievements** — spanning gameplay, speed, combos, survival, daily challenges and hidden secrets
+- **24 Achievements** — spanning gameplay, speed, combos, survival, daily challenges and hidden secrets
 
 ### Unlock Conditions
 
@@ -125,6 +125,8 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Cyber / Safe Mode** — toggle animations for accessibility
 - **Color Blind Mode** — blue/orange palette replaces cyan/pink; dashed border as shape cue; persists across sessions
 - **Card Flip Animations toggle** — turn the 3D flip off for lower-end devices; persists across sessions
+- **Haptic presets** — SUBTLE / STANDARD / INTENSE buzz strength, selectable in the mobile menu
+- **Achievement badges** — badge grid in the Dossier, locked entries shown as silhouettes with unlock tooltips
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
 - **DAYLIGHT theme** — light mode for outdoor / bright-sunlight play on mobile
@@ -140,16 +142,18 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v48)
+├── sw.js                   # Service worker (network-first, breachos-v49)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
 │   ├── auth.js             # Auth state, sync, panel navigation
 │   ├── game.js             # Core game loop
 │   ├── rank.js             # XP, ranks, saveStats
-│   ├── achievements.js     # 16 achievements
+│   ├── achievements.js     # 24 achievements + Dossier badge grid
 │   ├── collections.js      # 16 collection cards
+│   ├── survival-rules.js   # Survival escalation, lives, scoring (pure)
 │   ├── survival.js         # Survival mode
+│   ├── haptic-patterns.js  # Haptic preset tables (pure)
 │   ├── daily.js            # Daily challenge + streaks
 │   ├── weekly.js           # Weekly challenge (Monday-seeded board)
 │   ├── login-streak.js     # Consecutive-day login streak + bonus XP
@@ -220,6 +224,17 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.6.0
+- **New:** Survival Mode rework — difficulty used to stop climbing at wave 13, where the fixed `loopCountdowns` array clamped. The countdown now decays toward a floor and the ghost / trap / glitch modifiers switch on at later loops, so escalation continues past that point. The opening loop stays untimed
+- **New:** Survival lives can be earned back — a flawless wave (no mismatches) restores one life, capped at 5, giving a comeback path where one early mistake used to shadow an entire run
+- **New:** Survival risk/reward scoring — a streak multiplier grows with consecutive clean waves and resets on life loss, so score reflects how well a run was played rather than only how long it lasted. Neutral at zero streak, so existing best scores stay comparable
+- **New:** Haptic presets — SUBTLE / STANDARD / INTENSE, selectable from the mobile menu and persisted. STANDARD reproduces the previous patterns exactly
+- **New:** Achievement badge grid in the Dossier — earned badges lit, locked ones as silhouettes, each with a tooltip naming the unlock condition
+- **Fix:** The heart HUD rendered a fixed three slots, so a restored fourth or fifth life was invisible
+- **Fix:** The haptic preset control showed a preset name while disabled on devices with no Vibration API; it now reads N/A, matching the HAPTICS toggle
+- **Docs:** README claimed 16 achievements; there are 24
+- **Chore:** Test suite grown from 21 to 73 tests; service worker cache bumped to `breachos-v49`
 
 ### v1.5.0
 - **New:** Weekly Challenge — one seeded Hard board per week, identical for every player, resetting each Monday. First clear of the week pays double XP plus a streak bonus; replays pay base XP. Week streak is tracked independently of the daily streak and advances only when the previous week was also cleared
