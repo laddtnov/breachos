@@ -12,29 +12,7 @@ Nothing currently in active development.
 
 ## v1.5.0 — Core Depth (Short Term)
 
-### Weekly Challenge
-A special seeded board that resets every Monday (ISO week seed, reuses `createDailySeed` infrastructure).
-- Separate leaderboard from daily challenge
-- Higher XP reward
-- Streak tracked independently
-
-### Daily Login Streak
-Bonus XP awarded for consecutive days logging in.
-- Streak counter in HUD
-- Stored in player profile
-- Missed day resets streak (streak freeze applies)
-
-### Card Flip Animations
-CSS 3D transform flip effect on card reveal and match.
-- No framework — pure CSS
-- Match effect (glow pulse) on successful pair
-- Configurable via settings (can disable for performance)
-
-### Onboarding Tutorial
-First-run overlay guiding new players through the game.
-- localStorage flag prevents repeat
-- Interactive step-by-step (click to advance)
-- Skippable
+Shipped — see Completed.
 
 ---
 
@@ -82,14 +60,6 @@ Additional card back and board theme bundles.
 ---
 
 ## Medium Term
-
-### Push Notifications (PWA)
-
-### Weekly Challenge
-A special seeded board that resets every Monday.
-- Separate from the daily challenge
-- Higher XP reward
-- Streak tracked independently
 
 ### Push Notifications (PWA)
 Remind players about the daily challenge via browser push.
@@ -169,6 +139,9 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 - [x] Post-donation thank-you email
 - [x] Vercel cron job for daily re-engagement
 - [x] Zero Sonar issues
+- [x] Weekly Challenge — seeded hard board resetting every Monday, double XP on first clear, independent streak
+- [x] Daily Login Streak — consecutive-day bonus XP, HUD counter, streak freeze covers one missed day
+- [x] Card flip animation toggle — disable in settings, plus prefers-reduced-motion support
 - [x] Game History — last 10 games in Dossier (mode, difficulty, time, moves, combo, XP)
 - [x] Daily Quests — 3 rotating objectives per day, bonus XP, resets midnight
 - [x] Extreme combo time bonus — each combo in Extreme adds +10s to the countdown
