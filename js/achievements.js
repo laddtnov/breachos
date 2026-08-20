@@ -307,10 +307,7 @@ function renderAchievementBadges() {
 }
 
 function toggleAchievementModal() {
-  const modal = document.getElementById('achievement-modal');
-  if (!modal) return;
-  modal.classList.toggle('hidden');
-  if (!modal.classList.contains('hidden')) renderAchievementModal();
+  toggleDialog(document.getElementById('achievement-modal'), () => renderAchievementModal());
 }
 
 function renderAchievementModal() {

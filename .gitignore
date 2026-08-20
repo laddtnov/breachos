@@ -30,3 +30,6 @@ yarn-error.log*
 
 # Personal drafts — kept locally, not part of the project
 /The announce of my browser game.md
+
+# Local verification page (tools/verify-page.sh)
+_verify.html

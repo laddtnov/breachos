@@ -109,14 +109,7 @@ function showQuestComplete(quest) {
 }
 
 function toggleQuestsModal() {
-  const modal = document.getElementById('quests-modal');
-  if (!modal) return;
-  if (modal.open) {
-    modal.close();
-  } else {
-    renderQuestsModal();
-    modal.showModal();
-  }
+  toggleDialog(document.getElementById('quests-modal'), () => renderQuestsModal());
 }
 
 function renderQuestsModal() {

@@ -16,9 +16,6 @@
   pointer-events: none;
 }
 
-#combo-display.hidden {
-  display: none;
-}
 
 .combo-pop {
   animation: combo-pulse 0.4s ease-out;

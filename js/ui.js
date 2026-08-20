@@ -73,6 +73,24 @@ function updateRankHUD() {
   }
 }
 
+// ── Modal helper ──
+// The plain modals all did the same open/close dance. Renders before showing so
+// the dialog never paints stale content.
+//
+// toggleLeaderboardModal and toggleAuthModal are deliberately NOT routed through
+// this: the first coordinates with the mobile menu's close event, the second
+// picks a starting panel. Giving this helper flags to cover them would trade
+// duplication for configuration nobody else sets.
+function toggleDialog(modal, onOpen) {
+  if (!modal) return;
+  if (modal.open) {
+    modal.close();
+    return;
+  }
+  onOpen?.();
+  modal.showModal();
+}
+
 // ── Game Mode Toggle ──
 function setGameMode(mode) {
   gameState.mode = mode;
@@ -158,61 +176,26 @@ function initGame() {
   const isBlitz = gameState.mode === 'blitz';
   const blitz = isBlitz ? BLITZ_CONFIG[gameState.difficulty] : null;
 
-  gameState.flippedCards = [];
-  gameState.matchedPairs = 0;
-  gameState.totalPairs = config.pairs;
-  gameState.maxMoves = blitz ? blitz.maxMoves : config.maxMoves;
-  gameState.moves = 0;
-  gameState.combo = 0;
-  gameState.maxCombo = 0;
-  gameState.seconds = 0;
-  gameState.countdown = blitz ? blitz.countdown : (config.countdown || 0);
-  gameState.timerStarted = false;
-  gameState.isLocked = false;
+  resetRoundState({
+    pairs: config.pairs,
+    maxMoves: blitz ? blitz.maxMoves : config.maxMoves,
+    countdown: blitz ? blitz.countdown : (config.countdown || 0),
+  });
   gameState.timewarpActive = false;
   gameState.timewarpCount = 0; // #20 Time Lord: reset warp counter each game
-  gameState.trapCharId = null;
-  gameState.trapSprung = false;
-  gameState.glitchFired = false;
-  clearTimeout(gameState.glitchTimeout);
-  gameState.glitchTimeout = null;
   clearTimeout(idleTimer);
-  clearInterval(gameState.timerInterval);
   if (typeof resetPauseState === 'function') resetPauseState();
-  document.body.classList.remove('countdown-critical');
-  document.body.classList.toggle('blitz-mode', isBlitz);
-  document.body.classList.remove('survival-mode', 'daily-mode');
-  document.getElementById('survival-hud').classList.add('hidden');
-  document.getElementById('wave-clear-overlay').classList.add('hidden');
-  document.getElementById('survival-over-overlay').classList.add('hidden');
-  document.getElementById('daily-hud').classList.add('hidden');
-  document.getElementById('daily-win-overlay').classList.add('hidden');
 
-  movesDisplay.childNodes[0].textContent = '0';
-  movesLimit.textContent = isBlitz ? '' : '/' + config.maxMoves;
-  timerDisplay.textContent = gameState.countdown ? formatTime(gameState.countdown) : '00:00';
-  winOverlay.classList.add('hidden');
-  loseOverlay.classList.add('hidden');
-  difficultyDisplay.textContent = (isBlitz ? 'BLITZ ' : '') + config.label;
+  clearModeChrome();
+  document.body.classList.toggle('blitz-mode', isBlitz);
+  resetHud({
+    label: (isBlitz ? 'BLITZ ' : '') + config.label,
+    moveLimitText: isBlitz ? '' : '/' + config.maxMoves,
+    countdown: gameState.countdown,
+  });
   particles.innerHTML = '';
 
-  const hudItem = movesDisplay.closest('.hud-item');
-  hudItem.classList.remove('moves-warning');
-
-  board.className = '';
-  board.classList.add(config.gridClass);
-
-  // Apply active skin
-  applySkin(playerStats.activeSkin);
-
-  // Merge unlocked reward characters into the pool
-  const rewardChars = getUnlockedRewardCharacters();
-  const allCharacters = [...characters, ...rewardChars];
-  const selected = shuffle(allCharacters).slice(0, config.pairs);
-  const deck = shuffle([...selected, ...selected]);
-
-  board.innerHTML = '';
-  deck.forEach(char => board.appendChild(createCardElement(char)));
+  const selected = buildBoard({ pairs: config.pairs, gridClass: config.gridClass });
 
   // ── Trap card: assign one random pair on hard/extreme (classic only) ──
   if ((gameState.difficulty === 'hard' || gameState.difficulty === 'extreme') && gameState.mode === 'classic') {
@@ -345,8 +328,8 @@ function updateOnboardingStep() {
   const prev  = document.getElementById('onboarding-prev');
   const next  = document.getElementById('onboarding-next');
   const start = document.getElementById('onboarding-start');
-  if (prev)  prev.classList.toggle('hidden', onboardingStep === 0);
-  if (next)  next.classList.toggle('hidden', onboardingStep === 2);
+  if (prev)  prev.classList.toggle('is-invisible', onboardingStep === 0);
+  if (next)  next.classList.toggle('is-invisible', onboardingStep === 2);
   if (start) start.classList.toggle('hidden', onboardingStep !== 2);
 }
 
@@ -399,13 +382,7 @@ function selectSkin(skinName) {
 }
 
 function toggleSkinModal() {
-  if (!skinModal) return;
-  if (skinModal.open) {
-    skinModal.close();
-  } else {
-    skinModal.showModal();
-    renderSkinModal();
-  }
+  toggleDialog(skinModal, () => renderSkinModal());
 }
 
 function renderSkinModal() {

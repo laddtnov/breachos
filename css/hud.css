@@ -240,7 +240,6 @@ body.blitz-mode .hud-diff {
   pointer-events: none;
 }
 
-#timewarp-flash.hidden { display: none; }
 
 .timewarp-active {
   animation: timewarp-pulse 0.7s ease-in-out infinite;
@@ -269,7 +268,6 @@ body.blitz-mode .hud-diff {
   animation: trap-flash-in 0.3s ease-out;
 }
 
-#trap-flash.hidden { display: none; }
 
 @keyframes trap-flash-in {
   0%   { transform: translateX(-50%) scale(1.5); opacity: 0; }

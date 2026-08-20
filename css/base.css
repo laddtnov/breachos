@@ -1,3 +1,10 @@
+/* ── Visibility utility ──
+   One rule instead of ~30 per-component copies. !important is required, not
+   stylistic: most call sites are #id.hidden because the element's own #id rule
+   sets display, which would otherwise win on specificity.
+   For hiding that must keep its layout slot, use .is-invisible. */
+.hidden { display: none !important; }
+
 /* ── Screen-reader only utility ── */
 .sr-only {
   position: absolute;

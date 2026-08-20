@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v50';
+const CACHE_NAME = 'breachos-v51';
 const ASSETS = [
   './',
   './index.html',
@@ -38,6 +38,7 @@ const ASSETS = [
   './js/stats-rules.js',
   './js/rank.js',
   './js/game.js',
+  './js/board.js',
   './js/collections.js',
   './js/dossier.js',
   './js/sound-themes.js',

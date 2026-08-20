@@ -25,9 +25,6 @@
   backdrop-filter: blur(8px);
 }
 
-#back-to-game-btn.hidden {
-  display: none;
-}
 
 .rules-content {
   max-width: 520px;

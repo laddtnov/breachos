@@ -119,14 +119,7 @@ function selectSoundTheme(themeId) {
 }
 
 function toggleSoundThemeModal() {
-  const modal = document.getElementById('sound-theme-modal');
-  if (!modal) return;
-  if (modal.open) {
-    modal.close();
-  } else {
-    modal.showModal();
-    renderSoundThemeModal();
-  }
+  toggleDialog(document.getElementById('sound-theme-modal'), () => renderSoundThemeModal());
 }
 
 function renderSoundThemeModal() {

@@ -13,9 +13,6 @@
   z-index: 1;
 }
 
-#survival-hud.hidden {
-  display: none;
-}
 
 .survival-hud-item {
   display: flex;
@@ -81,9 +78,6 @@ body.survival-mode .hud-diff {
   animation: wave-clear-flash 0.4s ease-out;
 }
 
-#wave-clear-overlay.hidden {
-  display: none;
-}
 
 @keyframes wave-clear-flash {
   0% { background: rgba(0, 255, 136, 0.3); }
@@ -125,8 +119,7 @@ body.survival-mode .hud-diff {
   text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
-/* Flawless-wave life award. Needs its own .hidden rule — this codebase has no
-   global one, so each component declares its own. */
+/* Flawless-wave life award. */
 .wave-clear-bonus {
   font-size: 14px;
   color: #ff5c8a;
@@ -135,9 +128,6 @@ body.survival-mode .hud-diff {
   text-shadow: 0 0 10px rgba(255, 92, 138, 0.5);
 }
 
-.wave-clear-bonus.hidden {
-  display: none;
-}
 
 .wave-clear-next {
   font-size: 14px;
@@ -160,9 +150,6 @@ body.survival-mode .hud-diff {
   animation: lose-flash 0.5s ease-out;
 }
 
-#survival-over-overlay.hidden {
-  display: none;
-}
 
 .survival-over-content {
   text-align: center;
