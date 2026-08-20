@@ -87,12 +87,17 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.92);
-  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 250;
   backdrop-filter: blur(8px);
 }
+
+/* display lives on [open] only. A <dialog> is hidden by the UA when closed, but
+   an unconditional display here overrides that and paints it permanently.
+   Matches every other dialog in the app. */
+#achievement-modal[open] { display: flex; }
+#achievement-modal::backdrop { display: none; }
 
 
 .achievement-modal-content {
