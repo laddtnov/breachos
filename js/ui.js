@@ -363,8 +363,8 @@ function updateOnboardingStep() {
   const prev  = document.getElementById('onboarding-prev');
   const next  = document.getElementById('onboarding-next');
   const start = document.getElementById('onboarding-start');
-  if (prev)  prev.classList.toggle('hidden', onboardingStep === 0);
-  if (next)  next.classList.toggle('hidden', onboardingStep === 2);
+  if (prev)  prev.classList.toggle('is-invisible', onboardingStep === 0);
+  if (next)  next.classList.toggle('is-invisible', onboardingStep === 2);
   if (start) start.classList.toggle('hidden', onboardingStep !== 2);
 }
 

@@ -11,9 +11,6 @@
   backdrop-filter: blur(5px);
 }
 
-#win-overlay.hidden {
-  display: none;
-}
 
 .win-content {
   text-align: center;
@@ -164,9 +161,6 @@
   animation: lose-flash 0.5s ease-out;
 }
 
-#lose-overlay.hidden {
-  display: none;
-}
 
 @keyframes lose-flash {
   0% { background: rgba(255, 0, 0, 0.4); }
@@ -294,9 +288,6 @@
   backdrop-filter: blur(10px);
 }
 
-#rankup-overlay.hidden {
-  display: none;
-}
 
 .rankup-content {
   text-align: center;

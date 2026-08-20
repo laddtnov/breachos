@@ -17,7 +17,6 @@
   animation: combo-time-pop 1.2s ease-out forwards;
 }
 
-#combo-time-bonus.hidden { display: none; }
 
 @keyframes combo-time-pop {
   0%   { transform: translateX(-50%) scale(0.8); opacity: 0; }
@@ -39,7 +38,6 @@
   margin-bottom: 8px;
   animation: peek-blink 0.5s ease-in-out infinite;
 }
-#peek-countdown.hidden { display: none; }
 
 @keyframes peek-blink {
   0%, 100% { opacity: 1; }
@@ -100,7 +98,6 @@ body.glitch-event {
   border-radius: 8px;
   background: rgba(0, 243, 255, 0.03);
 }
-#custom-panel.hidden { display: none; }
 
 .custom-row {
   display: flex;
@@ -212,7 +209,6 @@ body.glitch-event {
   font-family: 'Courier New', monospace;
 }
 
-.onboarding-step.hidden { display: none; }
 
 .onboarding-demo {
   height: 90px;
@@ -305,7 +301,9 @@ body.glitch-event {
   transition: all 0.2s;
 }
 .onboarding-nav button:hover { background: rgba(0, 243, 255, 0.1); }
-.onboarding-nav button.hidden { visibility: hidden; }
+/* Not .hidden: these keep their layout slot so the nav does not shift as steps
+   change. .hidden means display:none app-wide. */
+.onboarding-nav button.is-invisible { visibility: hidden; }
 
 .onboarding-dots { display: flex; gap: 0; }
 
@@ -348,7 +346,6 @@ body.glitch-event {
   transition: background 0.2s;
 }
 #onboarding-start:hover { background: #00c8d4; }
-#onboarding-start.hidden { display: none; }
 
 #onboarding-skip {
   background: transparent;

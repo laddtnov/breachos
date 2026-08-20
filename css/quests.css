@@ -185,7 +185,6 @@
   pointer-events: none;
 }
 
-.quest-complete-banner.hidden { display: none; }
 
 .quest-complete-banner.quest-banner-visible {
   transform: translateX(-50%) translateY(0);
@@ -230,7 +229,6 @@
   animation: quest-dot-pulse 1.5s ease-in-out infinite;
 }
 
-.quest-dot.hidden { display: none; }
 
 @keyframes quest-dot-pulse {
   0%, 100% { opacity: 1; }

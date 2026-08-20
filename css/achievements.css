@@ -19,9 +19,6 @@
   animation: ach-glow-pulse 1.5s ease-in-out infinite;
 }
 
-#achievement-popup.hidden {
-  display: none;
-}
 
 @keyframes ach-glow-pulse {
   0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); border-color: #00ff88; }
@@ -97,9 +94,6 @@
   backdrop-filter: blur(8px);
 }
 
-#achievement-modal.hidden {
-  display: none;
-}
 
 .achievement-modal-content {
   max-width: 550px;

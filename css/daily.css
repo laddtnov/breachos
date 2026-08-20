@@ -58,9 +58,6 @@
   box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
 }
 
-.daily-badge.hidden {
-  display: none;
-}
 
 /* ── Daily HUD Bar ── */
 #daily-hud {
@@ -77,9 +74,6 @@
   z-index: 1;
 }
 
-#daily-hud.hidden {
-  display: none;
-}
 
 .daily-hud-item {
   display: flex;
@@ -132,9 +126,6 @@ body.daily-mode .hud-diff {
   backdrop-filter: blur(5px);
 }
 
-#daily-win-overlay.hidden {
-  display: none;
-}
 
 #daily-win-overlay::before {
   content: "";
