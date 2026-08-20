@@ -155,6 +155,44 @@ describe('sanitizeStats — unknown and oversized input', () => {
   });
 });
 
+describe('sanitizeStats — daily best times', () => {
+  // This map is keyed by date, which makes it the one field that could be used
+  // as arbitrary key-value storage if the keys were not checked.
+  test('keeps a real dated entry', () => {
+    const { stats } = sanitizeStats({ ...clean, dailyBestTimes: { '2026-08-20': 41 } }, null);
+
+    assert.deepStrictEqual({ ...stats.dailyBestTimes }, { '2026-08-20': 41 });
+  });
+
+  test('drops keys that are not dates', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, dailyBestTimes: { '2026-08-20': 41, evil: 1, '../etc': 2 } }, null,
+    );
+
+    assert.deepStrictEqual(Object.keys(stats.dailyBestTimes), ['2026-08-20']);
+  });
+
+  test('drops a non-positive or non-numeric time', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, dailyBestTimes: { '2026-08-20': 0, '2026-08-21': 'fast', '2026-08-22': 12 } }, null,
+    );
+
+    assert.deepStrictEqual(Object.keys(stats.dailyBestTimes), ['2026-08-22']);
+  });
+
+  test('caps the number of stored dates', () => {
+    const many = {};
+    for (let i = 0; i < 500; i++) many[`2026-01-${String(i % 28 + 1).padStart(2, '0')}`] = 10;
+    const { stats } = sanitizeStats({ ...clean, dailyBestTimes: many }, null);
+
+    assert.ok(Object.keys(stats.dailyBestTimes).length <= STAT_LIMITS.gameHistory);
+  });
+
+  test('survives a non-object rather than throwing', () => {
+    assert.deepStrictEqual({ ...sanitizeStats({ ...clean, dailyBestTimes: 'x' }, null).stats.dailyBestTimes }, {});
+  });
+});
+
 describe('sanitizeStats — the accounting invariant', () => {
   test('never stores more wins than games played', () => {
     // The v1.6.0 win-rate bug came from exactly this drifting apart.
