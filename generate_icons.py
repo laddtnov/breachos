@@ -162,10 +162,43 @@ def make_icon(size: int) -> Image.Image:
     return canvas
 
 
+# Android crops a maskable icon to a shape it chooses — circle, squircle,
+# rounded square — and only a centred circle of 80% diameter is guaranteed to
+# survive. The framed composition above is square, so it needs shrinking into
+# that safe zone with the background carried out to the edges.
+#
+# The bound is the frame, not the letter. Its outermost painted point is the
+# corner arc of the rounded rectangle, at
+#
+#     sqrt(2) * (1/2 - 1/22 - 1/6) + 1/6  =  0.5738 * inner
+#
+# from the centre, so 0.40 / 0.5738 = 0.697 is the largest scale at which the
+# whole frame clears a circular mask. Anything larger and a Pixel launcher
+# slices the four corners off, leaving severed border lines that read as a
+# rendering fault. Rounded down for a margin.
+MASKABLE_SCALE = 0.69
+
+
+def make_maskable_icon(size: int) -> Image.Image:
+    """The same artwork, inset so an adaptive-icon mask cannot clip it."""
+    inner = round(size * MASKABLE_SCALE)
+    offset = (size - inner) // 2
+
+    # Opaque, square, no corner radius: the launcher supplies the silhouette,
+    # and any transparency here would show as a notch in it.
+    canvas = Image.new('RGBA', (size, size), (*BG, 255))
+    canvas.alpha_composite(make_icon(inner), (offset, offset))
+    return canvas
+
+
 if __name__ == '__main__':
     icon_dir = 'icons'
-    for size, name in [(512, 'icon-512.png'), (192, 'icon-192.png')]:
-        img = make_icon(size)
+    outputs = [
+        (512, 'icon-512.png',          make_icon),
+        (192, 'icon-192.png',          make_icon),
+        (512, 'icon-512-maskable.png', make_maskable_icon),
+    ]
+    for size, name, build in outputs:
         out = f'{icon_dir}/{name}'
-        img.save(out, 'PNG')
+        build(size).save(out, 'PNG')
         print(f'Generated {out}')

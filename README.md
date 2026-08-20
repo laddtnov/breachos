@@ -337,10 +337,13 @@ MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Vladyslav Novytskyi.
 Every visual asset in this repository is original work, generated from code in
 this repository:
 
-- **App icons** (`icons/icon-192.png`, `icons/icon-512.png`) are produced by
+- **App icons** (`icons/icon-192.png`, `icons/icon-512.png`, and
+  `icons/icon-512-maskable.png`) are produced by
   [`generate_icons.py`](generate_icons.py), which draws the background, grid,
   glow, border, circuit accents and the B monogram from geometric primitives.
   No font file is loaded, so no type foundry's licence applies to the output.
+  The maskable variant is the same artwork inset to 69%, the largest scale at
+  which the frame clears Android's 80% safe zone under a circular mask.
 - **Favicon** (`icons/favicon.svg`) is hand-written SVG rectangles.
 - **Card faces, skins and themes** are CSS gradients, borders and Unicode
   glyphs — see `css/`. No bitmap artwork is bundled.
