@@ -35,14 +35,7 @@ function selectTheme(themeId) {
 }
 
 function toggleThemeModal() {
-  const modal = document.getElementById('theme-modal');
-  if (!modal) return;
-  if (modal.open) {
-    modal.close();
-  } else {
-    modal.showModal();
-    renderThemeModal();
-  }
+  toggleDialog(document.getElementById('theme-modal'), () => renderThemeModal());
 }
 
 function renderThemeModal() {

@@ -73,6 +73,24 @@ function updateRankHUD() {
   }
 }
 
+// ── Modal helper ──
+// The plain modals all did the same open/close dance. Renders before showing so
+// the dialog never paints stale content.
+//
+// toggleLeaderboardModal and toggleAuthModal are deliberately NOT routed through
+// this: the first coordinates with the mobile menu's close event, the second
+// picks a starting panel. Giving this helper flags to cover them would trade
+// duplication for configuration nobody else sets.
+function toggleDialog(modal, onOpen) {
+  if (!modal) return;
+  if (modal.open) {
+    modal.close();
+    return;
+  }
+  onOpen?.();
+  modal.showModal();
+}
+
 // ── Game Mode Toggle ──
 function setGameMode(mode) {
   gameState.mode = mode;
@@ -399,13 +417,7 @@ function selectSkin(skinName) {
 }
 
 function toggleSkinModal() {
-  if (!skinModal) return;
-  if (skinModal.open) {
-    skinModal.close();
-  } else {
-    skinModal.showModal();
-    renderSkinModal();
-  }
+  toggleDialog(skinModal, () => renderSkinModal());
 }
 
 function renderSkinModal() {

@@ -3,7 +3,7 @@
 function startSurvivalMode() {
   gameState.mode = 'survival';
   gameState.survivalWave = 1;
-  gameState.survivalLives = SURVIVAL_CONFIG.startLives;
+  gameState.survivalLives = SURVIVAL_START_LIVES;
   gameState.survivalScore = 0;
   gameState.survivalLoop = 0;
   gameState.survivalStreak = 0;
@@ -202,7 +202,7 @@ function updateSurvivalHUD() {
   if (livesEl) {
     livesEl.innerHTML = '';
     // Grows past startLives so an earned 4th or 5th heart is actually visible.
-    const slots = Math.max(SURVIVAL_CONFIG.startLives, gameState.survivalLives);
+    const slots = Math.max(SURVIVAL_START_LIVES, gameState.survivalLives);
     for (let i = 0; i < slots; i++) {
       const heart = document.createElement('span');
       heart.classList.add('survival-heart');

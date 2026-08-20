@@ -1,5 +1,6 @@
-<!-- Achievement Modal -->
-<div id="achievement-modal" class="hidden">
+<!-- Achievement Modal — <dialog> for the native focus trap (WCAG 2.1.2 / #31),
+     matching every other modal in the app -->
+<dialog id="achievement-modal" aria-label="Achievements">
   <div class="achievement-modal-content">
     <h3 class="achievement-modal-title">ACHIEVEMENTS</h3>
     <div class="rules-divider"></div>
@@ -7,7 +8,7 @@
     <div id="achievement-grid"></div>
     <button class="achievement-close-btn" onclick="toggleAchievementModal()">CLOSE</button>
   </div>
-</div>
+</dialog>
 
 <!-- Achievement Popup -->
 <div id="achievement-popup" class="hidden">

@@ -180,14 +180,7 @@ function getUnlockedRewardCount() {
 }
 
 function toggleCollectionModal() {
-  const modal = document.getElementById('collection-modal');
-  if (!modal) return;
-  if (modal.open) {
-    modal.close();
-  } else {
-    modal.showModal();
-    renderCollectionModal();
-  }
+  toggleDialog(document.getElementById('collection-modal'), () => renderCollectionModal());
 }
 
 function renderCollectionModal() {

@@ -132,8 +132,6 @@ const BLITZ_CONFIG = {
 
 // ── Survival Mode Config ──
 const SURVIVAL_WAVES = ['easy', 'medium', 'hard', 'extreme'];
-const SURVIVAL_CONFIG = {
-  startLives: 3,
-  // Countdown and modifier escalation now live in js/survival-rules.js, which
-  // decays toward a floor rather than clamping at a fixed array index.
-};
+// Countdown and modifier escalation live in js/survival-rules.js, which decays
+// toward a floor rather than clamping at a fixed array index.
+const SURVIVAL_START_LIVES = 3;
