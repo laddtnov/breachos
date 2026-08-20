@@ -237,6 +237,8 @@
 
 .dos-badge {
   display: flex;
+  font: inherit;
+  padding: 0;
   align-items: center;
   justify-content: center;
   width: 40px;
@@ -279,4 +281,51 @@
 @media (prefers-reduced-motion: reduce) {
   .dos-badge { transition: none; }
   .dos-badge:hover, .dos-badge:focus-visible { transform: none; }
+}
+
+/* ── Badge detail line ──
+   The grid carries names in a title tooltip, which touch devices never show.
+   Tapping or focusing a badge writes the same text here. */
+#dos-badge-detail {
+  min-height: 34px;
+  margin: 2px 0 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.dos-badge-detail-name {
+  color: #00f3ff;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-right: 8px;
+}
+
+.dos-badge-detail-status {
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+
+.dos-badge-detail-status.unlocked {
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.5);
+}
+
+.dos-badge-detail-status.locked {
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.dos-badge-detail-desc {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dos-badge.selected {
+  outline: 2px solid #00f3ff;
+  outline-offset: 2px;
 }

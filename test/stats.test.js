@@ -69,6 +69,39 @@ describe('calculateWinRate — missing values', () => {
   });
 });
 
+describe('gameHistoryModeLabel', () => {
+  test('labels every live mode', () => {
+    assert.strictEqual(s.gameHistoryModeLabel('classic'), 'CLASSIC');
+    assert.strictEqual(s.gameHistoryModeLabel('blitz'), 'BLITZ');
+    assert.strictEqual(s.gameHistoryModeLabel('survival'), 'SURVIVAL');
+    assert.strictEqual(s.gameHistoryModeLabel('daily'), 'DAILY');
+  });
+
+  test('labels weekly, which the original map omitted', () => {
+    // weekly only rendered correctly because the uppercase fallback happened to
+    // match. It should be mapped deliberately.
+    assert.strictEqual(s.gameHistoryModeLabel('weekly'), 'WEEKLY');
+  });
+
+  test('never shows a retired mode that no longer exists in the game', () => {
+    // Timed mode was built and reverted, but saved histories still hold entries
+    // recorded as 'timed'. It was a countdown mode, so Blitz is its live
+    // equivalent — showing "TIMED" names a mode the player cannot select.
+    assert.strictEqual(s.gameHistoryModeLabel('timed'), 'BLITZ');
+  });
+
+  test('falls back to uppercase for an unrecognised mode', () => {
+    assert.strictEqual(s.gameHistoryModeLabel('experiment'), 'EXPERIMENT');
+  });
+
+  test('survives a missing mode rather than throwing', () => {
+    // A corrupt or truncated entry must not take the whole history table down.
+    assert.strictEqual(s.gameHistoryModeLabel(undefined), '—');
+    assert.strictEqual(s.gameHistoryModeLabel(null), '—');
+    assert.strictEqual(s.gameHistoryModeLabel(''), '—');
+  });
+});
+
 describe('survival accounting invariant', () => {
   test('a survival run never records more wins than games played', () => {
     // The accounting rule this fix establishes: each cleared wave counts as

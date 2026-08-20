@@ -267,6 +267,18 @@ function buildAchievementBadges(achievements, unlockedIds) {
   }));
 }
 
+// Detail for one badge. The grid shows only a symbol and carries its name and
+// unlock condition in a title tooltip, which touch devices never render — so
+// tapping a badge needs a way to surface the same text.
+function achievementBadgeDetail(achievements, unlockedIds, id) {
+  const badge = buildAchievementBadges(achievements, unlockedIds).find(b => b.id === id);
+  if (!badge) return null;
+  return {
+    ...badge,
+    status: badge.unlocked ? 'UNLOCKED' : 'LOCKED',
+  };
+}
+
 function achievementProgress(achievements, unlockedIds) {
   const total = achievements.length;
   // Count against the real list so a stale saved id cannot report 7/6.
@@ -293,49 +305,54 @@ function renderAchievementBadges() {
     summary.textContent = `${progress.unlocked} / ${progress.total} — ${progress.percent}%`;
   }
 
+  // Buttons, not spans: a title tooltip is invisible on touch and unreachable by
+  // keyboard, so tapping or focusing a badge reveals the same text below.
   grid.innerHTML = badges.map(badge => {
     const state = badge.unlocked ? 'unlocked' : 'locked';
     const status = badge.unlocked ? 'Unlocked' : `Locked — ${badge.desc}`;
     return `
-      <span class="dos-badge ${state}" role="listitem"
-            title="${badge.name} — ${badge.desc}"
-            aria-label="${badge.name}. ${status}">
+      <button type="button" class="dos-badge ${state}" role="listitem"
+              data-achievement="${badge.id}"
+              title="${badge.name} — ${badge.desc}"
+              aria-label="${badge.name}. ${status}">
         <span class="dos-badge-symbol" aria-hidden="true">${badge.symbol}</span>
-      </span>
+      </button>
     `;
   }).join('');
+
+  showAchievementDetail(badges.find(b => b.unlocked)?.id ?? badges[0]?.id);
 }
 
-function toggleAchievementModal() {
-  toggleDialog(document.getElementById('achievement-modal'), () => renderAchievementModal());
+// Renders the detail line under the grid for one badge.
+function showAchievementDetail(id) {
+  const el = document.getElementById('dos-badge-detail');
+  if (!el) return;
+  const detail = achievementBadgeDetail(ACHIEVEMENTS, unlockedAchievements, id);
+  if (!detail) { el.textContent = ''; return; }
+
+  el.innerHTML = `
+    <span class="dos-badge-detail-name">${detail.name}</span>
+    <span class="dos-badge-detail-status ${detail.unlocked ? 'unlocked' : 'locked'}">${detail.status}</span>
+    <span class="dos-badge-detail-desc">${detail.desc}</span>
+  `;
+  document.querySelectorAll('#dos-badge-grid .dos-badge').forEach(b => {
+    b.classList.toggle('selected', b.dataset.achievement === id);
+  });
 }
 
-function renderAchievementModal() {
-  const grid = document.getElementById('achievement-grid');
-  const countEl = document.getElementById('achievement-count');
-  if (!grid) return;
-  // WCAG 4.1.2 — list semantics on the container (#50)
-  grid.setAttribute('role', 'list');
-
-  const unlocked = unlockedAchievements.length;
-  const total = ACHIEVEMENTS.length;
-
-  if (countEl) {
-    countEl.innerHTML = `UNLOCKED: <span>${unlocked}</span> / ${total}`;
-  }
-
-  grid.innerHTML = ACHIEVEMENTS.map(ach => {
-    const isUnlocked = unlockedAchievements.includes(ach.id);
-    return `
-      <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}"
-           role="listitem"
-           aria-label="${ach.name} — ${ach.desc} — ${isUnlocked ? 'Unlocked' : 'Locked'}">
-        <span class="achievement-item-symbol" aria-hidden="true">${isUnlocked ? ach.symbol : '🔒'}</span>
-        <div class="achievement-info">
-          <span class="achievement-item-name">${ach.name}</span>
-          <span class="achievement-item-desc">${ach.desc}</span>
-        </div>
-      </div>
-    `;
-  }).join('');
+// One listener on the grid rather than one per badge, since the grid is rebuilt
+// on every Dossier open.
+function initAchievementBadgeGrid() {
+  const grid = document.getElementById('dos-badge-grid');
+  if (!grid || grid.dataset.wired) return;
+  grid.dataset.wired = '1';
+  grid.addEventListener('click', e => {
+    const badge = e.target.closest('.dos-badge');
+    if (badge) showAchievementDetail(badge.dataset.achievement);
+  });
+  grid.addEventListener('focusin', e => {
+    const badge = e.target.closest('.dos-badge');
+    if (badge) showAchievementDetail(badge.dataset.achievement);
+  });
 }
+

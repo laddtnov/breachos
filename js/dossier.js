@@ -21,7 +21,10 @@ function renderDossier() {
   document.getElementById('dos-achievements').textContent = unlockedAchievements.length + '/' + ACHIEVEMENTS.length;
 
   // Badge grid — earned badges lit, locked ones as silhouettes with a tooltip.
-  if (typeof renderAchievementBadges === 'function') renderAchievementBadges();
+  if (typeof renderAchievementBadges === 'function') {
+    initAchievementBadgeGrid();
+    renderAchievementBadges();
+  }
 
   // Per-difficulty breakdown
   const diffs = ['easy', 'medium', 'hard', 'extreme'];
@@ -63,8 +66,8 @@ function renderGameHistory() {
     return;
   }
 
-  const modeLabel = { classic: 'CLASSIC', blitz: 'BLITZ', survival: 'SURVIVAL', daily: 'DAILY' };
-  const diffLabel  = { easy: 'EASY', medium: 'MED', hard: 'HARD', extreme: 'EXT' };
+  // Mode labels live in stats-rules.js — history outlives the modes that wrote it.
+  const diffLabel = { easy: 'EASY', medium: 'MED', hard: 'HARD', extreme: 'EXT' };
 
   tbody.innerHTML = history.map(g => {
     const resultClass = g.result === 'win' ? 'dos-result-win' : 'dos-result-lose';
@@ -72,8 +75,8 @@ function renderGameHistory() {
     return `
       <tr>
         <td><span class="dos-result-badge ${resultClass}">${resultText}</span></td>
-        <td>${modeLabel[g.mode] || g.mode.toUpperCase()}</td>
-        <td class="dos-diff-name dos-${g.difficulty}">${diffLabel[g.difficulty] || g.difficulty.toUpperCase()}</td>
+        <td>${gameHistoryModeLabel(g.mode)}</td>
+        <td class="dos-diff-name dos-${g.difficulty}">${diffLabel[g.difficulty] || String(g.difficulty ?? '—').toUpperCase()}</td>
         <td>${g.moves}</td>
         <td>${formatTime(g.time)}</td>
         <td class="dos-history-xp">+${g.xp}</td>
