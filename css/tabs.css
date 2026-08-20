@@ -32,7 +32,10 @@
 .tab-btn.active {
   border-color: #00f3ff;
   color: #00f3ff;
-  background: rgba(0, 243, 255, 0.08);
+  /* Opaque equivalent of rgba(0,243,255,0.08) composited over the modal panel's
+     rgba(5,8,16,0.97) — same pixels, but the 12.85:1 contrast is now something
+     static analysis can actually compute. */
+  background: #051b23;
   box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 }
 
