@@ -1,11 +1,57 @@
-"""Generate Breachos-style PWA icons (192x192 and 512x512)."""
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+"""Generate Breachos-style PWA icons (192x192 and 512x512).
+
+Everything here is drawn programmatically from primitives — no font file is
+loaded, so the output carries no third-party type foundry's rights. The B
+monogram is the same block letterform as icons/favicon.svg, which keeps the
+two icons consistent and keeps the artwork wholly original to this project.
+"""
+from PIL import Image, ImageDraw, ImageFilter
 
 CYAN  = (0, 243, 255)
 PINK  = (255, 0, 85)
 BG    = (10, 10, 25)
 
-FONT_PATH = '/System/Library/Fonts/Supplemental/Futura.ttc'
+# Block "B" on a 34x44 grid, as polygons. Same letterform family as
+# icons/favicon.svg, redrawn on a finer grid because the favicon's 32px cell
+# is too coarse here — at 512px the neon bloom closed up its counters and the
+# letter read as an E.
+#
+# Two details do the work of making this a B rather than an 8: the lower bowl
+# reaches four units further right than the upper one, and both outer corners
+# are chamfered. Without the step and the cuts, a rectangle with two holes in
+# it is an 8. The chamfers also echo the circuit traces in the corners.
+MONOGRAM_W, MONOGRAM_H = 34, 44   # extent of the letter on that grid
+_CHAMFER = 6
+
+
+def _rect(x, y, w, h):
+    return [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
+
+
+MONOGRAM_SHAPES = [
+    _rect(0,  0,  7, 44),                       # left stem, full height
+    _rect(7,  0, 17,  7),                       # top bar
+    [(24, 0), (30 - _CHAMFER, 0), (30, _CHAMFER),
+     (30, 25), (24, 25)],                       # upper bowl, right edge
+    _rect(7, 18, 21,  7),                       # middle bar
+    [(28, 18), (34, 18), (34, 44 - _CHAMFER),
+     (34 - _CHAMFER, 44), (28, 44)],            # lower bowl, right edge
+    _rect(7, 37, 21,  7),                       # bottom bar
+]
+
+# Cap height of the monogram as a fraction of the icon. Roughly matches the
+# optical weight of the 0.58em type it replaces.
+MONOGRAM_SCALE = 0.46
+
+
+def draw_monogram(draw: ImageDraw.ImageDraw, s: int, fill: tuple) -> None:
+    """Draw the block B centred on an s-by-s canvas, nudged up off centre."""
+    unit = s * MONOGRAM_SCALE / MONOGRAM_H
+    left = (s - MONOGRAM_W * unit) / 2
+    top  = (s - MONOGRAM_H * unit) / 2 - s / 30   # same lift the type had
+
+    for shape in MONOGRAM_SHAPES:
+        draw.polygon([(left + x * unit, top + y * unit) for x, y in shape], fill=fill)
 
 
 def make_icon(size: int) -> Image.Image:
@@ -93,67 +139,26 @@ def make_icon(size: int) -> Image.Image:
 
     canvas = Image.alpha_composite(canvas, trace)
 
-    # ── 5. Central "B" with neon glow ─────────────────────────────────────
-    font_size = int(s * 0.58)
-    try:
-        font = ImageFont.truetype(FONT_PATH, font_size, index=3)  # Futura Bold Heavy
-    except Exception:
-        font = ImageFont.load_default()
+    # ── 5. Central "B" monogram with neon glow ────────────────────────────
+    # Four stacked passes: a wide soft bloom, a tighter one, a pink inner
+    # halo, then the sharp letter on top.
+    # The outer bloom is deliberately tighter than a text glow would be: the
+    # counters are only about 0.11*s tall, and a wide blur closes them up.
+    for blur, colour, alpha in [
+        (s // 26, CYAN, 170),
+        (s // 40, CYAN, 230),
+        (s // 70, PINK, 60),
+        (0,       CYAN, 255),
+    ]:
+        layer = Image.new('RGBA', (s, s), (0, 0, 0, 0))
+        draw_monogram(ImageDraw.Draw(layer), s, (*colour, alpha))
+        if blur:
+            layer = layer.filter(ImageFilter.GaussianBlur(blur))
+        canvas = Image.alpha_composite(canvas, layer)
 
-    letter = 'B'
-    dummy_draw = ImageDraw.Draw(Image.new('RGBA', (s, s)))
-    bbox = dummy_draw.textbbox((0, 0), letter, font=font)
-    tx = (s - (bbox[2] - bbox[0])) // 2 - bbox[0]
-    ty = (s - (bbox[3] - bbox[1])) // 2 - bbox[1] - s // 30  # slight upward nudge
-
-    # Outer cyan glow
-    text_glow = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(text_glow).text((tx, ty), letter, font=font, fill=(*CYAN, 200))
-    canvas = Image.alpha_composite(
-        canvas, text_glow.filter(ImageFilter.GaussianBlur(s // 16))
-    )
-
-    # Mid cyan glow (tighter)
-    text_mid = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(text_mid).text((tx, ty), letter, font=font, fill=(*CYAN, 230))
-    canvas = Image.alpha_composite(
-        canvas, text_mid.filter(ImageFilter.GaussianBlur(s // 40))
-    )
-
-    # Pink inner halo
-    text_pink = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(text_pink).text((tx, ty), letter, font=font, fill=(*PINK, 60))
-    canvas = Image.alpha_composite(
-        canvas, text_pink.filter(ImageFilter.GaussianBlur(s // 70))
-    )
-
-    # Sharp text on top
-    text_sharp = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(text_sharp).text((tx, ty), letter, font=font, fill=(*CYAN, 255))
-    canvas = Image.alpha_composite(canvas, text_sharp)
-
-    # ── 6. Bottom label "BREACHOS" ─────────────────────────────────────────
-    label_size = max(8, s // 20)
-    try:
-        label_font = ImageFont.truetype(FONT_PATH, label_size, index=3)
-    except Exception:
-        label_font = ImageFont.load_default()
-
-    label = 'BREACHOS'
-    lbbox = dummy_draw.textbbox((0, 0), label, font=label_font)
-    lx = (s - (lbbox[2] - lbbox[0])) // 2 - lbbox[0]
-    ly = s - pad - (lbbox[3] - lbbox[1]) - s // 22
-
-    label_glow = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(label_glow).text((lx, ly), label, font=label_font, fill=(*CYAN, 160))
-    canvas = Image.alpha_composite(
-        canvas, label_glow.filter(ImageFilter.GaussianBlur(max(1, s // 60)))
-    )
-
-    label_sharp = Image.new('RGBA', (s, s), (0, 0, 0, 0))
-    ImageDraw.Draw(label_sharp).text((lx, ly), label, font=label_font, fill=(*CYAN, 200))
-    canvas = Image.alpha_composite(canvas, label_sharp)
-
+    # The wordmark that used to sit along the bottom edge is gone: it was set
+    # in a licensed system typeface, and at 192px it rendered about nine
+    # pixels tall. Launcher icons are not the place for a caption anyway.
     return canvas
 
 
