@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v51';
+const CACHE_NAME = 'breachos-v52';
 const ASSETS = [
   './',
   './index.html',
@@ -62,7 +62,7 @@ const ASSETS = [
   './partials/dossier-modal.html',
   './partials/theme-modal.html',
   './partials/sound-theme-modal.html',
-  './partials/achievement-modal.html',
+  './partials/achievement-popup.html',
   './partials/collection-modal.html',
   './partials/auth-modal.html',
   './partials/leaderboard-modal.html',

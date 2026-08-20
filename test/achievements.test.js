@@ -118,6 +118,47 @@ describe('achievementProgress', () => {
   });
 });
 
+describe('achievementBadgeDetail', () => {
+  // Tapping a badge has to surface the name and description, because the grid
+  // conveys them through a title tooltip and touch devices have no hover.
+
+  test('returns the achievement name and unlock condition', () => {
+    const detail = a.achievementBadgeDetail(SAMPLE, [], 'beta');
+
+    assert.strictEqual(detail.name, 'BETA');
+    assert.strictEqual(detail.desc, 'Do the second thing');
+  });
+
+  test('reports an earned achievement as unlocked', () => {
+    const detail = a.achievementBadgeDetail(SAMPLE, ['beta'], 'beta');
+
+    assert.strictEqual(detail.unlocked, true);
+  });
+
+  test('reports an unearned achievement as locked', () => {
+    const detail = a.achievementBadgeDetail(SAMPLE, ['alpha'], 'gamma');
+
+    assert.strictEqual(detail.unlocked, false);
+  });
+
+  test('gives locked and unlocked different status text', () => {
+    const locked = a.achievementBadgeDetail(SAMPLE, [], 'alpha');
+    const unlocked = a.achievementBadgeDetail(SAMPLE, ['alpha'], 'alpha');
+
+    assert.notStrictEqual(locked.status, unlocked.status);
+  });
+
+  test('returns null for an id that is not an achievement', () => {
+    assert.strictEqual(a.achievementBadgeDetail(SAMPLE, [], 'nonsense'), null);
+  });
+
+  test('handles a missing unlocked list rather than throwing', () => {
+    const detail = a.achievementBadgeDetail(SAMPLE, undefined, 'alpha');
+
+    assert.strictEqual(detail.unlocked, false);
+  });
+});
+
 describe('the real achievement list stays badge-renderable', () => {
   test('every shipped achievement has the fields a badge needs', () => {
     const badges = a.buildAchievementBadges(a.getAchievements(), []);

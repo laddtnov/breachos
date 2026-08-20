@@ -21,7 +21,10 @@ function renderDossier() {
   document.getElementById('dos-achievements').textContent = unlockedAchievements.length + '/' + ACHIEVEMENTS.length;
 
   // Badge grid — earned badges lit, locked ones as silhouettes with a tooltip.
-  if (typeof renderAchievementBadges === 'function') renderAchievementBadges();
+  if (typeof renderAchievementBadges === 'function') {
+    initAchievementBadgeGrid();
+    renderAchievementBadges();
+  }
 
   // Per-difficulty breakdown
   const diffs = ['easy', 'medium', 'hard', 'extreme'];

@@ -61,11 +61,6 @@
   text-transform: uppercase;
 }
 
-.achievement-counter {
-  font-size: 10px;
-  color: rgba(0, 255, 136, 0.5);
-  letter-spacing: 1px;
-}
 
 #achievement-popup .achievement-name {
   font-size: 15px;
@@ -82,144 +77,24 @@
   letter-spacing: 0.5px;
 }
 
-/* ── Achievement Modal ── */
-#achievement-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.92);
-  justify-content: center;
-  align-items: center;
-  z-index: 250;
-  backdrop-filter: blur(8px);
-}
-
-/* display lives on [open] only. A <dialog> is hidden by the UA when closed, but
-   an unconditional display here overrides that and paints it permanently.
-   Matches every other dialog in the app. */
-#achievement-modal[open] { display: flex; }
-#achievement-modal::backdrop { display: none; }
 
 
-.achievement-modal-content {
-  max-width: 550px;
-  max-height: 90vh;
-  overflow-y: auto;
-  width: 92%;
-  padding: 30px;
-  background: rgba(10, 10, 25, 0.95);
-  border: 2px solid #00f3ff;
-  border-radius: 12px;
-  box-shadow:
-    0 0 30px rgba(0, 243, 255, 0.4),
-    inset 0 0 20px rgba(0, 243, 255, 0.1);
-}
 
-.achievement-modal-title {
-  font-size: 22px;
-  color: #00f3ff;
-  text-align: center;
-  letter-spacing: 4px;
-  margin-bottom: 8px;
-  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-}
 
-.achievement-count {
-  font-size: 13px;
-  color: rgba(0, 243, 255, 0.6);
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-}
 
-.achievement-count span {
-  color: #00f3ff;
-  font-weight: bold;
-}
 
-/* ── Achievement Grid ── */
-#achievement-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
 
-.achievement-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  font-family: 'Courier New', monospace;
-  transition: all 0.3s ease;
-}
 
-.achievement-item.unlocked {
-  border-color: rgba(0, 255, 136, 0.4);
-  background: rgba(0, 255, 136, 0.05);
-}
 
-.achievement-item.locked {
-  opacity: 0.4;
-}
 
-.achievement-item-symbol {
-  font-size: 24px;
-  min-width: 32px;
-  text-align: center;
-}
 
-.achievement-item.unlocked .achievement-item-symbol {
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-}
 
-.achievement-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
 
-.achievement-item-name {
-  font-size: 14px;
-  font-weight: bold;
-  color: #00f3ff;
-  letter-spacing: 2px;
-}
 
-.achievement-item.unlocked .achievement-item-name {
-  color: #00ff88;
-}
 
-.achievement-item-desc {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-}
 
-/* ── Achievement Close Button ── */
-.achievement-close-btn {
-  display: block;
-  width: 100%;
-  background: transparent;
-  color: #fff; /* NOSONAR */
-  border: 2px solid #ff0055;
-  padding: 10px;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
-}
 
-.achievement-close-btn:hover {
-  background: #ff0055;
-  color: #000; /* NOSONAR - hover state has bright background */
-  box-shadow: 0 0 20px #ff0055;
-}
+
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
