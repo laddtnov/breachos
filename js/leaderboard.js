@@ -120,6 +120,8 @@ function renderLeaderboard(data, tab) {
     ROOKIE: 'rgba(150,150,150,0.7)', AGENT: 'rgba(0,243,255,0.6)',
     SPECIALIST: 'rgba(0,243,255,0.85)', GHOST: 'rgba(157,0,255,0.9)',
     NETRUNNER_ELITE: '#FFD700',
+    PHANTOM: '#ff9d00', ARCHITECT: '#ff5e00', OVERSEER: '#ff0055',
+    WRAITH: '#ff00c8', SINGULARITY: '#ffffff',
   };
   const DIFF_COLORS = { easy: '#00f3ff', medium: '#ffdc00', hard: '#ff6600', extreme: '#ff0055' };
 

@@ -152,6 +152,8 @@ function generateShareCard() {
   const rankColors = {
     ROOKIE: '#aaaaaa', AGENT: '#00f3ff', SPECIALIST: '#00ccff',
     GHOST: '#aa44ff', NETRUNNER_ELITE: '#FFD700',
+    PHANTOM: '#ff9d00', ARCHITECT: '#ff5e00', OVERSEER: '#ff0055',
+    WRAITH: '#ff00c8', SINGULARITY: '#ffffff',
   };
   ctx.font = 'bold 18px "Courier New", monospace';
   ctx.textAlign = 'center';

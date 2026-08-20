@@ -32,12 +32,23 @@ const characters = [
 ];
 
 // ── Rank System ──
+// The first five thresholds are frozen: skins and reward cards are gated on
+// them, so moving one would revoke something a player has already earned.
+// Everything past 1000 XP is the long tail — a win is worth roughly 150 XP, so
+// the old ladder finished in about seven games. These tiers grant no skin
+// ('default' is skipped by getUnlockedSkins); they exist purely to keep the
+// climb going, and each step costs more than the one before it.
 const RANKS = [
-  { name: 'ROOKIE',          xp: 0,    skin: 'default' },
-  { name: 'AGENT',           xp: 100,  skin: 'hologram' },
-  { name: 'SPECIALIST',      xp: 300,  skin: 'corrupted' },
-  { name: 'GHOST',           xp: 600,  skin: 'gold' },
-  { name: 'NETRUNNER_ELITE', xp: 1000, skin: 'elite' },
+  { name: 'ROOKIE',          xp: 0,     skin: 'default' },
+  { name: 'AGENT',           xp: 100,   skin: 'hologram' },
+  { name: 'SPECIALIST',      xp: 300,   skin: 'corrupted' },
+  { name: 'GHOST',           xp: 600,   skin: 'gold' },
+  { name: 'NETRUNNER_ELITE', xp: 1000,  skin: 'elite' },
+  { name: 'PHANTOM',         xp: 1600,  skin: 'default' },
+  { name: 'ARCHITECT',       xp: 2500,  skin: 'default' },
+  { name: 'OVERSEER',        xp: 4000,  skin: 'default' },
+  { name: 'WRAITH',          xp: 6500,  skin: 'default' },
+  { name: 'SINGULARITY',     xp: 10000, skin: 'default' },
 ];
 
 const DEFAULT_STATS = {

@@ -146,7 +146,7 @@ Generate a shareable URL with a specific board seed.
 - Pure social mechanic, zero backend cost
 
 ### Prestige System
-Once you reach max rank (NETRUNNER ELITE), reset XP for a prestige badge.
+Once you reach max rank (SINGULARITY, 10 000 XP), reset XP for a prestige badge.
 - Prestige badge shown in dossier
 - Exclusive prestige collection card unlocked
 - Rank display shows prestige tier
@@ -169,7 +169,7 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 
 - [x] 4 game modes (Classic, Blitz, Survival, Daily)
 - [x] 4 difficulty levels
-- [x] 5 rank progression system
+- [x] 10 rank progression system
 - [x] 10 card skins with unlock conditions
 - [x] 16 collection cards
 - [x] 24 achievements
