@@ -46,43 +46,13 @@ function startWeeklyChallenge() {
   rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
 
-  gameState.flippedCards = [];
-  gameState.matchedPairs = 0;
-  gameState.totalPairs = config.pairs;
-  gameState.maxMoves = config.maxMoves;
-  gameState.moves = 0;
-  gameState.combo = 0;
-  gameState.maxCombo = 0;
-  gameState.seconds = 0;
-  gameState.countdown = WEEKLY_COUNTDOWN;
-  gameState.timerStarted = false;
-  gameState.isLocked = false;
-  gameState.trapCharId = null;
-  gameState.trapSprung = false;
-  gameState.glitchFired = false;
-  clearInterval(gameState.timerInterval);
-
-  document.body.classList.remove('countdown-critical', 'blitz-mode', 'survival-mode', 'daily-mode');
+  resetRoundState({ pairs: config.pairs, maxMoves: config.maxMoves, countdown: WEEKLY_COUNTDOWN });
+  clearModeChrome();
   document.body.classList.add('weekly-mode');
-  document.getElementById('survival-hud').classList.add('hidden');
-  document.getElementById('daily-hud').classList.add('hidden');
-  document.getElementById('wave-clear-overlay').classList.add('hidden');
-  document.getElementById('survival-over-overlay').classList.add('hidden');
-
-  movesDisplay.childNodes[0].textContent = '0';
-  movesLimit.textContent = '/' + config.maxMoves;
-  timerDisplay.textContent = formatTime(WEEKLY_COUNTDOWN);
-  winOverlay.classList.add('hidden');
-  loseOverlay.classList.add('hidden');
-  difficultyDisplay.textContent = 'WEEKLY';
-  movesDisplay.closest('.hud-item').classList.remove('moves-warning');
+  resetHud({ label: 'WEEKLY', moveLimitText: '/' + config.maxMoves, countdown: WEEKLY_COUNTDOWN });
 
   const weeklyParticles = document.getElementById('weekly-particles');
   if (weeklyParticles) weeklyParticles.innerHTML = '';
-
-  board.className = '';
-  board.classList.add(config.gridClass);
-  applySkin(playerStats.activeSkin);
 
   const weeklyHud = document.getElementById('weekly-hud');
   if (weeklyHud) {
@@ -94,14 +64,11 @@ function startWeeklyChallenge() {
   }
 
   // 'weekly:' prefix keeps this board distinct from the daily board on a Monday.
-  const rng = createDailySeed('weekly:' + weekStart);
-  const rewardChars = getUnlockedRewardCharacters();
-  const allCharacters = [...characters, ...rewardChars];
-  const selected = seededShuffle(allCharacters, rng).slice(0, config.pairs);
-  const deck = seededShuffle([...selected, ...selected], rng);
-
-  board.innerHTML = '';
-  deck.forEach(char => board.appendChild(createCardElement(char)));
+  buildBoard({
+    pairs: config.pairs,
+    gridClass: config.gridClass,
+    rng: createDailySeed('weekly:' + weekStart),
+  });
 
   updateRankHUD();
 }

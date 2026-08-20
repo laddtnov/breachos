@@ -13,9 +13,6 @@ function startSurvivalMode() {
   rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
 
-  document.body.classList.add('survival-mode');
-  document.getElementById('survival-hud').classList.remove('hidden');
-
   initSurvivalWave();
 }
 
@@ -34,52 +31,17 @@ function initSurvivalWave() {
   gameState.survivalWaveMismatches = 0;
 
   gameState.difficulty = diffKey;
-  gameState.flippedCards = [];
-  gameState.matchedPairs = 0;
-  gameState.totalPairs = config.pairs;
-  gameState.maxMoves = 999; // No move limit in survival
-  gameState.moves = 0;
-  gameState.combo = 0;
-  gameState.maxCombo = 0;
-  gameState.seconds = 0;
-  gameState.countdown = countdown;
-  gameState.timerStarted = false;
-  gameState.isLocked = false;
-  clearInterval(gameState.timerInterval);
-  document.body.classList.remove('countdown-critical');
-
-  // Update HUD
-  movesDisplay.childNodes[0].textContent = '0';
-  movesLimit.textContent = '';
-  timerDisplay.textContent = countdown ? formatTime(countdown) : '00:00';
-  winOverlay.classList.add('hidden');
-  loseOverlay.classList.add('hidden');
-  difficultyDisplay.textContent = 'WAVE ' + gameState.survivalWave;
+  resetRoundState({ pairs: config.pairs, maxMoves: 999, countdown }); // no move limit in survival
+  clearModeChrome();
+  document.body.classList.add('survival-mode');
+  document.getElementById('survival-hud').classList.remove('hidden');
+  resetHud({ label: 'WAVE ' + gameState.survivalWave, moveLimitText: '', countdown });
   particles.innerHTML = '';
 
-  const hudItem = movesDisplay.closest('.hud-item');
-  hudItem.classList.remove('moves-warning');
-
-  board.className = '';
-  board.classList.add(config.gridClass);
-  applySkin(playerStats.activeSkin);
-
-  // Build deck
-  const rewardChars = getUnlockedRewardCharacters();
-  const allCharacters = [...characters, ...rewardChars];
-  const selected = shuffle(allCharacters).slice(0, config.pairs);
-  const deck = shuffle([...selected, ...selected]);
-
-  board.innerHTML = '';
-  deck.forEach(char => board.appendChild(createCardElement(char)));
+  const selected = buildBoard({ pairs: config.pairs, gridClass: config.gridClass });
 
   // ── Loop modifiers — how survival keeps escalating once the countdown floors ──
-  clearTimeout(gameState.glitchTimeout);
-  gameState.glitchTimeout = null;
   gameState.ghostMode = modifiers.ghost;
-  gameState.trapSprung = false;
-  gameState.trapCharId = null;
-  gameState.glitchFired = false;
 
   if (modifiers.trap) {
     gameState.trapCharId = selected[secureRandomInt(selected.length)].id;

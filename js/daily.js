@@ -1,5 +1,7 @@
 // ── Daily Challenge ──
 
+const DAILY_COUNTDOWN = 90; // seconds
+
 function seededShuffle(array, rng) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -32,41 +34,13 @@ function startDailyChallenge() {
   rulesModal.close();
   document.getElementById('back-to-game-btn').classList.add('hidden');
 
-  // Reset game state
-  gameState.flippedCards = [];
-  gameState.matchedPairs = 0;
-  gameState.totalPairs = config.pairs;
-  gameState.maxMoves = config.maxMoves;
-  gameState.moves = 0;
-  gameState.combo = 0;
-  gameState.maxCombo = 0;
-  gameState.seconds = 0;
-  gameState.countdown = 90;
-  gameState.timerStarted = false;
-  gameState.isLocked = false;
-  clearInterval(gameState.timerInterval);
-  document.body.classList.remove('countdown-critical', 'blitz-mode', 'survival-mode');
+  resetRoundState({ pairs: config.pairs, maxMoves: config.maxMoves, countdown: DAILY_COUNTDOWN });
+  clearModeChrome();
   document.body.classList.add('daily-mode');
-  document.getElementById('survival-hud').classList.add('hidden');
-  document.getElementById('wave-clear-overlay').classList.add('hidden');
-  document.getElementById('survival-over-overlay').classList.add('hidden');
+  resetHud({ label: 'DAILY', moveLimitText: '/' + config.maxMoves, countdown: DAILY_COUNTDOWN });
 
-  // Update HUD
-  movesDisplay.childNodes[0].textContent = '0';
-  movesLimit.textContent = '/' + config.maxMoves;
-  timerDisplay.textContent = formatTime(90);
-  winOverlay.classList.add('hidden');
-  loseOverlay.classList.add('hidden');
-  difficultyDisplay.textContent = 'DAILY';
   const dailyParticles = document.getElementById('daily-particles');
   if (dailyParticles) dailyParticles.innerHTML = '';
-
-  const hudItem = movesDisplay.closest('.hud-item');
-  hudItem.classList.remove('moves-warning');
-
-  board.className = '';
-  board.classList.add(config.gridClass);
-  applySkin(playerStats.activeSkin);
 
   // Show daily HUD
   const dailyHud = document.getElementById('daily-hud');
@@ -83,14 +57,7 @@ function startDailyChallenge() {
   }
 
   // Seeded deck — same puzzle for everyone today
-  const rng = createDailySeed(today);
-  const rewardChars = getUnlockedRewardCharacters();
-  const allCharacters = [...characters, ...rewardChars];
-  const selected = seededShuffle(allCharacters, rng).slice(0, config.pairs);
-  const deck = seededShuffle([...selected, ...selected], rng);
-
-  board.innerHTML = '';
-  deck.forEach(char => board.appendChild(createCardElement(char)));
+  buildBoard({ pairs: config.pairs, gridClass: config.gridClass, rng: createDailySeed(today) });
 
   updateRankHUD();
 }
