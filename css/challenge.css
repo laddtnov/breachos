@@ -46,6 +46,8 @@
 /* Result line on the win overlay, which sits on rgba(0,0,0,0.9) over the
    board — dark enough that these read as light text on near-black. */
 .win-challenge {
+  /* <output> is inline by default, which would drop the vertical margins. */
+  display: block;
   margin: 0.5rem 0 1rem;
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;

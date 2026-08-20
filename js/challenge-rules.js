@@ -56,7 +56,7 @@ function decodeChallenge(code) {
   if (seed === null || moves === null || seconds === null) return null;
 
   // The difficulty index is decimal, not base 36, and must address the table.
-  if (!/^[0-9]+$/.test(rawDifficulty)) return null;
+  if (!/^\d+$/.test(rawDifficulty)) return null;
   const difficulty = CHALLENGE_DIFFICULTIES[Number(rawDifficulty)];
   if (!difficulty) return null;
 
