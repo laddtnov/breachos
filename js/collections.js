@@ -179,10 +179,6 @@ function getUnlockedRewardCount() {
   return REWARD_CARDS.filter(card => isRewardUnlocked(card.rank)).length;
 }
 
-function toggleCollectionModal() {
-  toggleDialog(document.getElementById('collection-modal'), () => renderCollectionModal());
-}
-
 function renderCollectionModal() {
   const grid = document.getElementById('collection-grid');
   const countEl = document.getElementById('collection-count');

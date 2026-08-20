@@ -45,7 +45,7 @@ let board, movesDisplay, movesLimit, timerDisplay;
 let winOverlay, winMoves, winTime;
 let loseOverlay, losePairs, loseTotal, loseMovesStat, loseSubtitle;
 let rulesModal, difficultyDisplay, particles;
-let rankDisplay, rankProgress, rankXP, skinModal;
+let rankDisplay, rankProgress, rankXP;
 
 // Column count per grid class — mirrors repeat() values in cards.css
 const GRID_COLS = { 'grid-easy': 3, 'grid-medium': 4, 'grid-hard': 6, 'grid-extreme': 6 };
@@ -89,7 +89,6 @@ function initDOMRefs() {
   rankDisplay = document.getElementById('rank-display');
   rankProgress = document.getElementById('rank-bar'); // <progress> element — was #rank-progress fill div
   rankXP = document.getElementById('rank-xp');
-  skinModal = document.getElementById('skin-modal');
 }
 
 // ── Shuffle (Fisher-Yates) ──

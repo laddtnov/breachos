@@ -5,7 +5,15 @@
     <p class="dossier-subtitle">OPERATIVE PROFILE</p>
     <div class="rules-divider"></div>
 
-    <div class="dos-stat-grid">
+    <div class="tab-strip" id="dossier-tabs" role="tablist" aria-label="Dossier section">
+      <button class="tab-btn" role="tab" data-tab="profile"    aria-selected="true"  aria-controls="dossier-panel-profile">PROFILE</button>
+      <button class="tab-btn" role="tab" data-tab="collection" aria-selected="false" aria-controls="dossier-panel-collection">COLLECTION</button>
+    </div>
+
+    <div id="dossier-panels">
+    <div class="tab-panel" data-panel="profile" id="dossier-panel-profile" role="tabpanel" tabindex="0">
+
+      <div class="dos-stat-grid">
       <div class="dos-stat">
         <span class="dos-stat-value" id="dos-games-played">0</span>
         <span class="dos-stat-label">MISSIONS</span>
@@ -75,6 +83,16 @@
         <tbody id="dos-history-body"></tbody>
       </table>
     </div>
+
+    </div><!-- /profile panel -->
+
+    <!-- Collection folded in from the former standalone modal -->
+    <div class="tab-panel hidden" data-panel="collection" id="dossier-panel-collection" role="tabpanel" tabindex="0">
+      <p class="collection-subtitle">RANK REWARD CARDS</p>
+      <p class="collection-count" id="collection-count">COLLECTED: <span>0</span> / 5</p>
+      <div id="collection-grid"></div>
+    </div>
+    </div><!-- /panels -->
 
     <button class="dossier-close-btn" onclick="toggleDossierModal()">CLOSE</button>
   </div>

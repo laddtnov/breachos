@@ -1,0 +1,29 @@
+<!-- Customise Modal — merges the former SKINS, THEMES and SOUNDS modals.
+     Grid ids are unchanged so renderSkinModal / renderThemeModal /
+     renderSoundThemeModal keep working as they are. -->
+<dialog id="customise-modal" aria-label="Customise appearance and sound">
+  <div class="customise-modal-content">
+    <h3 class="customise-modal-title">CUSTOMISE</h3>
+    <div class="rules-divider"></div>
+
+    <div class="tab-strip" id="customise-tabs" role="tablist" aria-label="Customisation category">
+      <button class="tab-btn" role="tab" data-tab="skins"  aria-selected="true"  aria-controls="customise-panel-skins">CARD SKINS</button>
+      <button class="tab-btn" role="tab" data-tab="themes" aria-selected="false" aria-controls="customise-panel-themes">TABLE</button>
+      <button class="tab-btn" role="tab" data-tab="sounds" aria-selected="false" aria-controls="customise-panel-sounds">SOUND</button>
+    </div>
+
+    <div id="customise-panels">
+      <div class="tab-panel" data-panel="skins" id="customise-panel-skins" role="tabpanel" tabindex="0">
+        <div id="skin-grid"></div>
+      </div>
+      <div class="tab-panel hidden" data-panel="themes" id="customise-panel-themes" role="tabpanel" tabindex="0">
+        <div id="theme-grid"></div>
+      </div>
+      <div class="tab-panel hidden" data-panel="sounds" id="customise-panel-sounds" role="tabpanel" tabindex="0">
+        <div id="sound-theme-grid"></div>
+      </div>
+    </div>
+
+    <button class="customise-close-btn" onclick="toggleCustomiseModal()">CLOSE</button>
+  </div>
+</dialog>

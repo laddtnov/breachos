@@ -381,8 +381,30 @@ function selectSkin(skinName) {
   renderSkinModal();
 }
 
-function toggleSkinModal() {
-  toggleDialog(skinModal, () => renderSkinModal());
+// One modal for skins, table themes and sound themes. Each tab renders on show
+// so a grid is never stale when revealed.
+function toggleCustomiseModal() {
+  const tabs = document.getElementById('customise-tabs');
+  toggleDialog(document.getElementById('customise-modal'), () => {
+    initTabGroup(tabs, document.getElementById('customise-panels'), id => {
+      if (id === 'skins')  renderSkinModal();
+      if (id === 'themes') renderThemeModal();
+      if (id === 'sounds') renderSoundThemeModal();
+    });
+    // The group stays wired between opens, so it remembers the last tab. Render
+    // that one rather than always the first, or its grid would be stale.
+    tabs?.showTab?.(tabs.querySelector('.active')?.dataset.tab);
+  });
+}
+
+function toggleSettingsModal() {
+  toggleDialog(document.getElementById('settings-modal'), () => {
+    syncSoundButton();
+    if (typeof Haptics !== 'undefined') {
+      Haptics.syncButton();
+      Haptics.syncPresetButton();
+    }
+  });
 }
 
 function renderSkinModal() {

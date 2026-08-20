@@ -12,25 +12,11 @@
     <div class="menu-title">SYSTEM MENU</div>
     <div class="menu-divider"></div>
     <div class="menu-buttons">
-      <button class="menu-item" onclick="toggleEffects(); toggleMenu()">
-        STATUS: <span id="status-text-mobile">CYBER MODE</span>
-      </button>
-      <button class="menu-item" onclick="toggleColorBlind(); toggleMenu()" aria-pressed="false">
-        COLOR BLIND: <span id="cb-status-mobile">OFF</span>
-      </button>
-      <button class="menu-item" onclick="toggleFlipAnimations(); toggleMenu()" aria-pressed="true">
-        CARD FLIP: <span id="flip-status-mobile">ON</span>
-      </button>
-      <button class="menu-item" id="sound-toggle-mobile" onclick="SoundEngine.toggle()">SOUND: ON</button>
-      <button class="menu-item" id="haptic-toggle-mobile" onclick="Haptics.toggle()">HAPTICS: ON</button>
-      <button class="menu-item" id="haptic-preset-btn-mobile" onclick="Haptics.cyclePreset()">BUZZ: <span id="haptic-preset-status-mobile">STANDARD</span></button>
-      <button class="menu-item" onclick="toggleSkinModal(); toggleMenu()">SKINS</button>
-      <button class="menu-item" onclick="toggleCollectionModal(); toggleMenu()">COLLECTION</button>
-      <button class="menu-item" onclick="toggleDossierModal(); toggleMenu()">DOSSIER</button>
-      <button class="menu-item" onclick="toggleThemeModal(); toggleMenu()">THEMES</button>
-      <button class="menu-item" onclick="toggleSoundThemeModal(); toggleMenu()">SOUNDS</button>
+      <button class="menu-item" onclick="toggleDossierModal(); toggleMenu()">PROFILE</button>
+      <button class="menu-item" onclick="toggleCustomiseModal(); toggleMenu()">CUSTOMISE</button>
       <button class="menu-item" onclick="toggleLeaderboardModal()">RANKINGS</button>
       <button class="menu-item" onclick="toggleQuestsModal(); toggleMenu()">QUESTS</button>
+      <button class="menu-item" onclick="toggleSettingsModal(); toggleMenu()">SETTINGS</button>
       <button class="menu-item menu-item-sync" id="sync-btn-mobile" onclick="toggleAuthModal()">SYNC</button>
       <button class="menu-item menu-item-support" onclick="window.open('https://buymeacoffee.com/laddtnov','_blank','noopener'); toggleMenu()">SUPPORT</button>
     </div>
