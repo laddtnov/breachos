@@ -61,9 +61,16 @@ function winSurvivalWave() {
   // A flawless wave extends the streak and returns a life; any mismatch during
   // the wave has already reset the streak in handleMismatch().
   const flawless = gameState.survivalWaveMismatches === 0;
+  gameState.survivalLifeAwarded = false;
   if (flawless) {
     gameState.survivalStreak = (gameState.survivalStreak || 0) + 1;
-    gameState.survivalLives = survivalLivesAfterWave(gameState.survivalLives, 0);
+    // Deep loops allow fewer lives, so a flawless wave stops refilling them and
+    // the run gains an ending. See survivalMaxLivesFor in js/survival-rules.js.
+    const before = gameState.survivalLives;
+    gameState.survivalLives = survivalLivesAfterWave(
+      before, 0, survivalMaxLivesFor(gameState.survivalLoop),
+    );
+    gameState.survivalLifeAwarded = gameState.survivalLives > before;
     // Re-render immediately: the wave-clear overlay announces the restored life,
     // so the heart count must not still read the pre-award value behind it.
     updateSurvivalHUD();
@@ -194,9 +201,14 @@ function showWaveClear(wave, points, callback) {
 
   const bonusEl = document.getElementById('wave-clear-bonus');
   if (bonusEl) {
-    const earnedLife = gameState.survivalWaveMismatches === 0;
-    bonusEl.textContent = earnedLife ? '♥ FLAWLESS — LIFE RESTORED' : '';
-    bonusEl.classList.toggle('hidden', !earnedLife);
+    // A flawless wave does not always return a life — at the loop's allowance
+    // there is nothing to restore, so say so rather than promising a heart the
+    // player can see did not appear.
+    const flawless = gameState.survivalWaveMismatches === 0;
+    bonusEl.textContent = gameState.survivalLifeAwarded
+      ? '♥ FLAWLESS — LIFE RESTORED'
+      : (flawless ? '♥ FLAWLESS — LIVES AT CAPACITY' : '');
+    bonusEl.classList.toggle('hidden', !flawless);
   }
 
   const nextWaveIndex = wave % SURVIVAL_WAVES.length;
