@@ -1,0 +1,27 @@
+<!-- Settings Modal — the six preference toggles that used to occupy six
+     top-level slots in the mobile menu and the desktop control bar. -->
+<dialog id="settings-modal" aria-label="Settings">
+  <div class="settings-modal-content">
+    <h3 class="settings-modal-title">SETTINGS</h3>
+    <div class="rules-divider"></div>
+
+    <div class="settings-list">
+      <button class="settings-item" id="glitch-toggle" onclick="toggleEffects()" aria-pressed="false">
+        STATUS: <span id="status-text">CYBER MODE</span>
+      </button>
+      <button class="settings-item" id="colorblind-btn" onclick="toggleColorBlind()" aria-pressed="false">
+        COLOR BLIND: <span id="cb-status">OFF</span>
+      </button>
+      <button class="settings-item" id="flip-anim-btn" onclick="toggleFlipAnimations()" aria-pressed="true">
+        CARD FLIP: <span id="flip-status">ON</span>
+      </button>
+      <button class="settings-item" id="sound-toggle" onclick="SoundEngine.toggle()">SOUND: ON</button>
+      <button class="settings-item" id="haptic-toggle" onclick="Haptics.toggle()">HAPTICS: ON</button>
+      <button class="settings-item" id="haptic-preset-btn" onclick="Haptics.cyclePreset()">
+        BUZZ: <span id="haptic-preset-status">STANDARD</span>
+      </button>
+    </div>
+
+    <button class="settings-close-btn" onclick="toggleSettingsModal()">CLOSE</button>
+  </div>
+</dialog>

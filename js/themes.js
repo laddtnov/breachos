@@ -34,10 +34,6 @@ function selectTheme(themeId) {
   renderThemeModal();
 }
 
-function toggleThemeModal() {
-  toggleDialog(document.getElementById('theme-modal'), () => renderThemeModal());
-}
-
 function renderThemeModal() {
   const grid = document.getElementById('theme-grid');
   if (!grid) return;

@@ -118,10 +118,6 @@ function selectSoundTheme(themeId) {
   renderSoundThemeModal();
 }
 
-function toggleSoundThemeModal() {
-  toggleDialog(document.getElementById('sound-theme-modal'), () => renderSoundThemeModal());
-}
-
 function renderSoundThemeModal() {
   const grid = document.getElementById('sound-theme-grid');
   if (!grid) return;

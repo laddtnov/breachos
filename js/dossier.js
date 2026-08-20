@@ -1,7 +1,14 @@
 // ── Statistics Dashboard (DOSSIER) ──
 
 function toggleDossierModal() {
-  toggleDialog(document.getElementById('dossier-modal'), () => renderDossier());
+  toggleDialog(document.getElementById('dossier-modal'), () => {
+    initTabGroup(
+      document.getElementById('dossier-tabs'),
+      document.getElementById('dossier-panels'),
+      id => { if (id === 'collection') renderCollectionModal(); },
+    );
+    renderDossier();
+  });
 }
 
 function renderDossier() {

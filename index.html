@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="css/quests.css">
   <link rel="stylesheet" href="css/colorblind.css">
   <link rel="stylesheet" href="css/weekly.css">
+  <link rel="stylesheet" href="css/tabs.css">
 </head>
 
 <body>
@@ -51,12 +52,10 @@
   <div data-partial="partials/rules-modal.html"></div>
   <div data-partial="partials/mobile-menu.html"></div>
   <div data-partial="partials/controls.html"></div>
-  <div data-partial="partials/skin-modal.html"></div>
   <div data-partial="partials/dossier-modal.html"></div>
-  <div data-partial="partials/theme-modal.html"></div>
-  <div data-partial="partials/sound-theme-modal.html"></div>
+  <div data-partial="partials/customise-modal.html"></div>
+  <div data-partial="partials/settings-modal.html"></div>
   <div data-partial="partials/achievement-popup.html"></div>
-  <div data-partial="partials/collection-modal.html"></div>
   <div data-partial="partials/auth-modal.html"></div>
   <div data-partial="partials/leaderboard-modal.html"></div>
   <div data-partial="partials/quests-modal.html"></div>
@@ -116,6 +115,7 @@
   <script src="js/stats-rules.js"></script>
   <script src="js/rank.js"></script>
   <script src="js/game.js"></script>
+  <script src="js/tabs.js"></script>
   <script src="js/board.js"></script>
   <script src="js/collections.js"></script>
   <script src="js/dossier.js"></script>
@@ -136,7 +136,6 @@
   <script type="module">
     await loadPartials();
     initDOMRefs();
-    renderSkinModal();
     initMenuDialog();
     updateRankHUD();
     updateBestTimes();
