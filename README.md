@@ -126,7 +126,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Color Blind Mode** — blue/orange palette replaces cyan/pink; dashed border as shape cue; persists across sessions
 - **Card Flip Animations toggle** — turn the 3D flip off for lower-end devices; persists across sessions
 - **Haptic presets** — SUBTLE / STANDARD / INTENSE buzz strength, selectable in the mobile menu
-- **Achievement badges** — badge grid in the Dossier, locked entries shown as silhouettes with unlock tooltips
+- **Achievement badges** — badge grid in the Dossier; tap or focus a badge to read its name and unlock condition, locked entries shown as silhouettes
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
 - **DAYLIGHT theme** — light mode for outdoor / bright-sunlight play on mobile
@@ -142,7 +142,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v49)
+├── sw.js                   # Service worker (network-first, breachos-v52)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
@@ -151,6 +151,8 @@ breachos/
 │   ├── rank.js             # XP, ranks, saveStats
 │   ├── achievements.js     # 24 achievements + Dossier badge grid
 │   ├── collections.js      # 16 collection cards
+│   ├── board.js            # Shared board setup for all modes
+│   ├── stats-rules.js      # Win rate and history labels (pure)
 │   ├── survival-rules.js   # Survival escalation, lives, scoring (pure)
 │   ├── survival.js         # Survival mode
 │   ├── haptic-patterns.js  # Haptic preset tables (pure)
@@ -212,8 +214,9 @@ Open `http://localhost:8080`. Note: API routes require Vercel dev or environment
 npm test
 ```
 
-Runs the `node:test` suite (Node 18+, no dependencies) covering the date and streak
-arithmetic behind the weekly challenge and login streak.
+Runs the `node:test` suite (Node 18+, no dependencies) — 98 tests covering the
+date and streak arithmetic, survival escalation and scoring, haptic presets,
+achievement badges, and win-rate reporting.
 
 ---
 
@@ -226,15 +229,30 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ## Changelog
 
 ### v1.6.0
-- **New:** Survival Mode rework — difficulty used to stop climbing at wave 13, where the fixed `loopCountdowns` array clamped. The countdown now decays toward a floor and the ghost / trap / glitch modifiers switch on at later loops, so escalation continues past that point. The opening loop stays untimed
-- **New:** Survival lives can be earned back — a flawless wave (no mismatches) restores one life, capped at 5, giving a comeback path where one early mistake used to shadow an entire run
-- **New:** Survival risk/reward scoring — a streak multiplier grows with consecutive clean waves and resets on life loss, so score reflects how well a run was played rather than only how long it lasted. Neutral at zero streak, so existing best scores stay comparable
+**Survival**
+- **New:** Survival rework — difficulty used to stop climbing at wave 13, where the fixed `loopCountdowns` array clamped and every later wave reused the same 30s base. The countdown now decays toward a floor and the ghost / trap / glitch modifiers switch on at later loops, so escalation continues past that point. The opening loop stays untimed
+- **New:** Lives can be earned back — a flawless wave (no mismatches) restores one life, capped at 5, giving a comeback path where one early mistake used to shadow an entire run
+- **New:** Risk/reward scoring — a streak multiplier grows with consecutive clean waves and resets on life loss, so score reflects how well a run was played rather than only how long it lasted. Neutral at zero streak, so existing best scores stay comparable
+- **Fix:** The heart HUD rendered a fixed three slots, so a restored fourth or fifth life was invisible while the overlay announced it
+
+**Progression & UI**
 - **New:** Haptic presets — SUBTLE / STANDARD / INTENSE, selectable from the mobile menu and persisted. STANDARD reproduces the previous patterns exactly
-- **New:** Achievement badge grid in the Dossier — earned badges lit, locked ones as silhouettes, each with a tooltip naming the unlock condition
-- **Fix:** The heart HUD rendered a fixed three slots, so a restored fourth or fifth life was invisible
-- **Fix:** The haptic preset control showed a preset name while disabled on devices with no Vibration API; it now reads N/A, matching the HAPTICS toggle
+- **New:** Achievement badge grid in the Dossier — locked badges shown as silhouettes; tap or focus one to read its name and unlock condition
+- **Changed:** The standalone Achievements modal is gone. It duplicated the badge grid, and the Dossier is now the single achievements surface. The unlock toast is unchanged
+- **Changed:** Mobile menu trimmed from 16 entries to 15, desktop control bar from 14 to 13
+
+**Fixes**
+- **Fix:** Win rate could exceed 100% (observed 114%). Clearing a survival wave incremented the win counter without a matching game count; each cleared wave now counts as both, and the displayed rate is clamped for saves already skewed
+- **Fix:** Mission history showed `TIMED`, a mode that no longer exists, for games recorded while Timed mode was briefly built. Retired modes now map to their live equivalent, `weekly` is labelled deliberately rather than by accident, and an entry with no mode no longer breaks the whole table
+- **Fix:** Switching modes could leave the previous mode's HUD, overlays or body class on screen; a trap armed in a Hard classic game could still be armed on the daily board
+- **Fix:** The haptic preset control showed a preset name while disabled on devices with no Vibration API; it now reads N/A
+- **A11y:** Achievement badges are focusable buttons rather than spans, so keyboard and screen-reader users can reach them; the achievements modal became a `<dialog>` before removal, and the Dossier detail line is an `aria-live` region
+
+**Internal**
+- **Chore:** The four game modes shared no board setup and had drifted apart; `js/board.js` now holds the common reset, chrome clearing and deck build (301 lines to 163)
+- **Chore:** One `.hidden` utility replaces 30 per-component copies across 23 stylesheets; seven identical modal toggles replaced by one helper
 - **Docs:** README claimed 16 achievements; there are 24
-- **Chore:** Test suite grown from 21 to 73 tests; service worker cache bumped to `breachos-v49`
+- **Chore:** Test suite grown from 21 to 98 tests; service worker cache bumped to `breachos-v52`
 
 ### v1.5.0
 - **New:** Weekly Challenge — one seeded Hard board per week, identical for every player, resetting each Monday. First clear of the week pays double XP plus a streak bonus; replays pay base XP. Week streak is tracked independently of the daily streak and advances only when the previous week was also cleared
