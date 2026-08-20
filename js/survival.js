@@ -205,9 +205,13 @@ function showWaveClear(wave, points, callback) {
     // there is nothing to restore, so say so rather than promising a heart the
     // player can see did not appear.
     const flawless = gameState.survivalWaveMismatches === 0;
-    bonusEl.textContent = gameState.survivalLifeAwarded
-      ? '♥ FLAWLESS — LIFE RESTORED'
-      : (flawless ? '♥ FLAWLESS — LIVES AT CAPACITY' : '');
+    let bonusText = '';
+    if (gameState.survivalLifeAwarded) {
+      bonusText = '♥ FLAWLESS — LIFE RESTORED';
+    } else if (flawless) {
+      bonusText = '♥ FLAWLESS — LIVES AT CAPACITY';
+    }
+    bonusEl.textContent = bonusText;
     bonusEl.classList.toggle('hidden', !flawless);
   }
 
