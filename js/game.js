@@ -19,6 +19,7 @@ const gameState = {
   survivalLives: 3,
   survivalScore: 0,
   survivalLoop: 0,
+  survivalLifeAwarded: false,  // whether the last cleared wave actually returned a life
   // Gameplay modifiers
   ghostMode: false,       // cards flip back instantly on mismatch
   memoryPeek: false,      // all cards briefly shown at game start

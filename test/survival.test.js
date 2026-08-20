@@ -35,13 +35,25 @@ describe('survivalCountdownBase', () => {
     assert.strictEqual(rules.survivalCountdownBase(3), 30);
   });
 
-  test('never drops below the floor', () => {
-    // Loop 4 would decay to 15, which is below the 20s floor.
+  test('eases the decay at the soft floor instead of stopping there', () => {
+    // The linear decay would put loop 4 at 15s. It lands on the 20s soft floor
+    // instead — but unlike before, that is a change of gradient, not the end.
     assert.strictEqual(rules.survivalCountdownBase(4), 20);
   });
 
-  test('holds the floor at extreme loop counts rather than going negative', () => {
-    assert.strictEqual(rules.survivalCountdownBase(50), 20);
+  test('keeps tightening past the soft floor, where waves used to flat-line', () => {
+    // This is the wave-17 plateau: loop 4 onward was 20s forever.
+    assert.ok(
+      rules.survivalCountdownBase(5) < rules.survivalCountdownBase(4),
+      'loop 5 must be tighter than loop 4',
+    );
+  });
+
+  test('settles on a hard floor rather than reaching an impossible zero', () => {
+    const deep = rules.survivalCountdownBase(50);
+
+    assert.ok(deep > 0, 'a deep loop must still allow some time');
+    assert.strictEqual(rules.survivalCountdownBase(99), deep, 'the hard floor must hold');
   });
 
   test('decreases monotonically until it reaches the floor', () => {
@@ -118,6 +130,69 @@ describe('survivalLivesAfterWave', () => {
   test('does not award a life at the cap even after a flawless wave', () => {
     const capped = rules.survivalLivesAfterWave(5, 0, 5);
     assert.ok(capped <= 5, `expected at most 5, got ${capped}`);
+  });
+
+  test('withholds the reward at a tightened cap but never confiscates a life', () => {
+    // Deep loops lower the cap. A player already above it keeps what they have
+    // — playing flawlessly must never cost a life.
+    assert.strictEqual(rules.survivalLivesAfterWave(5, 0, 3), 5);
+  });
+});
+
+describe('survivalMaxLivesFor — the deep-run life economy', () => {
+  test('leaves the early loops at the full allowance', () => {
+    assert.strictEqual(rules.survivalMaxLivesFor(0), 5);
+    assert.strictEqual(rules.survivalMaxLivesFor(4), 5);
+  });
+
+  test('tightens the allowance once runs get deep', () => {
+    // Without this a flawless player regenerates lives indefinitely and the run
+    // has no natural end.
+    assert.ok(rules.survivalMaxLivesFor(9) < rules.survivalMaxLivesFor(4));
+  });
+
+  test('never falls to zero, so a deep run is punishing rather than unplayable', () => {
+    for (let loop = 0; loop <= 99; loop++) {
+      assert.ok(rules.survivalMaxLivesFor(loop) >= 2, `loop ${loop} left too few lives`);
+    }
+  });
+
+  test('never increases as the run goes deeper', () => {
+    for (let loop = 0; loop < 40; loop++) {
+      assert.ok(
+        rules.survivalMaxLivesFor(loop + 1) <= rules.survivalMaxLivesFor(loop),
+        `loop ${loop + 1} was more forgiving than loop ${loop}`,
+      );
+    }
+  });
+});
+
+describe('no two consecutive loops play identically', () => {
+  // The regression guard for the plateau itself. Whatever the individual dials
+  // do, consecutive loops in the mid-run must differ in something the player
+  // can feel — otherwise waves stop escalating again.
+  const fingerprint = loop => JSON.stringify([
+    rules.survivalCountdownBase(loop),
+    rules.survivalModifiersFor(loop),
+    rules.survivalMaxLivesFor(loop),
+  ]);
+
+  test('wave 17 does not play the same as wave 13', () => {
+    assert.notStrictEqual(fingerprint(loopForWave(13)), fingerprint(loopForWave(17)));
+  });
+
+  test('wave 33 does not play the same as wave 17', () => {
+    // The old rules made these two waves indistinguishable.
+    assert.notStrictEqual(fingerprint(loopForWave(17)), fingerprint(loopForWave(33)));
+  });
+
+  test('escalates on every loop from the first timed one to loop 9', () => {
+    for (let loop = 1; loop < 9; loop++) {
+      assert.notStrictEqual(
+        fingerprint(loop), fingerprint(loop + 1),
+        `loop ${loop} and loop ${loop + 1} play identically`,
+      );
+    }
   });
 });
 
