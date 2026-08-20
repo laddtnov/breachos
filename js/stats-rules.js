@@ -2,6 +2,26 @@
 // Kept free of DOM and browser globals so test/stats.test.js can evaluate it in
 // a vm sandbox.
 
+// Mode labels for the Dossier's mission history.
+//
+// History is saved player data, so it outlives the modes that wrote it. Timed
+// mode was built and reverted, but entries recorded as 'timed' remain in saved
+// histories and were rendering as "TIMED" — naming a mode the player can no
+// longer select. It was a countdown mode, so it reads as its live equivalent.
+const GAME_HISTORY_MODE_LABELS = {
+  classic:  'CLASSIC',
+  blitz:    'BLITZ',
+  survival: 'SURVIVAL',
+  daily:    'DAILY',
+  weekly:   'WEEKLY',
+  timed:    'BLITZ', // retired mode
+};
+
+function gameHistoryModeLabel(mode) {
+  if (!mode) return '—';
+  return GAME_HISTORY_MODE_LABELS[mode] ?? String(mode).toUpperCase();
+}
+
 // Win rate as a whole percent, clamped to 0–100.
 //
 // The clamp is not defensive padding: survival used to increment gamesWon per
