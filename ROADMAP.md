@@ -45,7 +45,7 @@ RANKINGS.
 Target: **16 entries down to 6** — PLAY · PROFILE · CUSTOMISE · RANKINGS ·
 QUESTS · SETTINGS · SYNC — which fits one screen on any phone without scrolling.
 
-**1. Drop the standalone Achievements modal** (do this one first)
+**1. Drop the standalone Achievements modal** — SHIPPED in v1.6.0
 - The Dossier badge grid added in v1.6.0 already renders all 24 achievements, and the Dossier also shows a `4/24` stat. Measured: both surfaces return 24 items
 - Pure deletion — no new component needed: removes `partials/achievement-modal.html`, `renderAchievementModal()`, its toggle and its CSS
 - Keep `showAchievementPopup()`; the unlock toast is separate and still wanted
@@ -212,3 +212,6 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 - [x] Survival risk/reward scoring — streak multiplier grows on clean waves, resets on life loss
 - [x] Achievement badges — Dossier badge grid, locked entries as silhouettes with unlock tooltips
 - [x] Haptic presets — SUBTLE / STANDARD / INTENSE, selectable and persisted
+- [x] Achievements consolidated into the Dossier — standalone modal removed, badges tappable with an unlock-condition detail line
+- [x] Win rate could exceed 100% from survival waves — fixed at the source and clamped for existing saves
+- [x] Shared board setup across all four modes, one .hidden utility, one modal toggle helper
