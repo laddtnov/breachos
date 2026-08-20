@@ -195,7 +195,14 @@ function initGame() {
   });
   particles.innerHTML = '';
 
-  const selected = buildBoard({ pairs: config.pairs, gridClass: config.gridClass });
+  // Every board is seeded now, so any win can be handed to a friend as a
+  // Friend Challenge. An unseeded shuffle could not be reproduced from a link.
+  gameState.boardSeed = secureRandomInt(0xFFFFFFFF);
+  const selected = buildBoard({
+    pairs: config.pairs,
+    gridClass: config.gridClass,
+    rng: createDailySeed(challengeSeedKey(gameState.boardSeed)),
+  });
 
   // ── Trap card: assign one random pair on hard/extreme (classic only) ──
   if ((gameState.difficulty === 'hard' || gameState.difficulty === 'extreme') && gameState.mode === 'classic') {
@@ -224,7 +231,10 @@ function initGame() {
 }
 
 function restartGame() {
-  initGame();
+  // Retry the same board when a challenge is in play — otherwise "play again"
+  // would silently swap the board out from under the comparison.
+  if (gameState.challenge) startChallengeGame(gameState.challenge);
+  else initGame();
 }
 
 // ── Ghost Mode Toggle ──

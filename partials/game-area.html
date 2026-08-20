@@ -66,6 +66,15 @@
   </div>
 </div>
 
+<!-- Friend Challenge banner — the result this board was handed over to beat. -->
+<div id="challenge-banner" class="hidden" role="status">
+  <span class="challenge-banner-label">CHALLENGE</span>
+  <span class="challenge-banner-target">
+    BEAT <strong id="challenge-target-moves">0</strong> MOVES
+    <span class="challenge-banner-time">/ <span id="challenge-target-time">00:00</span></span>
+  </span>
+</div>
+
 <!-- Weekly HUD -->
 <div id="weekly-hud" class="hidden">
   <div class="weekly-hud-item">
@@ -128,8 +137,10 @@
       BEST COMBO: <span id="win-combo">0</span>x
     </p>
     <p class="win-xp" id="win-xp">+0 XP</p>
+    <p class="win-challenge hidden" id="win-challenge" role="status"></p>
     <div class="win-actions">
       <button id="share-btn" onclick="shareResult()">SHARE</button>
+      <button id="challenge-btn" class="hidden" onclick="shareChallenge()">CHALLENGE A FRIEND</button>
       <button id="play-again-btn" onclick="restartGame()">PLAY AGAIN</button>
     </div>
   </div>
