@@ -53,6 +53,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 | **Survival** | Endless escalating waves — earn lives back, streak multiplier on score |
 | **Daily Challenge** | Seeded daily puzzle — same cards for everyone, tracks streaks |
 | **Weekly Challenge** | One seeded Hard board per week, resets Monday — double XP on first clear |
+| **Friend Challenge** | Open a shared link to play someone's exact board and try to beat their score |
 
 ---
 
@@ -66,7 +67,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Extreme Combo Time Bonus** — each consecutive match in Extreme adds +10 seconds to the countdown
 
 ### Progression
-- **5 Ranks** — ROOKIE → AGENT → SPECIALIST → GHOST → NETRUNNER ELITE
+- **10 Ranks** — ROOKIE → AGENT → SPECIALIST → GHOST → NETRUNNER ELITE → PHANTOM → ARCHITECT → OVERSEER → WRAITH → SINGULARITY
 - **XP Calculation** — difficulty × move efficiency × speed × combo chains
 - **10 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono, Plasma Burn, Acid Rain, Shadow Protocol
 - **16 Collection Cards** — unlocked by rank, survival waves, daily streaks, win milestones, blitz wins and more
@@ -142,7 +143,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v52)
+├── sw.js                   # Service worker (network-first, breachos-v56)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
@@ -160,6 +161,9 @@ breachos/
 │   ├── weekly.js           # Weekly challenge (Monday-seeded board)
 │   ├── login-streak.js     # Consecutive-day login streak + bonus XP
 │   ├── quests.js           # Daily quests
+│   ├── challenge-rules.js  # Friend Challenge codec and ranking (pure)
+│   ├── challenge.js        # Friend Challenge links and banner
+│   ├── tabs.js             # Shared ARIA tab group
 │   └── ...
 ├── api/
 │   ├── auth/
@@ -214,9 +218,10 @@ Open `http://localhost:8080`. Note: API routes require Vercel dev or environment
 npm test
 ```
 
-Runs the `node:test` suite (Node 18+, no dependencies) — 98 tests covering the
-date and streak arithmetic, survival escalation and scoring, haptic presets,
-achievement badges, and win-rate reporting.
+Runs the `node:test` suite (Node 18+, no dependencies) — 152 tests covering the
+date and streak arithmetic, survival escalation and scoring, the rank curve,
+Friend Challenge encoding and its rejection of malformed links, tab keyboard
+navigation, haptic presets, achievement badges, and win-rate reporting.
 
 ---
 
@@ -227,6 +232,32 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.7.0
+**Friend Challenges**
+- **New:** Share a link carrying the board seed, difficulty, moves and time. Whoever opens it plays the identical board and is told whether they beat the score. The whole challenge travels in the URL — nothing is stored and there is no backend
+- **Changed:** Classic boards are now seeded. They previously used an unseeded shuffle, so a win could not be reproduced from a link and there was nothing to hand over
+- **Note:** Challenge boards carry no trap card and no glitch event, even on Hard and Extreme. Those are drawn from a separate random source rather than the shared seed, so leaving them in would give the two players different games
+- **Note:** Ranking is moves first, time as the tie-break, and an exact tie leaves the challenger holding the title
+
+**Progression**
+- **Changed:** The rank ladder runs from 5 tiers to 10 — PHANTOM, ARCHITECT, OVERSEER, WRAITH and SINGULARITY sit past NETRUNNER ELITE. A win is worth roughly 150 XP and the old ladder finished at 1 000 XP, so maximum rank arrived in about seven games and the XP bar then read MAX permanently. The top is now around 67 wins. The original five thresholds are unchanged, since skins and collection cards are gated on them
+- **Changed:** Survival keeps escalating past wave 17. Wave 17 is where two dials ran out at once — the countdown hit its floor and the last modifier switched on — so every later wave was identical. The countdown now eases to a second, gentler gradient instead of stopping, and the life allowance tapers in deep loops, which is what gives a flawless run a natural end. Escalation continues to wave 37
+- **Fix:** The wave-clear overlay announced a restored life on any flawless wave, including when lives were already at capacity and none was given
+
+**Navigation**
+- **Changed:** SKINS, THEMES and SOUNDS merged into one CUSTOMISE modal with tabs; the six preference toggles moved into SETTINGS; COLLECTION folded into the Dossier. Mobile menu 15 entries to 7, desktop control bar 13 to 7
+- **A11y:** The new tab groups implement the full ARIA tabs keyboard pattern — arrows wrap, Home and End jump to the ends, and only the active tab sits in the page tab order. The existing leaderboard tabs had the roles but no keyboard support at all
+
+**Licensing & icons**
+- **New:** `LICENSE` file added. The README had advertised MIT since launch with no licence text behind it
+- **Fix:** App icons were rendered with Futura, loaded from the macOS system font file. Futura is licensed for use rather than redistribution, and the right to ship raster output derived from it was never established. The monogram is now drawn from geometric primitives with no font loaded at all
+- **New:** A separate maskable icon. The 512px icon was declared `maskable any`, and Android crops maskable icons to a shape the launcher picks — under a circular mask the entire border and all the circuit accents were cut away
+- **Docs:** README records asset provenance — icons generated from code in this repository, favicon hand-written SVG, card art CSS and Unicode glyphs, and no font bundled or served
+
+**Internal**
+- **Chore:** Test suite grown from 98 to 152 tests; service worker cache bumped to `breachos-v56`
+- **A11y:** Status regions use `<output>` rather than a `role="status"` attribute
 
 ### v1.6.0
 **Survival**
