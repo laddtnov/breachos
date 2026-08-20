@@ -35,6 +35,44 @@ never built, and would need a Supabase schema change plus API and UI work.
 
 ## v1.7.0 — Social & Monetization
 
+### Navigation Consolidation
+The mobile menu carries **16 items**, three of which fall below the fold on a
+375x812 phone; the desktop control bar is **14 buttons** in a single row, behind
+10 separate modal partials. Settings toggles and destinations share one flat
+list, so a set-once preference like COLOR BLIND competes for space with
+RANKINGS.
+
+Target: **16 entries down to 6** — PLAY · PROFILE · CUSTOMISE · RANKINGS ·
+QUESTS · SETTINGS · SYNC — which fits one screen on any phone without scrolling.
+
+**1. Drop the standalone Achievements modal** (do this one first)
+- The Dossier badge grid added in v1.6.0 already renders all 24 achievements, and the Dossier also shows a `4/24` stat. Measured: both surfaces return 24 items
+- Pure deletion — no new component needed: removes `partials/achievement-modal.html`, `renderAchievementModal()`, its toggle and its CSS
+- Keep `showAchievementPopup()`; the unlock toast is separate and still wanted
+- ~-90 lines, -1 nav entry
+
+**2. Merge SKINS / THEMES / SOUNDS into one CUSTOMISE modal**
+- Three near-identical "pick a cosmetic variant" modals
+- Needs the in-modal tab pattern; build it here and reuse for item 4
+- ~-50 lines net, -2 nav entries
+
+**3. Move the six toggles into a SETTINGS modal**
+- STATUS, COLOR BLIND, CARD FLIP, SOUND, HAPTICS, BUZZ
+- Roughly line-neutral — markup moves rather than disappears. This is the
+  biggest readability win and the smallest code win; worth doing for the mobile
+  menu, not for the diff
+- -5 nav entries
+
+**4. Fold COLLECTION into the Dossier as a tab**
+- Both are "my progression"; the Dossier is already the progression surface
+- ~-1 partial, -1 nav entry
+
+Sequencing matters: item 1 is pure deletion and independent. Items 2–4 all
+depend on the same tab component, so they are one piece of work once it exists.
+
+Honest accounting: only item 1 is a clear code win. The rest trade roughly even
+on lines and are justified by the mobile experience, not the line count.
+
 ### Friend Challenges
 Generate a shareable link with a fixed board seed.
 - "Beat my score on THIS board"
