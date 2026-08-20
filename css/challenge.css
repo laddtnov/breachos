@@ -1,0 +1,72 @@
+/* ── Friend Challenges ── */
+/* Colours are literal hex to match every other stylesheet here — this project
+   defines no CSS custom properties, so var(--neon-cyan) resolves to nothing. */
+
+#challenge-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto 0.75rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Courier New', monospace;
+  /* Opaque rather than a translucent wash, so the contrast ratio against the
+     text above is computable by static analysis instead of assumed white. */
+  background: #06202a;
+  border: 1px solid #00f3ff;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+}
+
+.challenge-banner-label {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #04121a;
+  background: #00f3ff;
+  border-radius: 2px;
+}
+
+.challenge-banner-target {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: #d6fbff;
+}
+
+.challenge-banner-target strong {
+  color: #00f3ff;
+}
+
+.challenge-banner-time {
+  color: #8fd4e0;
+}
+
+/* Result line on the win overlay, which sits on rgba(0,0,0,0.9) over the
+   board — dark enough that these read as light text on near-black. */
+.win-challenge {
+  /* <output> is inline by default, which would drop the vertical margins. */
+  display: block;
+  margin: 0.5rem 0 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: #ffb3c6;
+}
+
+.win-challenge.challenge-won {
+  color: #00f3ff;
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+}
+
+/* Base button styling is shared with #share-btn / #play-again-btn in
+   overlays.css; this is only the accent and the fit for a longer label. */
+#challenge-btn {
+  color: #ff0055;
+  border-color: #ff0055;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+  padding: 12px 20px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}

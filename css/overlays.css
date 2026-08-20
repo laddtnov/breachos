@@ -71,9 +71,12 @@
   display: flex;
   gap: 12px;
   justify-content: center;
+  /* Three buttons no longer fit one row on a narrow phone. */
+  flex-wrap: wrap;
 }
 
 #share-btn,
+#challenge-btn,
 #play-again-btn {
   background: transparent;
   color: #00f3ff;
@@ -105,6 +108,12 @@
   background: #00ff88;
   color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 30px #00ff88;
+}
+
+#challenge-btn:hover {
+  background: #ff0055;
+  color: #fff; /* NOSONAR - hover state has saturated background */
+  box-shadow: 0 0 30px #ff0055;
 }
 
 /* ── Win Particles ── */

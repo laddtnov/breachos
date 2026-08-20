@@ -12,6 +12,7 @@ const MODE_CHROME_IDS = [
   'survival-hud', 'daily-hud', 'weekly-hud',
   'wave-clear-overlay', 'survival-over-overlay',
   'daily-win-overlay', 'weekly-win-overlay',
+  'challenge-banner',
 ];
 
 // Clear every mode's body class and hide every mode's HUD and overlays, so a
@@ -23,6 +24,9 @@ function clearModeChrome() {
   }
   winOverlay?.classList.add('hidden');
   loseOverlay?.classList.add('hidden');
+  // Leaving a mode ends any challenge with it. startChallengeGame() sets this
+  // again immediately after calling here.
+  gameState.challenge = null;
 }
 
 // Per-round counters shared by every mode. Trap and glitch state is included:

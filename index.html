@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="css/colorblind.css">
   <link rel="stylesheet" href="css/weekly.css">
   <link rel="stylesheet" href="css/tabs.css">
+  <link rel="stylesheet" href="css/challenge.css">
 </head>
 
 <body>
@@ -133,6 +134,8 @@
   <script src="js/auth.js"></script>
   <script src="js/leaderboard.js"></script>
   <script src="js/quests.js"></script>
+  <script src="js/challenge-rules.js"></script>
+  <script src="js/challenge.js"></script>
   <script type="module">
     await loadPartials();
     initDOMRefs();
@@ -147,7 +150,8 @@
     if (typeof processLoginStreak === 'function') processLoginStreak();
     syncSoundButton();
     initOnboarding();
-    initGame();
+    // A ?c= link opens straight into that board instead of a fresh game.
+    if (!initChallengeFromUrl()) initGame();
   </script>
   <script>
     if ('serviceWorker' in navigator) {

@@ -20,6 +20,9 @@ const gameState = {
   survivalScore: 0,
   survivalLoop: 0,
   survivalLifeAwarded: false,  // whether the last cleared wave actually returned a life
+  // Friend Challenges
+  boardSeed: null,             // seeds every classic board, so any win is shareable
+  challenge: null,             // the run being answered, when this board came from a link
   // Gameplay modifiers
   ghostMode: false,       // cards flip back instantly on mismatch
   memoryPeek: false,      // all cards briefly shown at game start
@@ -603,6 +606,7 @@ function winGame() {
   winTime.textContent = formatTime(gameState.seconds);
   document.getElementById('win-combo').textContent = gameState.maxCombo;
   document.getElementById('win-xp').textContent = '+' + xpEarned + ' XP';
+  if (typeof updateChallengeWinUI === 'function') updateChallengeWinUI();
 
   SoundEngine.win();
   Haptics.win();

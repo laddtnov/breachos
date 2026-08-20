@@ -73,21 +73,29 @@ depend on the same tab component, so they are one piece of work once it exists.
 Honest accounting: only item 1 is a clear code win. The rest trade roughly even
 on lines and are justified by the mobile experience, not the line count.
 
-### Friend Challenges
-Generate a shareable link with a fixed board seed.
-- "Beat my score on THIS board"
-- Extends existing `share.js`
-- Zero backend cost
+### Friend Challenges ✓
+Shareable link carrying a fixed board seed — "beat my score on THIS board".
+- The whole challenge travels in the URL: seed, difficulty, moves, time
+- Zero backend cost, nothing stored
+- Every classic board is now seeded, so any win can be handed over
+- Challenge boards carry no trap card and no glitch event: those are drawn
+  with `secureRandomInt` rather than the seeded RNG, so leaving them in would
+  give the two players different games
 
-### "Support the Dev" IAP
-One-time €2.99 in-app purchase via Google Play Billing.
-- No paywalled features — purely optional tip
-- Unlocks a cosmetic "Supporter" badge in Dossier
+### ~~"Support the Dev" IAP~~ — dropped
+Deferred until the game has Play Store ratings worth acting on. If reception is
+good the plan is an iOS release first, and monetisation is a decision to make
+once for both stores rather than twice.
 
-### Cosmetic Skin Packs
-Additional card back and board theme bundles.
-- Purchasable via Play Billing
-- Free tier always has full gameplay access
+Worth knowing if it comes back: Google requires Play Billing for in-app digital
+purchases, which a TWA cannot do through a web payment flow — it needs the
+Digital Goods API and the Play Billing delegate, configured at build time. That
+makes it a decision to take *before* building the `.aab`, not after.
+
+### ~~Cosmetic Skin Packs~~ — dropped
+The game already ships 11 skins with unlock conditions, which is enough. The
+roadmap entry also depended on Play Billing for delivery, so it went with the
+IAP above.
 
 ---
 
