@@ -6,7 +6,9 @@ Planned features and improvements. Subject to change based on player feedback.
 
 ## In Progress
 
-Nothing currently in active development.
+Feature work is closed. The remaining task before the Play Store launch is
+polish — no new scope. Everything still listed below the v1.7.0 section is
+either shipped or explicitly dropped.
 
 ---
 
@@ -34,6 +36,8 @@ never built, and would need a Supabase schema change plus API and UI work.
 ---
 
 ## v1.7.0 — Social & Monetization
+
+Shipped — see Completed. The monetization half was dropped; see below.
 
 ### Navigation Consolidation
 The mobile menu carries **16 items**, three of which fall below the fold on a
@@ -99,38 +103,35 @@ IAP above.
 
 ---
 
-## Medium Term
+## Medium Term — dropped
 
-### Player Guide Page
-A player-facing guide at `/guide` — how to play, mode explanations, and the full
-unlock table for skins, collection cards and achievements.
+All four items below were dropped before the Play Store launch. The feature set
+is large enough; the remaining work before publishing is polish, not scope.
 
-Considered a GitHub wiki for this and rejected it: wiki content lives in a separate
-`.wiki.git` repo, so it never passes through a PR and skips Build Check, SonarCloud
-and CodeQL. It also would not reach players, who do not browse the repo.
+### ~~Player Guide Page~~
+A player-facing guide at `/guide` with the unlock tables.
 
-- Most of the content already exists in `README.md` (Unlock Conditions table, How to Play, Game Modes) but sits where only developers see it
-- Ships through the normal PR and deploy pipeline; Play Store users get it via the TWA with no new AAB
-- Indexable for long-tail search — "breachos how to unlock chrono skin", "breachos survival tips"
-- Follow `privacy.html` for page structure and `sw.js` registration; add to `sitemap.xml`
-- Single source of truth: generate the unlock table from the same data the game uses, rather than hand-copying it, so it cannot drift from `RANKS` / `REWARD_SKIN_RULES`
-- Pairs naturally with v1.6.0's Achievement Badges — both surface unlock conditions
+Worth knowing if it comes back: the content already exists in `README.md`, where
+only developers see it. The one real gap it would have closed is that unlock
+conditions are discoverable in-game only through the Dossier badge grid and the
+locked-card labels. A GitHub wiki was considered and rejected earlier — wiki
+content lives in a separate `.wiki.git` repo, so it never passes through a PR and
+skips Build Check, SonarCloud and CodeQL.
 
-### Push Notifications (PWA)
-Remind players about the daily challenge via browser push.
-- "Your daily mission is available" at a set time
-- Opt-in only, respects user preference
-- Uses Web Push API + Vercel endpoint
+### ~~Push Notifications (PWA)~~
+Daily-challenge reminders via Web Push. Needs a Vercel endpoint and an opt-in
+flow, and notification permission prompts are a common reason for early
+uninstalls on a new app with no established trust.
 
-### Offline Leaderboard Cache
-Cache the last known leaderboard in localStorage.
-- Shows stale data with timestamp when offline
-- Tiny fix, big improvement for mobile players
+### ~~Offline Leaderboard Cache~~
+Cache the last leaderboard in localStorage and show it stale with a timestamp.
+The smallest of the four, and the easiest to bring back if offline play turns
+out to matter to real players.
 
-### Community Stats Banner
-Live counter on the main screen — total games played and total XP earned across all players.
-- Makes the game feel alive even when the leaderboard is sparse
-- Single Supabase aggregate query
+### ~~Community Stats Banner~~
+Live total games and XP across all players. It exists to make a sparse
+leaderboard feel alive, which is a problem worth measuring after launch rather
+than pre-empting before it.
 
 ---
 
