@@ -430,12 +430,6 @@ function updateAuthUI() {
     desktop.textContent = label;
     desktop.classList.toggle('sync-active', loggedIn);
   }
-
-  const mobile = document.getElementById('sync-btn-mobile');
-  if (mobile) {
-    mobile.textContent = label;
-    mobile.classList.toggle('sync-active', loggedIn);
-  }
 }
 
 // ── On page load ──

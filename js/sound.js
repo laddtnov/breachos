@@ -223,11 +223,9 @@ const SoundEngine = {
     localStorage.setItem('breachos_sound', this.enabled ? 'on' : 'off');
     const label = this.enabled ? 'SOUND: ON' : 'SOUND: OFF';
     const btn = document.getElementById('sound-toggle');
-    if (btn) btn.textContent = label;
-    const btnMobile = document.getElementById('sound-toggle-mobile');
-    if (btnMobile) {
-      btnMobile.textContent = label;
-      btnMobile.classList.toggle('sound-off', !this.enabled);
+    if (btn) {
+      btn.textContent = label;
+      btn.classList.toggle('sound-off', !this.enabled);
     }
   }
 };
