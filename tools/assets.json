@@ -29,6 +29,7 @@
   ],
   "js": [
     "js/load-partials.js",
+    "js/store-build.js",
     "js/sound.js",
     "js/haptic-patterns.js",
     "js/haptics.js",
