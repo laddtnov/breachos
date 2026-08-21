@@ -290,6 +290,23 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.3
+Layout fix, documentation accuracy and CI cleanup. No gameplay changes.
+
+**Fixes**
+- **Fix:** The combo popup rendered on top of the RANK readout and the XP bar at every width, phones included. It was positioned absolutely at a fixed 70px offset measured against an older, shorter HUD; the HUD grew when the rank meter and XP bar were added and the popup never moved. No single offset works — the HUD is 115px on desktop and 140px on mobile, and the space below the board is taken by the achievement popup and the login-streak banner. It now sits in the document flow immediately before the board with `height: 0`, so it tracks whatever height the HUD happens to be without pushing the board down. The scale animation lost its `translateX(-50%)` along with the absolute centring, which would otherwise have dragged the text half its width to the left for the duration of the pulse
+
+**Documentation**
+- **Changed:** Screenshots recaptured. The previous set was taken on 2 April, before 110 commits touching `partials/` and `css/`. Two were not merely dated but wrong: the briefing predated the navigation consolidation, and the win overlay predated the CHALLENGE A FRIEND button. Captured from a cleared profile, so they show what a first-time player sees rather than a developer's save. `05-mission-failed.png` was tracked but never displayed, and is now in the README
+- **Fix:** Corrected stale counts and claims across the documentation — the skin count omitted the graffiti reward skin, the environment template listed variables the code does not read, and the TWA status was recorded as further along than it is
+- **Chore:** Deleted `GIST.md`, a standalone duplicate of the README whose clone URL still named the old repository. Its embed instructions moved into the README rather than being dropped
+
+**CI**
+- **Fix:** Every merge to main produced two production deployments of the same commit, roughly twenty-five seconds apart — Vercel's Git integration and the workflow's own CLI deploy job, both building the same thing. Confirmed in the deployment history across pull requests #162 to #167, not inferred. The workflow's deploy job is gone; the Git integration was already doing the work, and removing the job takes a deploy token out of CI entirely. The workflow is now `checks.yml` and only builds and tests
+
+**Internal**
+- **Chore:** Service worker cache bumped to `breachos-v61`
+
 ### v1.7.2
 Build tooling, caching and bug fixes. No gameplay changes.
 
