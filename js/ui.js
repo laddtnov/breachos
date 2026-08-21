@@ -379,7 +379,16 @@ function closeDifficultySelect() {
 
 // ── Card Skins ──
 function applySkin(skinName) {
-  board.classList.remove('skin-default', 'skin-hologram', 'skin-corrupted', 'skin-gold', 'skin-elite', 'skin-survivor', 'skin-chrono', 'skin-plasma', 'skin-acid', 'skin-shadow');
+  // Clear whatever skin class is on the board rather than naming them. The
+  // hardcoded list this replaces had ten entries and never gained 'graffiti',
+  // the reward skin added in #18 — so selecting graffiti left the class on the
+  // board forever and every later skin stacked on top of it, with the graffiti
+  // card backs winning. A player who tried it could not switch away.
+  // Collect first, then remove in one call. classList is a live collection, so
+  // removing while iterating it shifts the remaining entries and skips one —
+  // which is the same kind of leftover this function exists to prevent.
+  const skinClasses = [...board.classList].filter(cls => cls.startsWith('skin-'));
+  board.classList.remove(...skinClasses);
   board.classList.add('skin-' + skinName);
 }
 

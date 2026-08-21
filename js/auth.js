@@ -425,10 +425,13 @@ function updateAuthUI() {
   const loggedIn = isLoggedIn();
   const label    = loggedIn ? `SYNC: ${authState.user?.username || 'ON'}` : 'SYNC';
 
-  const desktop = document.getElementById('sync-btn');
-  if (desktop) {
-    desktop.textContent = label;
-    desktop.classList.toggle('sync-active', loggedIn);
+  // Both surfaces carry a SYNC button and both need the label. The mobile one
+  // is styled by .menu-item-sync.sync-active in css/controls.css.
+  for (const id of ['sync-btn', 'sync-btn-mobile']) {
+    const btn = document.getElementById(id);
+    if (!btn) continue;
+    btn.textContent = label;
+    btn.classList.toggle('sync-active', loggedIn);
   }
 }
 

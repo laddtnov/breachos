@@ -123,6 +123,30 @@
   cursor: not-allowed;
 }
 
+/* Off states. SoundEngine.toggle() and Haptics.syncButton() set these classes,
+   so the rules are matched by class rather than by id — the id-based versions
+   that used to live in controls.css still named the mobile-menu buttons that
+   v1.7.0 removed, which left OFF looking identical to ON. */
+.settings-item.sound-off,
+.settings-item.haptics-off {
+  color: rgba(214, 251, 255, 0.45);
+  border-color: rgba(0, 243, 255, 0.15);
+  text-decoration: line-through;
+}
+
+.settings-item.haptics-off {
+  color: rgba(255, 122, 158, 0.7);
+  border-color: rgba(255, 0, 85, 0.3);
+}
+
+.settings-item.sound-off:hover:not(:disabled),
+.settings-item.haptics-off:hover:not(:disabled) {
+  border-color: rgba(255, 0, 85, 0.6);
+  color: #ff8fb0;
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(255, 0, 85, 0.25);
+}
+
 .customise-close-btn,
 .settings-close-btn {
   background: transparent;
