@@ -13,17 +13,20 @@ const Haptics = {
   toggle() {
     Haptics.enabled = !Haptics.enabled;
     localStorage.setItem('breachos_haptics', Haptics.enabled ? 'on' : 'off');
-    const btn = document.getElementById('haptic-toggle-mobile');
-    if (btn) {
-      btn.textContent = Haptics.enabled ? 'HAPTICS: ON' : 'HAPTICS: OFF';
-      btn.classList.toggle('haptics-off', !Haptics.enabled);
-    }
+    // Render through syncButton rather than repeating the label logic here.
+    // The copy that used to live in this function is how the two drifted:
+    // syncButton was updated and this one was not, so the state flipped while
+    // the button kept reading HAPTICS: ON and looked dead. setPreset already
+    // delegates the same way, which is why the BUZZ control never broke.
+    Haptics.syncButton();
     // Confirm buzz when enabling
     if (Haptics.enabled && Haptics._supported) navigator.vibrate(150);
   },
 
   syncButton() {
-    const btn = document.getElementById('haptic-toggle-mobile');
+    // The control lives in the SETTINGS modal. It was #haptic-toggle-mobile in
+    // the old flat mobile menu, which v1.7.0 removed.
+    const btn = document.getElementById('haptic-toggle');
     if (!btn) return;
     if (!Haptics._supported) {
       btn.textContent = 'HAPTICS: N/A';
@@ -60,14 +63,10 @@ const Haptics = {
     const label = Haptics._supported
       ? (HAPTIC_PRESET_LABELS[Haptics.preset] ?? Haptics.preset)
       : 'N/A';
-    ['haptic-preset-status', 'haptic-preset-status-mobile'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = label;
-    });
-    ['haptic-preset-btn', 'haptic-preset-btn-mobile'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.disabled = !Haptics._supported;
-    });
+    const status = document.getElementById('haptic-preset-status');
+    if (status) status.textContent = label;
+    const btn = document.getElementById('haptic-preset-btn');
+    if (btn) btn.disabled = !Haptics._supported;
   },
 
   flip()  { Haptics._fire(Haptics._pattern('flip')); },

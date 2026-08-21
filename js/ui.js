@@ -469,10 +469,7 @@ function toggleEffects() {
   const isSafe = body.classList.contains('safe-mode');
   const label = isSafe ? 'SAFE MODE' : 'CYBER MODE';
   const dt = document.getElementById('status-text');
-  const mb = document.getElementById('status-text-mobile');
   if (dt) dt.innerText = label;
-  if (mb) mb.innerText = label;
-  // Keep aria-pressed in sync on both desktop and mobile buttons
   const btn = document.getElementById('glitch-toggle');
   if (btn) btn.setAttribute('aria-pressed', String(isSafe));
 }
@@ -484,9 +481,7 @@ function toggleColorBlind() {
   localStorage.setItem('breachos_colorblind', isOn ? 'on' : 'off');
   const statusLabel = isOn ? 'ON' : 'OFF';
   const dtSpan = document.getElementById('cb-status');
-  const mbSpan = document.getElementById('cb-status-mobile');
   if (dtSpan) dtSpan.textContent = statusLabel;
-  if (mbSpan) mbSpan.textContent = statusLabel;
   const btn = document.getElementById('colorblind-btn');
   if (btn) btn.setAttribute('aria-pressed', String(isOn));
 }
@@ -495,9 +490,7 @@ function initColorBlind() {
   if (localStorage.getItem('breachos_colorblind') !== 'on') return;
   document.body.classList.add('colorblind-mode');
   const dtSpan = document.getElementById('cb-status');
-  const mbSpan = document.getElementById('cb-status-mobile');
   if (dtSpan) dtSpan.textContent = 'ON';
-  if (mbSpan) mbSpan.textContent = 'ON';
   const btn = document.getElementById('colorblind-btn');
   if (btn) btn.setAttribute('aria-pressed', 'true');
 }
@@ -505,10 +498,8 @@ function initColorBlind() {
 // ── Card Flip Animations ──
 function _syncFlipAnimLabels(isOn) {
   const statusLabel = isOn ? 'ON' : 'OFF';
-  ['flip-status', 'flip-status-mobile'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = statusLabel;
-  });
+  const status = document.getElementById('flip-status');
+  if (status) status.textContent = statusLabel;
   const btn = document.getElementById('flip-anim-btn');
   if (btn) btn.setAttribute('aria-pressed', String(isOn));
 }
@@ -541,14 +532,8 @@ function toggleMenu() {
   } else {
     dialog.showModal();
     btn?.classList.add('open');
-    // Sync sound button state each time menu opens
-    const soundBtn = document.getElementById('sound-toggle-mobile');
-    if (soundBtn) {
-      const on = SoundEngine.enabled;
-      soundBtn.textContent = on ? 'SOUND: ON' : 'SOUND: OFF';
-      soundBtn.classList.toggle('sound-off', !on);
-    }
-    // Sync haptic button state each time menu opens
+    // Sync the settings controls each time the menu opens
+    if (typeof SoundEngine !== 'undefined') syncSoundButton();
     if (typeof Haptics !== 'undefined') {
       Haptics.syncButton();
       Haptics.syncPresetButton();

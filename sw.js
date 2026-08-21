@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v56';
+const CACHE_NAME = 'breachos-v57';
 const ASSETS = [
   './',
   './index.html',
@@ -91,15 +91,38 @@ globalThis.addEventListener('activate', event => {
   globalThis.clients.claim();
 });
 
+// Which requests this worker is willing to handle at all.
+//
+// cache.put() rejects outright on schemes it does not support, and browser
+// extensions send chrome-extension:// requests through the page — that was
+// throwing "Request scheme 'chrome-extension' is unsupported" on every one.
+//
+// /api/ is left alone deliberately: those responses are per-user and
+// authenticated, and storing them in the static asset cache would leave one
+// player's stats on disk for the next person to use the device.
+function isCacheable(request) {
+  const url = new URL(request.url);
+  return request.method === 'GET'
+    && url.origin === globalThis.location.origin
+    && (url.protocol === 'https:' || url.protocol === 'http:')
+    && !url.pathname.startsWith('/api/');
+}
+
 // Fetch — network-first, cache fallback for offline
 globalThis.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+  // Not calling respondWith leaves the request to the browser untouched, which
+  // is what anything this worker should not be caching wants anyway.
+  if (!isCacheable(event.request)) return;
 
   event.respondWith(
     fetch(event.request)
       .then(response => {
         const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        caches.open(CACHE_NAME)
+          .then(cache => cache.put(event.request, copy))
+          // A failed cache write must not reject the fetch the page is waiting
+          // on, and must not surface as an unhandled rejection either.
+          .catch(() => {});
         return response;
       })
       .catch(() => caches.match(event.request))

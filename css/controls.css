@@ -9,17 +9,13 @@
   gap: 8px;
 }
 
-#glitch-toggle,
-#colorblind-btn,
-#sound-toggle,
-#skin-btn,
-#collection-btn,
-#achievement-btn,
-#dossier-btn,
-#theme-btn,
-#sound-theme-btn,
-#leaderboard-btn,
-#quests-btn {
+/* Every button in the control bar, rather than a list of ids.
+   The list had drifted twice: it still named five buttons deleted in the v1.7.0
+   navigation consolidation, never gained CUSTOMISE or SETTINGS — which rendered
+   as default browser buttons — and kept styling three toggles that had moved
+   into the settings modal, where an id beat .settings-item and gave that modal
+   two different button appearances. Matching by position keeps it honest. */
+.controls button {
   background: rgba(0, 0, 0, 0.8);
   color: #00f3ff;
   border: 2px solid #00f3ff;
@@ -33,17 +29,7 @@
   box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
 }
 
-#glitch-toggle:hover,
-#colorblind-btn:hover,
-#sound-toggle:hover,
-#skin-btn:hover,
-#collection-btn:hover,
-#achievement-btn:hover,
-#dossier-btn:hover,
-#theme-btn:hover,
-#sound-theme-btn:hover,
-#leaderboard-btn:hover,
-#quests-btn:hover {
+.controls button:hover {
   background: #00f3ff;
   color: #000; /* NOSONAR - hover state has bright background */
   box-shadow: 0 0 20px #00f3ff;
