@@ -4,7 +4,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 
 **[Play Now →](https://breachos.laddtnov.xyz/)**
 
-[![Build Check](https://github.com/laddtnov/breachos/actions/workflows/deploy.yml/badge.svg)](https://github.com/laddtnov/breachos/actions/workflows/deploy.yml)
+[![Build Check](https://github.com/laddtnov/breachos/actions/workflows/checks.yml/badge.svg)](https://github.com/laddtnov/breachos/actions/workflows/checks.yml)
 
 <!-- Google Play badge — restore this once the listing is live. Until then the
      link 404s for anyone who clicks it. Kept verbatim so the package id does
