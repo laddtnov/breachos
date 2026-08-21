@@ -15,31 +15,9 @@
   <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
   <link rel="icon" type="image/png"     href="icons/icon-192.png">
   <title>Breachos</title>
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/hud.css">
-  <link rel="stylesheet" href="css/cards.css">
-  <link rel="stylesheet" href="css/skins.css">
-  <link rel="stylesheet" href="css/modals.css">
-  <link rel="stylesheet" href="css/overlays.css">
-  <link rel="stylesheet" href="css/controls.css">
-  <link rel="stylesheet" href="css/combo.css">
-  <link rel="stylesheet" href="css/achievements.css">
-  <link rel="stylesheet" href="css/dossier.css">
-  <link rel="stylesheet" href="css/themes.css">
-  <link rel="stylesheet" href="css/konami.css">
-  <link rel="stylesheet" href="css/sound-themes.css">
-  <link rel="stylesheet" href="css/collections.css">
-  <link rel="stylesheet" href="css/survival.css">
-  <link rel="stylesheet" href="css/daily.css">
-  <link rel="stylesheet" href="css/auth.css">
-  <link rel="stylesheet" href="css/leaderboard.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/gameplay-mods.css">
-  <link rel="stylesheet" href="css/quests.css">
-  <link rel="stylesheet" href="css/colorblind.css">
-  <link rel="stylesheet" href="css/weekly.css">
-  <link rel="stylesheet" href="css/tabs.css">
-  <link rel="stylesheet" href="css/challenge.css">
+  <!-- Concatenated and minified from css/ by tools/build.mjs. Sources and
+       load order live in tools/assets.json. -->
+  <link rel="stylesheet" href="dist/app.min.css">
 </head>
 
 <body>
@@ -107,35 +85,10 @@
     <div data-partial="partials/game-area.html"></div>
   </div>
 
-  <script defer src="js/load-partials.js"></script>
-  <script defer src="js/sound.js"></script>
-  <!-- patterns must load first: haptics.js reads them at script-evaluation time -->
-  <script defer src="js/haptic-patterns.js"></script>
-  <script defer src="js/haptics.js"></script>
-  <script defer src="js/data.js"></script>
-  <script defer src="js/stats-rules.js"></script>
-  <script defer src="js/rank.js"></script>
-  <script defer src="js/game.js"></script>
-  <script defer src="js/tabs.js"></script>
-  <script defer src="js/board.js"></script>
-  <script defer src="js/collections.js"></script>
-  <script defer src="js/dossier.js"></script>
-  <script defer src="js/sound-themes.js"></script>
-  <script defer src="js/konami.js"></script>
-  <script defer src="js/share.js"></script>
-  <script defer src="js/themes.js"></script>
-  <script defer src="js/achievements.js"></script>
-  <script defer src="js/survival-rules.js"></script>
-  <script defer src="js/survival.js"></script>
-  <script defer src="js/daily.js"></script>
-  <script defer src="js/weekly.js"></script>
-  <script defer src="js/login-streak.js"></script>
-  <script defer src="js/ui.js"></script>
-  <script defer src="js/auth.js"></script>
-  <script defer src="js/leaderboard.js"></script>
-  <script defer src="js/quests.js"></script>
-  <script defer src="js/challenge-rules.js"></script>
-  <script defer src="js/challenge.js"></script>
+  <!-- Concatenated and minified from js/ by tools/build.mjs. These are
+       classic scripts sharing one global scope, so load order is preserved;
+       the order itself lives in tools/assets.json. -->
+  <script defer src="dist/app.min.js"></script>
   <script type="module">
     await loadPartials();
     initDOMRefs();

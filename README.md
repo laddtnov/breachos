@@ -28,7 +28,9 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/laddtnov)
 
-- **Frontend** — Vanilla HTML5/CSS3/JS, zero frameworks, zero bundler
+- **Frontend** — Vanilla HTML5/CSS3/JS, zero frameworks. The only build step
+  concatenates and minifies the sources; nothing transpiles, and the files in
+  `css/` and `js/` are what runs
 - **Backend** — Vercel serverless functions (Node.js)
 - **Database** — Supabase (Postgres + Auth)
 - **Email** — Resend API
@@ -147,10 +149,12 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v57)
+├── sw.js                   # Service worker (network-first, breachos-v60)
 ├── vercel.json             # Cron schedule + security headers
-├── css/                    # Modular stylesheets
-├── js/                     # Game logic (vanilla ES6+)
+├── dist/                   # Built bundles — generated, gitignored
+├── tools/                  # build.mjs + assets.json (load order), verify-page.sh
+├── css/                    # Modular stylesheets (source)
+├── js/                     # Game logic (vanilla ES6+, source)
 │   ├── auth.js             # Auth state, sync, panel navigation
 │   ├── game.js             # Core game loop
 │   ├── rank.js             # XP, ranks, saveStats
@@ -211,10 +215,36 @@ breachos/
 git clone https://github.com/laddtnov/breachos.git
 cd breachos
 npm install
+npm run build
 python3 -m http.server 8080
 ```
 
 Open `http://localhost:8080`. Note: API routes require Vercel dev or environment variables to function.
+
+### Build
+
+```bash
+npm run build
+```
+
+`index.html` loads two files — `dist/app.min.css` and `dist/app.min.js` — built
+from the 25 stylesheets and 28 scripts by [`tools/build.mjs`](tools/build.mjs).
+That takes 53 render-blocking requests down to 2, and drops roughly a third of
+the bytes before compression.
+
+The scripts are classic scripts sharing one global scope, so they are
+concatenated in the order [`tools/assets.json`](tools/assets.json) lists rather
+than bundled as modules. esbuild is used purely as a minifier: in script mode it
+mangles locals and leaves top-level names intact, which the markup depends on
+because it calls functions like `toggleSettingsModal()` from inline `onclick`
+attributes.
+
+`dist/` is generated and gitignored — Vercel runs the build on deploy. When
+adding a stylesheet or script, add it to `tools/assets.json` and to the service
+worker's asset list.
+
+While iterating, `tools/verify-page.sh` rebuilds first, so `_verify.html` always
+reflects the current sources.
 
 ### Tests
 
