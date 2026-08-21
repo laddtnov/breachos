@@ -1,14 +1,16 @@
-name: Deploy Breach OS to Vercel
+name: Checks
 
+# Deployment is handled by Vercel's Git integration, which builds every push to
+# main and every pull request branch on its own. This workflow used to deploy as
+# well, which meant two production builds of the same commit for every merge —
+# confirmed in the deployment history, roughly 25 seconds apart. All that is
+# left here is the check.
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
   build-check:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     name: Build Check
     permissions:
@@ -53,37 +55,3 @@ jobs:
               repo: context.repo.repo,
               body: '✅ Breach OS build check passed! Ready to merge → breachos.laddtnov.xyz'
             })
-
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    name: Deploy to Vercel
-    permissions:
-      contents: read
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      # Pinned rather than floating: this CLI holds a deploy token, so the
-      # version that runs should be one that was reviewed, not whatever
-      # published most recently. Bump deliberately.
-      # --ignore-scripts blocks lifecycle hooks during install; verified the
-      # CLI still runs under it.
-      - name: Deploy Breach OS
-        run: |
-          npm install -g vercel@59.3.0 --ignore-scripts
-          vercel deploy --prod --token=$VERCEL_TOKEN --yes
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: ✅ Deployment Success
-        run: echo "🎮 Breach OS live at breachos.laddtnov.xyz"
-
-      - name: ❌ Deployment Failed
-        if: failure()
-        run: echo "Check logs above"
