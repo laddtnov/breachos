@@ -22,12 +22,24 @@ jobs:
           node-version: "20"
           cache: "npm"
 
+      # npm ci installs exactly what package-lock.json resolves, so CI cannot
+      # silently pick up a different transitive version than the one reviewed.
+      # --ignore-scripts blocks package lifecycle hooks; verified that esbuild
+      # still works under it, as it ships platform binaries as optional
+      # dependencies rather than downloading one from a postinstall hook.
       - name: Install dependencies
-        run: npm install
+        run: npm ci --ignore-scripts
 
+      - name: Test
+        run: npm test
+
+      # This step used to be `npm run build 2>/dev/null || echo "No build
+      # script"`, which was harmless while the project had none. It does now,
+      # and that form would have reported a green build check for a build that
+      # failed.
       - name: Build
         id: build
-        run: npm run build 2>/dev/null || echo "No build script — static project, skipping"
+        run: npm run build
 
       - name: Comment on PR
         if: always()
@@ -55,9 +67,14 @@ jobs:
         with:
           node-version: "20"
 
+      # Pinned rather than floating: this CLI holds a deploy token, so the
+      # version that runs should be one that was reviewed, not whatever
+      # published most recently. Bump deliberately.
+      # --ignore-scripts blocks lifecycle hooks during install; verified the
+      # CLI still runs under it.
       - name: Deploy Breach OS
         run: |
-          npm install -g vercel
+          npm install -g vercel@59.3.0 --ignore-scripts
           vercel deploy --prod --token=$VERCEL_TOKEN --yes
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
