@@ -290,6 +290,16 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.4
+Play Store compliance. No gameplay changes, and the web build is untouched.
+
+**Changed**
+- **Changed:** The SUPPORT button is removed in the Play Store build. It opens `buymeacoffee.com` in a new tab, and Google requires digital purchases made inside an Android app to go through Play Billing — an external payment link is a common listing rejection. A TWA cannot use Play Billing without the Digital Goods API, so the button comes out of the app rather than being reworked. Both instances are covered: the desktop control bar button and the mobile menu item
+- **Note:** A TWA is Chrome rather than a WebView, so its user agent is indistinguishable from the browser. The launch referrer is not — Android sets it to `android-app://<package>` — but it only exists on the document the app launched, so the result is stored. Without that, a reload inside the app would put the button back
+
+**Internal**
+- **Chore:** Test suite grown from 197 to 206 tests; service worker cache bumped to `breachos-v62`
+
 ### v1.7.3
 Layout fix, documentation accuracy and CI cleanup. No gameplay changes.
 
