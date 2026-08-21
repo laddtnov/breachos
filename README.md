@@ -51,6 +51,10 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 |:---:|:---:|
 | ![Gameplay](screenshots/03-gameplay.png) | ![Mission Complete](screenshots/04-mission-complete.png) |
 
+| Mission Failed | |
+|:---:|:---:|
+| ![Mission Failed](screenshots/05-mission-failed.png) | |
+
 ---
 
 ## Game Modes
