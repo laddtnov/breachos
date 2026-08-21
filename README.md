@@ -126,7 +126,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 - **Cyber / Safe Mode** — toggle animations for accessibility
 - **Color Blind Mode** — blue/orange palette replaces cyan/pink; dashed border as shape cue; persists across sessions
 - **Card Flip Animations toggle** — turn the 3D flip off for lower-end devices; persists across sessions
-- **Haptic presets** — SUBTLE / STANDARD / INTENSE buzz strength, selectable in the mobile menu
+- **Haptic presets** — SUBTLE / STANDARD / INTENSE buzz strength, selectable in SETTINGS
 - **Achievement badges** — badge grid in the Dossier; tap or focus a badge to read its name and unlock condition, locked entries shown as silhouettes
 - **Respects `prefers-reduced-motion`**
 - **Mobile-first** — hamburger menu, responsive grid layouts
@@ -143,7 +143,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 breachos/
 ├── index.html              # Single-page app shell
 ├── manifest.json           # PWA manifest
-├── sw.js                   # Service worker (network-first, breachos-v56)
+├── sw.js                   # Service worker (network-first, breachos-v57)
 ├── vercel.json             # Cron schedule + security headers
 ├── css/                    # Modular stylesheets
 ├── js/                     # Game logic (vanilla ES6+)
@@ -218,10 +218,12 @@ Open `http://localhost:8080`. Note: API routes require Vercel dev or environment
 npm test
 ```
 
-Runs the `node:test` suite (Node 18+, no dependencies) — 152 tests covering the
+Runs the `node:test` suite (Node 18+, no dependencies) — 197 tests covering the
 date and streak arithmetic, survival escalation and scoring, the rank curve,
-Friend Challenge encoding and its rejection of malformed links, tab keyboard
-navigation, haptic presets, achievement badges, and win-rate reporting.
+Friend Challenge encoding and its rejection of malformed links, the server-side
+stats guard and password-reset token check, service worker cache eligibility,
+tab keyboard navigation, haptic presets, achievement badges, and win-rate
+reporting.
 
 ---
 
@@ -232,6 +234,26 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.7.1
+Security and polish before the Play Store launch. No gameplay changes.
+
+**Security**
+- **Fix:** Synced stats were written to the database verbatim, and the leaderboard ranks players on the XP inside that same column — so a single authenticated request could set any XP and any rank. The payload is now rebuilt field by field on the server: unknown keys are dropped rather than filtered, every number is clamped, rank must be one of the ten real ranks, and wins can never exceed games played. XP may rise by at most one offline session's worth per save, and an over-limit save keeps the stored value rather than being clamped to the ceiling
+- **Fix:** The password-reset endpoint accepted any valid access token, not only one minted by a recovery link, so an ordinary session token could set a new password — turning a stolen token into permanent account takeover rather than temporary access. It was also the only auth route with no rate limit
+- **Changed:** The service worker no longer caches `/api/` responses. They are per-user and authenticated, and were being written into the static asset cache, leaving one player's synced stats on disk for whoever used the device next
+
+**Fixes**
+- **Fix:** CUSTOMISE and SETTINGS rendered as default browser buttons. The control bar was styled by listing element ids, and that list still named five buttons deleted in v1.7.0 while never gaining the two added
+- **Fix:** The SETTINGS modal showed two different button appearances — three of the six toggles kept id rules that outranked the modal's own class
+- **Fix:** The HAPTICS button appeared not to respond. It did toggle, and the setting persisted, but the label never changed because it was written to an element v1.7.0 removed. The underlying cause was duplicated label logic that had drifted out of sync
+- **Fix:** The service worker passed every request to the cache, including the `chrome-extension://` requests browser extensions send through the page, which the Cache API rejects outright — producing an unhandled error on each one
+
+**Performance**
+- **Changed:** All 28 script tags now carry `defer`, so they no longer block the parser. Measured first contentful paint on production was already 876 ms; the gain is against the simulated slow connection Lighthouse scores against, where 53 sequential blocking requests is expensive. Stylesheets still block deliberately — deferring them would trade a Lighthouse point for a flash of unstyled content
+
+**Internal**
+- **Chore:** Test suite grown from 152 to 197 tests; service worker cache bumped to `breachos-v57`
 
 ### v1.7.0
 **Friend Challenges**
