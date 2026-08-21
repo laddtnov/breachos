@@ -134,43 +134,6 @@ body.theme-ember .cyber-table::after {
 }
 
 /* ── Theme Modal ── */
-#theme-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.92);
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 20px 0;
-  z-index: 250;
-  backdrop-filter: blur(8px);
-}
-#theme-modal[open] { display: flex; }
-#theme-modal::backdrop { display: none; }
-
-.theme-modal-content {
-  max-width: 520px;
-  width: 92%;
-  margin: 0 auto;
-  padding: 30px;
-  background: rgba(10, 10, 25, 0.95);
-  border: 2px solid #00f3ff;
-  border-radius: 12px;
-  box-shadow:
-    0 0 30px rgba(0, 243, 255, 0.4),
-    inset 0 0 20px rgba(0, 243, 255, 0.1);
-  font-family: 'Courier New', monospace;
-}
-
-.theme-modal-title {
-  font-size: 22px;
-  color: #00f3ff;
-  text-align: center;
-  letter-spacing: 4px;
-  margin-bottom: 4px;
-  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-}
 
 #theme-grid {
   display: grid;
@@ -250,29 +213,6 @@ body.theme-ember .cyber-table::after {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1px;
-}
-
-.theme-close-btn {
-  display: block;
-  width: 100%;
-  background: transparent;
-  color: #fff; /* NOSONAR */
-  border: 2px solid #ff0055;
-  padding: 10px;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
-}
-
-.theme-close-btn:hover {
-  background: #ff0055;
-  color: #000; /* NOSONAR - hover state has bright background */
-  box-shadow: 0 0 20px #ff0055;
 }
 
 .theme-preview-ice {
@@ -564,11 +504,6 @@ body.theme-daylight .lose-title {
 }
 
 /* Page title */
-body.theme-daylight .page-title {
-  color: #005f88;
-  text-shadow: none;
-}
-
 
 /* Win / Lose overlays — text/button contrast on light bg */
 body.theme-daylight .win-stats {
@@ -789,10 +724,6 @@ body.theme-hc .card:not(.flipped):not(.matched):hover .card-back::after {
 }
 
 /* Page title / nav colours */
-body.theme-hc .page-title {
-  color: #000000;
-  text-shadow: none;
-}
 
 body.theme-hc .controls button {
   color: #000000;
@@ -818,7 +749,6 @@ body.theme-hc .lose-title {
   color: #000000;
   text-shadow: none;
 }
-
 
 /* Win / Lose overlays */
 body.theme-hc .win-stats {
@@ -873,25 +803,15 @@ body.theme-hc #retry-btn:hover {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .theme-modal-content {
-    padding: 20px 16px;
-  }
 
   #theme-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 10px;
   }
 
-  .theme-modal-title {
-    font-size: 18px;
-    letter-spacing: 3px;
-  }
 }
 
 @media (max-width: 480px) {
-  .theme-modal-content {
-    padding: 16px 12px;
-  }
 
   #theme-grid {
     grid-template-columns: 1fr 1fr;

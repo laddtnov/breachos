@@ -335,40 +335,6 @@
 }
 
 /* ── Skin Modal ── */
-#skin-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 20px 0;
-  z-index: 250;
-  backdrop-filter: blur(8px);
-}
-#skin-modal[open] { display: flex; }
-#skin-modal::backdrop { display: none; }
-
-.skin-modal-content {
-  max-width: 500px;
-  width: 90%;
-  margin: 0 auto;
-  padding: 30px;
-  background: rgba(10, 10, 25, 0.95);
-  border: 2px solid #00f3ff;
-  border-radius: 12px;
-  box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
-}
-
-.skin-modal-title {
-  font-size: 22px;
-  color: #00f3ff;
-  text-align: center;
-  letter-spacing: 4px;
-  margin-bottom: 8px;
-  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-}
 
 #skin-grid {
   display: grid;
@@ -538,25 +504,3 @@
   text-align: center;
 }
 
-.skin-close-btn {
-  display: block;
-  width: 100%;
-  background: transparent;
-  color: #fff; /* NOSONAR */
-  border: 2px solid #ff0055;
-  padding: 10px;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
-}
-
-.skin-close-btn:hover {
-  background: #ff0055;
-  color: #000; /* NOSONAR - hover state has bright background */
-  box-shadow: 0 0 20px #ff0055;
-}
