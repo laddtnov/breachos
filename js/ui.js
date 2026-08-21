@@ -384,9 +384,11 @@ function applySkin(skinName) {
   // the reward skin added in #18 — so selecting graffiti left the class on the
   // board forever and every later skin stacked on top of it, with the graffiti
   // card backs winning. A player who tried it could not switch away.
-  for (const cls of [...board.classList]) {
-    if (cls.startsWith('skin-')) board.classList.remove(cls);
-  }
+  // Collect first, then remove in one call. classList is a live collection, so
+  // removing while iterating it shifts the remaining entries and skips one —
+  // which is the same kind of leftover this function exists to prevent.
+  const skinClasses = [...board.classList].filter(cls => cls.startsWith('skin-'));
+  board.classList.remove(...skinClasses);
   board.classList.add('skin-' + skinName);
 }
 
