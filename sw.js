@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v58';
+const CACHE_NAME = 'breachos-v59';
 const ASSETS = [
   './',
   './index.html',
@@ -76,7 +76,13 @@ const ASSETS = [
 // Install — cache all assets
 globalThis.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    // cache: 'reload' bypasses the HTTP cache for the precache fetches. Assets
+    // are served with a one-hour max-age and their filenames are not
+    // content-hashed, so a plain addAll() could fill a brand new cache with the
+    // previous release's files and pin players to stale code.
+    caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(ASSETS.map(url => new Request(url, { cache: 'reload' })))
+    )
   );
   globalThis.skipWaiting();
 });
