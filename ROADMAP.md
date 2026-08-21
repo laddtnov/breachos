@@ -176,14 +176,14 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 
 ## Completed ✓
 
-- [x] 4 game modes (Classic, Blitz, Survival, Daily)
+- [x] 6 game modes (Classic, Blitz, Survival, Daily, Weekly, Friend Challenge)
 - [x] 4 difficulty levels
 - [x] 10 rank progression system
-- [x] 10 card skins with unlock conditions
+- [x] 11 card skins with unlock conditions
 - [x] 16 collection cards
 - [x] 24 achievements
 - [x] 11 sound themes
-- [x] 11 table themes
+- [x] 13 table themes
 - [x] Combo system with XP bonuses
 - [x] Player dossier with full stats
 - [x] Konami code easter egg
@@ -212,7 +212,8 @@ PWA wrapped via PWABuilder (Microsoft tool) — generates Xcode project from `ma
 - [x] Daily leaderboard — GLOBAL/TODAY tabs, fastest time wins, resets daily
 - [x] Profile page — rank, XP bar, stats, best times, achievements/collection count
 - [x] Streak freeze — earned every 7 days, auto-burns on missed day, HUD indicator
-- [x] Android TWA — signed AAB published to Google Play (`xyz.laddtnov.breachos`)
+- [ ] Android TWA — package name reserved (`xyz.laddtnov.breachos`), assetlinks.json
+      live, AAB not yet uploaded to Google Play
 - [x] Privacy policy page (`/privacy`) — GDPR + COPPA compliant
 - [x] `assetlinks.json` — TWA domain verification
 - [x] Security hardening — HSTS, CSP, rate limiting, service role key isolation

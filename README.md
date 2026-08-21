@@ -78,7 +78,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 ### Progression
 - **10 Ranks** — ROOKIE → AGENT → SPECIALIST → GHOST → NETRUNNER ELITE → PHANTOM → ARCHITECT → OVERSEER → WRAITH → SINGULARITY
 - **XP Calculation** — difficulty × move efficiency × speed × combo chains
-- **10 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono, Plasma Burn, Acid Rain, Shadow Protocol
+- **11 Card Skins** — Default, Hologram, Corrupted, Gold Circuit, Elite Neon, Survivor, Chrono, Plasma Burn, Acid Rain, Shadow Protocol, Neon Graffiti
 - **16 Collection Cards** — unlocked by rank, survival waves, daily streaks, win milestones, blitz wins and more
 - **24 Achievements** — spanning gameplay, speed, combos, survival, daily challenges and hidden secrets
 
@@ -95,6 +95,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 | Plasma Burn skin | Win 20 games |
 | Acid Rain skin | Reach 7× combo |
 | Shadow Protocol skin | Play 100 games |
+| Neon Graffiti skin | Earn 5 achievements |
 | PHOENIX card | Survive wave 10 |
 | ORACLE PRIME card | 30-day daily streak |
 | TEMPEST card | Win 20 games |
@@ -209,6 +210,18 @@ breachos/
 4. Chain matches for combo bonuses
 5. Earn XP, rank up, unlock skins and collection cards
 6. Hit **SYNC** to register and keep your progress across all devices
+
+---
+
+## Embed
+
+Drop the game into any page:
+
+```html
+<iframe src="https://breachos.laddtnov.xyz/" width="100%" height="700"
+        style="border:none;border-radius:8px;box-shadow:0 4px 20px rgba(0,243,255,0.3);"
+        title="BreachOS"></iframe>
+```
 
 ---
 
