@@ -91,6 +91,9 @@
   <script defer src="dist/app.min.js"></script>
   <script type="module">
     await loadPartials();
+    // Before anything renders: the Play Store build must never show the
+    // external payment link the SUPPORT button opens.
+    applyStoreBuildRules();
     initDOMRefs();
     initMenuDialog();
     updateRankHUD();
