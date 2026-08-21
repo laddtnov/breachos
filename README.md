@@ -4,6 +4,8 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 
 **[Play Now →](https://breachos.laddtnov.xyz/)**
 
+[![Build Check](https://github.com/laddtnov/breachos/actions/workflows/deploy.yml/badge.svg)](https://github.com/laddtnov/breachos/actions/workflows/deploy.yml)
+
 <!-- Google Play badge — restore this once the listing is live. Until then the
      link 404s for anyone who clicks it. Kept verbatim so the package id does
      not have to be reconstructed.
@@ -23,6 +25,7 @@ A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![Resend](https://img.shields.io/badge/Resend-000000?style=for-the-badge&logo=minutemailer&logoColor=white)
+![esbuild](https://img.shields.io/badge/esbuild-FFCF00?style=for-the-badge&logo=esbuild&logoColor=black)
 ![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)
 ![Web Audio API](https://img.shields.io/badge/Web%20Audio%20API-FF6B35?style=for-the-badge&logo=webaudio&logoColor=white)
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
@@ -252,8 +255,9 @@ reflects the current sources.
 npm test
 ```
 
-Runs the `node:test` suite (Node 18+, no dependencies) — 197 tests covering the
-date and streak arithmetic, survival escalation and scoring, the rank curve,
+Runs the `node:test` suite — 197 tests, Node 18 or newer, with no test framework
+or other test-time dependency. Covers the date and streak arithmetic, survival
+escalation and scoring, the rank curve,
 Friend Challenge encoding and its rejection of malformed links, the server-side
 stats guard and password-reset token check, service worker cache eligibility,
 tab keyboard navigation, haptic presets, achievement badges, and win-rate
@@ -268,6 +272,28 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 ---
 
 ## Changelog
+
+### v1.7.2
+Build tooling, caching and bug fixes. No gameplay changes.
+
+**Performance**
+- **New:** A build step concatenates and minifies the stylesheets and scripts into `dist/app.min.css` and `dist/app.min.js`. The page loaded 25 stylesheets and 28 scripts, all render-blocking; it now loads two files. CSS drops 148.3KB to 99.4KB, JS 184.4KB to 115.2KB, and the request count for these assets falls from 53 to 2
+- **Changed:** Static assets are cached instead of revalidated on every visit. They were served `max-age=0, must-revalidate`, so all 53 files made a conditional request on every load. They now carry `max-age=3600` with a day of `stale-while-revalidate`. Not `immutable` and not longer: filenames are not content-hashed, so a long cache would pin players to a previous release's JavaScript
+- **Changed:** The service worker precaches with `cache: 'reload'`, so a newly installed worker cannot fill its cache from the HTTP cache and ship the previous release's files
+
+**Fixes**
+- **Fix:** The graffiti skin could not be switched away from. The board was cleared by naming ten skin classes, and that list never gained the reward skin added in #18 — so selecting it left the class in place, every later skin stacked on top, and the graffiti card backs kept winning. Anyone with five achievements who tried it was stuck for the session
+- **Fix:** The mobile menu's SYNC button stopped showing the signed-in username, after v1.7.1 removed its code along with four genuinely dead references. Unlike those four, that element exists
+- **Fix:** The SETTINGS off-states never rendered — `SOUND: OFF` and `HAPTICS: OFF` looked identical to ON apart from the word, because the only styling for them named buttons the v1.7.0 navigation consolidation removed
+- **Chore:** Removed 27 dead CSS rule blocks: the shells of the four modals that consolidation deleted, plus two orphaned classes
+
+**CI**
+- **Fix:** The build check ran `npm run build 2>/dev/null || echo "No build script"`, which was harmless with no build script and would have reported a green check for a failed build once one existed
+- **Fix:** `npm test` could never have run on the CI runner's Node 20. The script quoted its glob, which leaves Node to expand it internally — something Node only gained in 21. It passed locally on 22 and nowhere else. The suite now also runs on every pull request, rather than only in a local pre-push hook
+- **Changed:** Dependencies install with `npm ci --ignore-scripts` so CI resolves exactly what the lockfile records and package lifecycle hooks cannot run; the Vercel CLI is pinned rather than floating, since that step holds a deploy token
+
+**Internal**
+- **Chore:** Service worker cache bumped to `breachos-v60`
 
 ### v1.7.1
 Security and polish before the Play Store launch. No gameplay changes.
