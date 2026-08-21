@@ -1,9 +1,19 @@
 /* ── Combo Display ── */
+/* Sits in flow, immediately before the board, rather than absolutely at a
+   fixed offset. It used to be `position: absolute; top: 70px`, measured
+   against an older HUD — the HUD grew when the rank meter and XP bar were
+   added, and the popup landed on top of them at every width, mobile included.
+   Staying in flow means it tracks whatever height the HUD happens to be
+   instead of guessing, and height: 0 keeps it from pushing the board down and
+   back on every combo. */
 #combo-display {
-  position: absolute;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  height: 0;
+  text-align: center;
+  /* Zero-height box, so the scale animation is pinned to the top edge and
+     grows downward over the board rather than from a centre line that is not
+     there. */
+  transform-origin: 50% 0;
   z-index: 5;
   font-family: 'Courier New', monospace;
   font-size: 28px;
@@ -21,19 +31,22 @@
   animation: combo-pulse 0.4s ease-out;
 }
 
+/* Scale only. These keyframes carried translateX(-50%) to preserve the old
+   absolute centring; keeping it now would drag the text half its width to the
+   left for the duration of the animation. The box is zero-height, so the
+   origin is pinned to the top edge above. */
 @keyframes combo-pulse {
   0% {
-    transform: translateX(-50%) scale(1.6);
+    transform: scale(1.6);
     opacity: 0.5;
   }
   50% {
-    transform: translateX(-50%) scale(1.1);
+    transform: scale(1.1);
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
 }
-
 /* Color escalation for higher combos — applied via JS class or inline */
