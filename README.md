@@ -290,6 +290,16 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.5
+Security fix from a full-repo audit. No gameplay changes.
+
+**Security**
+- **Fix:** The rate limiter's eviction sweep computed its cutoff from whichever call happened to trigger it, then applied that cutoff to every bucket in the shared map — not just its own. Routes use very different windows (`login` 15 minutes, `forgot-password`/`reset-password` 1 hour, `sync-save` 1 minute), and this let unauthenticated traffic against the 1-minute `sync-save` limit silently evict the 1-hour `forgot-password` bucket once its real timestamps aged past 1 minute, resetting an attacker's hourly quota mid brute-force attempt. `windowMs` is now stored per bucket, and the sweep evicts using each bucket's own window
+
+**Internal**
+- **Chore:** Full-repo audit for stale references, dead code and XSS sinks — nothing else found. Every `innerHTML` site interpolates authored static data or numbers, never user input; user-facing strings go through `textContent`
+- **Chore:** Test suite grown from 206 to 210 tests
+
 ### v1.7.4
 Play Store compliance. No gameplay changes, and the web build is untouched.
 
