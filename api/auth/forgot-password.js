@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   // Send via Resend using our cyberpunk template
   try {
     await resend.emails.send({
-      from: 'The BreachOS Team <breachos@laddtnov.xyz>',
+      from: 'The BreachOS Team <breachos@breachos.app>',
       to: email,
       subject: 'SIGNAL LOST — RESET YOUR ACCESS CODE',
       html: resetEmail(resetUrl),
