@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: 'The BreachOS Team <breachos@laddtnov.xyz>',
+      from: 'The BreachOS Team <breachos@breachos.app>',
       to: email,
       subject: 'ACCESS GRANTED — WELCOME TO BREACH OS',
       html: welcomeEmail(username),

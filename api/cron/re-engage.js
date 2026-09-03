@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
     try {
       await resend.emails.send({
-        from: 'The BreachOS Team <breachos@laddtnov.xyz>',
+        from: 'The BreachOS Team <breachos@breachos.app>',
         to: email,
         subject: 'SIGNAL LOST — WHERE ARE YOU, AGENT?',
         html: reEngageEmail(profile.username, daysMissing),
