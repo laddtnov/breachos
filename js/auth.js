@@ -79,7 +79,15 @@ async function syncLoad() {
     const merged = mergeStats(playerStats, stats);
     playerStats = merged; // reassign the let binding declared in game.js
     saveStats(merged);
+    // Achievements are their own store (js/achievements.js), not read off
+    // playerStats directly — mergeStats already unioned the ids onto
+    // merged.unlockedAchievements above, so mirror that back into the real
+    // store the badge grid and checkAchievements() actually read from.
+    if (typeof setUnlockedAchievements === 'function') {
+      setUnlockedAchievements(merged.unlockedAchievements || []);
+    }
     if (typeof updateRankHUD === 'function') updateRankHUD();
+    if (typeof renderAchievementBadges === 'function') renderAchievementBadges();
     if (typeof refreshLeaderboardIfOpen === 'function') refreshLeaderboardIfOpen();
   } catch (e) {
     console.warn('[SYNC] Load failed', e?.message);

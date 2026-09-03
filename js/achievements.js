@@ -187,9 +187,29 @@ function loadAchievements() {
 
 function saveAchievements(unlocked) {
   localStorage.setItem('cyberpunk_achievements', JSON.stringify(unlocked));
+
+  // Achievements lived in their own silo, separate from playerStats, so an
+  // unlock never reached syncSave's payload and cross-device sync silently
+  // dropped it. Mirroring onto playerStats and pushing immediately — rather
+  // than waiting for the next stats save — closes that gap.
+  if (typeof playerStats === 'object' && playerStats) {
+    playerStats.unlockedAchievements = unlocked;
+  }
+  if (typeof syncSave === 'function') syncSave().catch(() => {});
 }
 
 let unlockedAchievements = loadAchievements();
+
+// A sync pull needs to replace this list wholesale with a merged one. Doing
+// that reassignment from auth.js — a bare `unlockedAchievements = ...` in
+// another file, relying on the shared top-level scope classic scripts get —
+// works, but reads exactly like an accidental implicit global and trips
+// linters for good reason. Keeping the assignment in the file that declares
+// the binding is the actual fix, not just a quieter one.
+function setUnlockedAchievements(ids) {
+  unlockedAchievements = Array.isArray(ids) ? ids : [];
+  saveAchievements(unlockedAchievements);
+}
 
 function checkAchievements(gameResult) {
   const newlyUnlocked = [];
