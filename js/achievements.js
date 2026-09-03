@@ -187,6 +187,15 @@ function loadAchievements() {
 
 function saveAchievements(unlocked) {
   localStorage.setItem('cyberpunk_achievements', JSON.stringify(unlocked));
+
+  // Achievements lived in their own silo, separate from playerStats, so an
+  // unlock never reached syncSave's payload and cross-device sync silently
+  // dropped it. Mirroring onto playerStats and pushing immediately — rather
+  // than waiting for the next stats save — closes that gap.
+  if (typeof playerStats === 'object' && playerStats) {
+    playerStats.unlockedAchievements = unlocked;
+  }
+  if (typeof syncSave === 'function') syncSave().catch(() => {});
 }
 
 let unlockedAchievements = loadAchievements();
