@@ -71,23 +71,42 @@ describe('saveAchievements — pushes an unlock toward the server', () => {
   });
 });
 
-describe('cross-device pull — a remote-only unlock becomes locally visible', () => {
+describe('setUnlockedAchievements — what syncLoad calls after a merge', () => {
   test('an achievement earned on another device lands in this device\'s store', () => {
-    // Mirrors what syncLoad now does: merge the two id lists, then hand the
-    // union to saveAchievements so it becomes the real store, not just a
-    // field nobody reads.
+    // Mirrors what syncLoad does: merge the two id lists, then hand the
+    // union to setUnlockedAchievements so it becomes the real store, not
+    // just a field nobody reads.
     const local = ['first_win'];
     const remote = ['first_win', 'combo_master']; // earned on the other device
-
     const merged = [...new Set([...local, ...remote])];
 
     const playerStats = { xp: 500 };
     const sandbox = loadAchievementsModule({ playerStats });
-    sandbox.saveAchievements(merged);
+    sandbox.setUnlockedAchievements(merged);
 
     assert.deepStrictEqual(
       JSON.parse(sandbox.localStorage.getItem('cyberpunk_achievements')).sort(),
       ['combo_master', 'first_win'].sort()
+    );
+  });
+
+  test('mirrors onto playerStats too, same as saveAchievements', () => {
+    const playerStats = {};
+    const sandbox = loadAchievementsModule({ playerStats });
+
+    sandbox.setUnlockedAchievements(['first_win']);
+
+    assert.deepStrictEqual(playerStats.unlockedAchievements, ['first_win']);
+  });
+
+  test('falls back to an empty list for a non-array', () => {
+    const sandbox = loadAchievementsModule({ playerStats: {} });
+
+    sandbox.setUnlockedAchievements(undefined);
+
+    assert.deepStrictEqual(
+      JSON.parse(sandbox.localStorage.getItem('cyberpunk_achievements')),
+      []
     );
   });
 });

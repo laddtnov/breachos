@@ -83,9 +83,8 @@ async function syncLoad() {
     // playerStats directly — mergeStats already unioned the ids onto
     // merged.unlockedAchievements above, so mirror that back into the real
     // store the badge grid and checkAchievements() actually read from.
-    if (typeof unlockedAchievements !== 'undefined' && typeof saveAchievements === 'function') {
-      unlockedAchievements = merged.unlockedAchievements || [];
-      saveAchievements(unlockedAchievements);
+    if (typeof setUnlockedAchievements === 'function') {
+      setUnlockedAchievements(merged.unlockedAchievements || []);
     }
     if (typeof updateRankHUD === 'function') updateRankHUD();
     if (typeof renderAchievementBadges === 'function') renderAchievementBadges();

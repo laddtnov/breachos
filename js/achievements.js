@@ -200,6 +200,17 @@ function saveAchievements(unlocked) {
 
 let unlockedAchievements = loadAchievements();
 
+// A sync pull needs to replace this list wholesale with a merged one. Doing
+// that reassignment from auth.js — a bare `unlockedAchievements = ...` in
+// another file, relying on the shared top-level scope classic scripts get —
+// works, but reads exactly like an accidental implicit global and trips
+// linters for good reason. Keeping the assignment in the file that declares
+// the binding is the actual fix, not just a quieter one.
+function setUnlockedAchievements(ids) {
+  unlockedAchievements = Array.isArray(ids) ? ids : [];
+  saveAchievements(unlockedAchievements);
+}
+
 function checkAchievements(gameResult) {
   const newlyUnlocked = [];
 
