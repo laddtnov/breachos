@@ -2,7 +2,7 @@
 
 A cyberpunk-themed memory card game built with vanilla HTML, CSS, and JavaScript. Match pairs of sci-fi operatives across multiple game modes, earn XP, unlock ranks, collect card skins, and sync your progress across all devices.
 
-**[Play Now →](https://breachos.laddtnov.xyz/)**
+**[Play Now →](https://breachos.app/)**
 
 [![Build Check](https://github.com/laddtnov/breachos/actions/workflows/checks.yml/badge.svg)](https://github.com/laddtnov/breachos/actions/workflows/checks.yml)
 
