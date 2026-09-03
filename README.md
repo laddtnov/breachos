@@ -208,7 +208,7 @@ breachos/
 
 ## How to Play
 
-1. Open [breachos.laddtnov.xyz](https://breachos.laddtnov.xyz/)
+1. Open [breachos.app](https://breachos.app/)
 2. Select a mode and difficulty from the briefing screen
 3. Flip cards to find matching pairs
 4. Chain matches for combo bonuses
@@ -222,7 +222,7 @@ breachos/
 Drop the game into any page:
 
 ```html
-<iframe src="https://breachos.laddtnov.xyz/" width="100%" height="700"
+<iframe src="https://breachos.app/" width="100%" height="700"
         style="border:none;border-radius:8px;box-shadow:0 4px 20px rgba(0,243,255,0.3);"
         title="BreachOS"></iframe>
 ```
