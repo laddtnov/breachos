@@ -11,7 +11,7 @@
           "value": "http"
         }
       ],
-      "destination": "https://breachos.laddtnov.xyz/:path*",
+      "destination": "https://breachos.app/:path*",
       "permanent": true
     }
   ],

@@ -14,7 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const ORIGIN = 'https://breachos.laddtnov.xyz';
+const ORIGIN = 'https://breachos.app';
 
 function loadIsCacheable() {
   const src = fs.readFileSync(path.join(__dirname, '..', 'sw.js'), 'utf8');

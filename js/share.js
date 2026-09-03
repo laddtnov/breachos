@@ -176,7 +176,7 @@ function generateShareCard() {
   ctx.font = '13px "Courier New", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = 'rgba(0,243,255,0.45)';
-  ctx.fillText('breachos.laddtnov.xyz', W / 2, 458);
+  ctx.fillText('breachos.app', W / 2, 458);
 
   return canvas;
 }

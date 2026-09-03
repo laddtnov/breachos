@@ -53,5 +53,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ Breach OS build check passed! Ready to merge → breachos.laddtnov.xyz'
+              body: '✅ Breach OS build check passed! Ready to merge → breachos.app'
             })

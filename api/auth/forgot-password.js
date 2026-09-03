@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   const { data, error } = await supabase.auth.admin.generateLink({
     type: 'recovery',
     email,
-    options: { redirectTo: 'https://breachos.laddtnov.xyz/' },
+    options: { redirectTo: 'https://breachos.app/' },
   });
 
   if (error) {
