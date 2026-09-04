@@ -12,11 +12,13 @@
   margin: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
+/* Only [open] sets display — see css/leaderboard.css for why the base rule
+   must not, and css/controls.css's #menu-dialog for the pattern this now
+   matches. */
 #auth-modal[open] {
   display: flex;
 }

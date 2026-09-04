@@ -16,11 +16,14 @@
   margin: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
+/* The dialog element's own UA stylesheet already sets display:none when the
+   open attribute is absent — this rule is the only place display is set at
+   all, so a closed dialog stays closed instead of rendering behind whatever
+   the page shows on top of it. */
 #leaderboard-modal[open] { display: flex; }
 
 #leaderboard-modal::backdrop {
