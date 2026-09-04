@@ -9,6 +9,11 @@
   ],
   "redirects": [
     {
+      "source": "/privacy/",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
