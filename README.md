@@ -290,6 +290,23 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.6
+New domain, cross-device sync fix, and two bugs found while preparing the Play Store listing.
+
+**Changed**
+- **Changed:** The game now lives at **breachos.app**. Every reference moved with it — canonical tags, sitemap, robots, the http→https redirect, the password-reset link, the share-card watermark, the README's play link and embed snippet, and the CI build-check comment. Transactional email sends from `breachos@breachos.app` now that the domain is verified in Resend
+
+**Fixes**
+- **Fix:** Achievements never left the device they were earned on. Cross-device sync pushes `playerStats`, but unlocked achievements lived in their own `localStorage` silo, written by a function that never touched `playerStats` and never triggered a sync. XP, rank and every other stat synced correctly; unlocks simply never travelled. Both directions are now wired — an unlock mirrors onto `playerStats` and pushes immediately, and a pull writes the merged list back into the store the badge grid actually reads from
+- **Fix:** The sign-in panel rendered on **every page load**, over the board, without anyone opening it. `#auth-modal` set `display: flex` on its base rule, which outranks the browser's own `dialog:not([open]) { display: none }`, so the dialog's closed state never applied. It was faint against the dark theme, which is why it went unnoticed. `#leaderboard-modal` carried the identical copy-pasted mistake; a scan of every `[open]`-gated selector found no others
+- **Fix:** `/privacy` returned a 404. Both `sitemap.xml` and the in-app Privacy Policy link pointed at it, so Google's crawler and every player who opened that link from the sign-up modal hit a dead page. A scoped rewrite fixes it without enabling `cleanUrls` globally, which would have added a redirect round-trip to all ten partial fragments the page fetches at startup
+
+**Documentation**
+- **Changed:** Account deletion is now its own self-contained section at `/privacy#delete-account`, with the steps as an ordered list and an explicit deleted-vs-retained breakdown — what Google Play's Data Safety form requires of a deletion URL
+
+**Internal**
+- **Chore:** Test suite grown from 210 to 217 tests; service worker cache bumped to `breachos-v64`
+
 ### v1.7.5
 Security fix from a full-repo audit. No gameplay changes.
 
