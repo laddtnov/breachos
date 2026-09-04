@@ -100,6 +100,29 @@
       left: 0;
     }
 
+    h3 {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: #ffffff;
+      margin: 1.25rem 0 0.6rem;
+    }
+
+    ol {
+      margin-bottom: 0.75rem;
+      padding-left: 1.4rem;
+    }
+
+    ol li {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #cccccc;
+    }
+
+    strong {
+      color: #00f3ff;
+      font-weight: 600;
+    }
+
     .card {
       background: rgba(10, 10, 25, 0.85);
       border: 1px solid #00f3ff33;
@@ -244,14 +267,28 @@
       <p>No advertising networks, analytics platforms, or data brokers are used.</p>
     </section>
 
-    <section>
-      <h2>05 &mdash; DATA RETENTION</h2>
+    <section id="delete-account">
+      <h2>05 &mdash; DATA RETENTION &amp; ACCOUNT DELETION</h2>
       <ul>
         <li>Account data and game progress are retained as long as your account is active</li>
-        <li>If you delete your account (via Profile → Delete Account), your data is removed from our database immediately</li>
         <li>Vercel server logs are retained per Vercel's own policy (typically 30 days)</li>
         <li>Re-engagement email timestamps are cleared when you return to the game</li>
       </ul>
+
+      <h3>How to delete your BreachOS account</h3>
+      <ol>
+        <li>Open BreachOS and log in</li>
+        <li>Go to <strong>Profile</strong></li>
+        <li>Select <strong>Delete Account</strong>, then confirm</li>
+      </ol>
+
+      <p><strong>What is deleted immediately:</strong> your email address, password, username,
+        and all game progress &mdash; XP, rank, achievements, unlocked skins, game history, and
+        leaderboard entries. This is a hard delete from our database, not a deactivation.</p>
+      <p><strong>What is retained:</strong> nothing tied to your account. Generic Vercel server
+        logs (IP address, request path, timestamp) exist for every visitor regardless of account
+        and are not linked to your identity once your account is deleted; these age out per
+        Vercel's own retention policy (typically 30 days).</p>
     </section>
 
     <section>
