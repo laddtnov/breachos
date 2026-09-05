@@ -5,6 +5,9 @@
       "namespace": "android_app",
       "package_name": "xyz.laddtnov.breachos",
       "sha256_cert_fingerprints": [
+        "9B:EA:65:F2:6D:1F:2A:AD:82:DE:1A:C9:10:33:A1:54:03:EC:F7:85:3B:31:F8:C1:BD:1B:67:B6:E3:A5:B6:8A",
+        "16:8D:2C:9E:15:D6:64:C1:00:33:B5:9A:F5:6B:59:99:24:F1:97:25:08:A2:9B:49:31:92:80:5A:12:E1:3C:30",
+        "C3:20:AB:9D:3F:2E:00:24:9A:11:EE:02:0B:30:0F:A4:0B:DC:12:1D:01:21:E0:9E:90:E9:CC:FD:10:E8:A4:9E",
         "21:51:63:4C:1D:94:9F:84:75:50:01:E3:6A:A3:D8:95:BD:04:BB:6E:E8:EA:81:C8:43:5B:1F:3D:E0:1F:8F:73"
       ]
     }
