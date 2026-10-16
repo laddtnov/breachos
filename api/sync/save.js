@@ -40,14 +40,23 @@ export default async function handler(req, res) {
 
   const now = new Date().toISOString();
 
-  // Update existing profile row — profile is always created at registration
-  const { error: updateError } = await supabase
+  // An update that matches no row is not an error in postgrest, so a missing
+  // profile used to return success while storing nothing — the player kept
+  // playing and saw "SYNCED" with nothing on the server. Selecting the id back
+  // turns that silence into a real failure the client can show.
+  const { data: updated, error: updateError } = await supabase
     .from('profiles')
     .update({ stats, updated_at: now })
-    .eq('user_id', user.id);
+    .eq('user_id', user.id)
+    .select('user_id');
 
   if (updateError) {
     console.error('[SYNC/SAVE] update error:', updateError.message);
+    return res.status(500).json({ error: 'Failed to save progress' });
+  }
+
+  if (!updated?.length) {
+    console.error('[SYNC/SAVE] no profile row for user:', user.id);
     return res.status(500).json({ error: 'Failed to save progress' });
   }
 
