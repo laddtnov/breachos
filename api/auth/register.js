@@ -12,6 +12,24 @@ function isValidEmail(str) {
 }
 
 
+// Reads the three fields out of the body and checks them. Returns either the
+// cleaned credentials or the message to reject with, so the handler stays one
+// straight line of create-the-account steps.
+function readCredentials(body = {}) {
+  const email    = typeof body.email    === 'string' ? body.email.trim()    : '';
+  const password = typeof body.password === 'string' ? body.password        : '';
+  const username = typeof body.username === 'string' ? body.username.trim() : '';
+
+  if (!isValidEmail(email)) return { error: 'Invalid email' };
+  if (password.length < 8) return { error: 'Password must be at least 8 characters' };
+  if (username.length < 2 || username.length > 20)
+    return { error: 'Username must be 2–20 characters' };
+  if (!/^[A-Za-z0-9_\-. ]{2,20}$/.test(username))
+    return { error: 'Username may only contain letters, numbers, _, -, . and spaces' };
+
+  return { email, password, username };
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -21,19 +39,8 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many registration attempts — try again later' });
   }
 
-  const body     = req.body || {};
-  const email    = typeof body.email    === 'string' ? body.email.trim()    : '';
-  const password = typeof body.password === 'string' ? body.password        : '';
-  const username = typeof body.username === 'string' ? body.username.trim() : '';
-
-  if (!isValidEmail(email))
-    return res.status(400).json({ error: 'Invalid email' });
-  if (password.length < 8)
-    return res.status(400).json({ error: 'Password must be at least 8 characters' });
-  if (username.length < 2 || username.length > 20)
-    return res.status(400).json({ error: 'Username must be 2–20 characters' });
-  if (!/^[A-Za-z0-9_\-. ]{2,20}$/.test(username))
-    return res.status(400).json({ error: 'Username may only contain letters, numbers, _, -, . and spaces' });
+  const { email, password, username, error: invalid } = readCredentials(req.body || {});
+  if (invalid) return res.status(400).json({ error: invalid });
 
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email,
