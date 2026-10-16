@@ -290,6 +290,19 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.7
+Three silent failures found by a repo-wide audit. No gameplay changes.
+
+**Fixes**
+- **Fix:** Daily best times never reached the database. The game stores `{ time, difficulty }`, but the server cleaned that field with `Number()`, which turns an object into `NaN` — so every date was dropped and the field has always arrived empty. Every test passed a bare number, so the suite agreed with itself and never exercised the shape the game actually writes. The daily leaderboard returning an empty list while the global one had players was the visible symptom
+- **Fix:** A failed profile insert at registration produced an account that could never save. The error was ignored, so a failure still returned a working login with no profile row — and every later save used `.update()`, which matches zero rows without raising an error, so the server replied `{"success":true}` and stored nothing for as long as that account existed. Registration now fails and removes the auth user so the address can be reused, and the save treats a zero-row update as the failure it is
+- **Fix:** The TWA opened with a browser address bar. Play App Signing re-signs the uploaded bundle with Google's key, so the certificate on the installed app was never the one Bubblewrap signed with, and `assetlinks.json` listed only the local upload key. All four fingerprints registered against the package are now declared
+- **Fix:** `/privacy/` with a trailing slash returned a 404 while `/privacy` worked. Crawlers normalise URLs that way, and Play Console's privacy-policy checker rejected the URL because of it
+
+**Internal**
+- **Chore:** Credential validation extracted out of the register handler — SonarQube flagged Cognitive Complexity 19 against a limit of 15
+- **Chore:** Test suite grown from 210 to 219 tests; service worker cache bumped to `breachos-v65`
+
 ### v1.7.6
 New domain, cross-device sync fix, and two bugs found while preparing the Play Store listing.
 

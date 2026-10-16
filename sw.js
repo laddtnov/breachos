@@ -1,4 +1,4 @@
-const CACHE_NAME = 'breachos-v64';
+const CACHE_NAME = 'breachos-v65';
 const ASSETS = [
   './',
   './index.html',
