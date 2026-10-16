@@ -92,7 +92,14 @@ function _processDailyStreak(today) {
 function _saveDailyBestTime(today) {
   if (!playerStats.dailyBestTimes) playerStats.dailyBestTimes = {};
   const existing = playerStats.dailyBestTimes[today];
-  if (!existing || gameState.seconds < existing.time) {
+  // Entries are { time, difficulty }, but a save written before that shape was
+  // settled is a bare number. Reading .time off one of those gives undefined,
+  // and `seconds < undefined` is false — which would freeze that day's best
+  // time at the old value forever.
+  const existingTime = typeof existing === 'object' && existing !== null
+    ? existing.time
+    : existing;
+  if (!existing || gameState.seconds < existingTime) {
     playerStats.dailyBestTimes[today] = {
       time: gameState.seconds,
       difficulty: gameState.difficulty,

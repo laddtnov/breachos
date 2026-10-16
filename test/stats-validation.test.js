@@ -158,10 +158,34 @@ describe('sanitizeStats — unknown and oversized input', () => {
 describe('sanitizeStats — daily best times', () => {
   // This map is keyed by date, which makes it the one field that could be used
   // as arbitrary key-value storage if the keys were not checked.
-  test('keeps a real dated entry', () => {
+
+  // The shape the game actually writes. _saveDailyBestTime in js/daily.js
+  // stores { time, difficulty } and reads it back as existing.time. Every
+  // other test here used a bare number, so they all passed while the real
+  // payload was being dropped on the floor by Number({...}) === NaN.
+  test('keeps the { time, difficulty } entry the game actually writes', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, dailyBestTimes: { '2026-08-20': { time: 41, difficulty: 'hard' } } }, null,
+    );
+
+    assert.deepStrictEqual(
+      { ...stats.dailyBestTimes },
+      { '2026-08-20': { time: 41, difficulty: 'hard' } },
+    );
+  });
+
+  test('drops an unknown difficulty rather than storing it', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, dailyBestTimes: { '2026-08-20': { time: 41, difficulty: 'wat' } } }, null,
+    );
+
+    assert.strictEqual(stats.dailyBestTimes['2026-08-20'].difficulty, null);
+  });
+
+  test('keeps a legacy bare number, stored before the shape was fixed', () => {
     const { stats } = sanitizeStats({ ...clean, dailyBestTimes: { '2026-08-20': 41 } }, null);
 
-    assert.deepStrictEqual({ ...stats.dailyBestTimes }, { '2026-08-20': 41 });
+    assert.strictEqual(stats.dailyBestTimes['2026-08-20'].time, 41);
   });
 
   test('drops keys that are not dates', () => {

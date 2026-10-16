@@ -49,11 +49,27 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Registration failed — please check your details and try again' });
   }
 
-  await supabase.from('profiles').insert({
+  // The profile row is where every later save writes. If it is missing,
+  // /api/sync/save has nothing to update and reports success while storing
+  // nothing, so a failure here has to stop registration rather than hand back
+  // a working login that can never save. The auth user is removed first so the
+  // address is free to register again.
+  const { error: profileError } = await supabase.from('profiles').insert({
     user_id: authData.user.id,
     username,
     stats: {},
   });
+
+  if (profileError) {
+    console.error('[REGISTER] Profile insert failed:', profileError.message);
+    await supabase.auth.admin.deleteUser(authData.user.id).catch(() => {});
+    const duplicate = profileError.code === '23505';
+    return res.status(duplicate ? 409 : 500).json({
+      error: duplicate
+        ? 'Username already taken'
+        : 'Registration failed — please try again',
+    });
+  }
 
   const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
   if (signInError) return res.status(500).json({ error: 'Account created but login failed — try logging in manually' });
