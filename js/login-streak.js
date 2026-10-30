@@ -5,14 +5,6 @@
 const LOGIN_STREAK_XP_PER_DAY = 5;
 const LOGIN_STREAK_CAP = 30;
 
-function _shiftDateString(dateStr, days) {
-  const d = new Date(dateStr + 'T00:00:00');
-  d.setDate(d.getDate() + days);
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
-}
-
 // Pure streak transition. `counted` is false when today was already recorded,
 // so the caller knows not to award the bonus twice in one day.
 function computeLoginStreak(lastLoginDate, today, currentStreak, freezes) {
@@ -22,7 +14,7 @@ function computeLoginStreak(lastLoginDate, today, currentStreak, freezes) {
   if (!lastLoginDate) {
     return { streak: 1, freezes, freezeUsed: false, counted: true };
   }
-  if (lastLoginDate === _shiftDateString(today, -1)) {
+  if (lastLoginDate === shiftDateString(today, -1)) {
     return { streak: (currentStreak || 0) + 1, freezes, freezeUsed: false, counted: true };
   }
   if ((freezes || 0) > 0) {

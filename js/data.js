@@ -82,13 +82,39 @@ const DEFAULT_STATS = {
   dailyQuests: null,
 };
 
-// ── Shared PRNG (mulberry32) ──
-function getTodayString() {
-  const d = new Date();
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
+// ── Dates ──
+//
+// Every date in the game is a UTC date, not the device's local one.
+//
+// The Daily Challenge seeds one board per date and the daily leaderboard ranks
+// that date's times, so "today" has to mean the same thing for every player.
+// Read from the device clock it did not: a player in Auckland and one in
+// California sit on different calendar days for most of a day, so they played
+// different boards — and different difficulties, since the rotation keys off
+// day-of-week — while api/leaderboard/daily.js filed both under one UTC date.
+//
+// The cost is that the day now turns over at UTC midnight rather than local
+// midnight, which is mid-afternoon in the Americas.
+//
+// These three are the only date helpers; daily.js, weekly.js and
+// login-streak.js each used to carry their own copy of the formatter.
+function toDateString(d) {
+  return d.toISOString().slice(0, 10);
 }
+
+function getTodayString() {
+  return toDateString(new Date());
+}
+
+// Walks a YYYY-MM-DD by whole days. Parsed as UTC midnight so a round trip is
+// exact and a daylight-saving change cannot move the result a day.
+function shiftDateString(dateStr, days) {
+  const d = new Date(dateStr + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + days);
+  return toDateString(d);
+}
+
+// ── Shared PRNG (mulberry32) ──
 
 function createDailySeed(dateStr) {
   let h = 0;
