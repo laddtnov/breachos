@@ -510,9 +510,17 @@ function startTimer() {
   }, 1000);
 }
 
+// mm:ss, or the dashes a missing time reads as. The profile and the daily
+// leaderboard each used to carry their own copy of this; an absent best time
+// renders as '--:--' rather than 'NaN:NaN'.
 function formatTime(totalSeconds) {
-  const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-  const secs = String(totalSeconds % 60).padStart(2, '0');
+  // Coerced rather than type-checked: a save written before times were clamped
+  // server-side can hold the seconds as a string, and that still has a time to
+  // show. Only a value with no number in it reads as absent.
+  const n = Number(totalSeconds);
+  if (totalSeconds === null || totalSeconds === '' || !Number.isFinite(n)) return '--:--';
+  const mins = String(Math.floor(n / 60)).padStart(2, '0');
+  const secs = String(n % 60).padStart(2, '0');
   return `${mins}:${secs}`;
 }
 

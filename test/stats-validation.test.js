@@ -217,6 +217,125 @@ describe('sanitizeStats — daily best times', () => {
   });
 });
 
+describe('sanitizeStats — game history', () => {
+  // Until this was fixed the whole array was stored as-is, so each of the 50
+  // allowed entries could be an object of any shape and any size. Two
+  // consequences: profiles.stats became free storage for anything that fits in
+  // a request body, and renderGameHistory in js/dossier.js interpolates these
+  // fields straight into innerHTML under a CSP that allows 'unsafe-inline'.
+
+  const entry = {
+    mode: 'classic', difficulty: 'hard', result: 'win',
+    moves: 18, time: 41, combo: 4, xp: 120, ts: 1760000000000,
+  };
+
+  test('keeps the entry the game actually writes', () => {
+    const { stats } = sanitizeStats({ ...clean, gameHistory: [entry] }, null);
+
+    assert.deepStrictEqual({ ...stats.gameHistory[0] }, entry);
+  });
+
+  test('drops markup in the mode so it cannot reach innerHTML', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [{ ...entry, mode: '<img src=x onerror=alert(1)>' }] }, null,
+    );
+
+    assert.strictEqual(stats.gameHistory[0].mode, null);
+  });
+
+  test('drops markup in the difficulty too', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [{ ...entry, difficulty: '"><script>x</script>' }] }, null,
+    );
+
+    assert.strictEqual(stats.gameHistory[0].difficulty, null);
+  });
+
+  test('stores only the eight fields the dossier renders', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [{ ...entry, padding: 'x'.repeat(100_000) }] }, null,
+    );
+
+    assert.deepStrictEqual(Object.keys(stats.gameHistory[0]).sort(), Object.keys(entry).sort());
+  });
+
+  test('coerces a numeric field that arrives as a string of markup', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [{ ...entry, xp: '<b>9</b>', moves: {} }] }, null,
+    );
+
+    assert.strictEqual(stats.gameHistory[0].xp, 0);
+    assert.strictEqual(stats.gameHistory[0].moves, 0);
+  });
+
+  test('keeps only win or lose as a result', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [{ ...entry, result: 'onmouseover=alert(1)' }] }, null,
+    );
+
+    assert.strictEqual(stats.gameHistory[0].result, 'lose');
+  });
+
+  test('drops an entry that is not an object', () => {
+    const { stats } = sanitizeStats(
+      { ...clean, gameHistory: [entry, 'nope', null, 42] }, null,
+    );
+
+    assert.strictEqual(stats.gameHistory.length, 1);
+  });
+
+  test('still caps the number of entries', () => {
+    const many = Array.from({ length: 5000 }, () => entry);
+    const { stats } = sanitizeStats({ ...clean, gameHistory: many }, null);
+
+    assert.ok(stats.gameHistory.length <= STAT_LIMITS.gameHistory);
+  });
+});
+
+describe('sanitizeStats — daily quests', () => {
+  // Same hole as gameHistory: any object at all was stored under this key.
+
+  test('keeps the quest state the game writes', () => {
+    const incoming = { date: '2026-10-30', progress: { win2: { value: 1, completed: false } } };
+    const { stats } = sanitizeStats({ ...clean, dailyQuests: incoming }, null);
+
+    assert.strictEqual(stats.dailyQuests.date, '2026-10-30');
+    assert.deepStrictEqual({ ...stats.dailyQuests.progress.win2 }, { value: 1, completed: false });
+  });
+
+  test('drops a quest id that is not an id', () => {
+    const { stats } = sanitizeStats({
+      ...clean,
+      dailyQuests: { date: '2026-10-30', progress: { '<img src=x>': { value: 1, completed: true } } },
+    }, null);
+
+    assert.deepStrictEqual(Object.keys(stats.dailyQuests.progress), []);
+  });
+
+  test('drops unknown keys rather than storing them', () => {
+    const { stats } = sanitizeStats({
+      ...clean,
+      dailyQuests: { date: '2026-10-30', progress: {}, payload: 'x'.repeat(100_000) },
+    }, null);
+
+    assert.deepStrictEqual(Object.keys(stats.dailyQuests).sort(), ['date', 'progress']);
+  });
+
+  test('stores a non-boolean completed flag as a boolean', () => {
+    const { stats } = sanitizeStats({
+      ...clean,
+      dailyQuests: { date: '2026-10-30', progress: { win2: { value: 1, completed: 'yes' } } },
+    }, null);
+
+    assert.strictEqual(stats.dailyQuests.progress.win2.completed, true);
+  });
+
+  test('survives a non-object rather than throwing', () => {
+    assert.strictEqual(sanitizeStats({ ...clean, dailyQuests: 'x' }, null).stats.dailyQuests, null);
+    assert.strictEqual(sanitizeStats({ ...clean, dailyQuests: [1, 2] }, null).stats.dailyQuests, null);
+  });
+});
+
 describe('sanitizeStats — the accounting invariant', () => {
   test('never stores more wins than games played', () => {
     // The v1.6.0 win-rate bug came from exactly this drifting apart.
