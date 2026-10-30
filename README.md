@@ -290,6 +290,21 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.9
+The rest of the repo audit — findings 3 through 11. Two of them were visible to players.
+
+**Fixes**
+- **Fix:** Most progress never reached a second device. `mergeStats` merged ten numeric fields, two lists and three theme choices while the server stores twenty-six; everything else fell through to the local copy, which on a fresh install means the shipped defaults. Signing in on a new phone therefore showed empty best times, no streaks, no per-difficulty wins, no survival score and no mission history even though the server held all of it — against a store listing whose headline is cross-device sync. Every stored field now has a rule: counters take the higher value, best times the lower, streak dates the later, lists a union, history both sides deduplicated by timestamp, and quests the furthest progress for the later date. Rank is derived from the merged XP rather than taken from either side, so a forged rank cannot survive a sync either
+- **Fix:** The Daily Challenge was not the same challenge for everyone. The board is seeded from the date and the daily leaderboard ranks that date's times in UTC, but the game built the date from the device clock — so a player in Auckland and one in California were on different calendar days for most of a day, played different boards at different difficulties, and had both times filed under one UTC date. Every date in the game is now a UTC date, and the four separate copies of the date formatter are one set of helpers. Day-stepping now parses as UTC midnight, which also fixes a latent streak bug: a local step across a daylight-saving change could land on the wrong day. **The day now turns over at UTC midnight rather than local midnight, which is mid-afternoon in the Americas** — the price of one shared board
+- **Fix:** Deleting an account could destroy the stats and leave the account alive. The profile delete had no error check, so a failure still went on to delete the login. It now stops, which leaves nothing destroyed and lets the player simply try again
+- **Fix:** A malformed daily-quest state crashed the quests modal. Saves written before v1.7.8, when the server stored that field as whatever object arrived, can hold a null progress map under today's date — and four call sites index it directly. Both the sync path and the stored-state path now rebuild the map instead of trusting it
+- **Fix:** The re-engagement email only ever considered the first 1000 accounts, and fetched all of them to find a handful of addresses. Past that, anyone outside the first page was skipped silently and forever. It now looks up only the accounts it matched
+
+**Internal**
+- **Chore:** `mergeStats` and `calculateXP` — what survives a sync, and what every win is worth — had no tests at all. 80 new tests, taking the suite from 232 to 312. The date tests run under pinned time zones in child processes, because the timezone bug cannot be reproduced on a UTC machine at all
+- **Chore:** Four Sonar findings fixed. One of its suggestions was declined: it proposed `Math.max()` for comparing the streak dates, but those are `YYYY-MM-DD` strings and `Math.max` coerces them to `NaN`, which would have wiped all three dates on every sync. Replaced with an explicit string comparator instead, which satisfies the rule and is correct
+- **Chore:** Service worker cache bumped to `breachos-v67`
+
 ### v1.7.8
 A hygiene sweep for duplicates, stale references, unused ids and security issues. Two findings. No gameplay changes.
 
