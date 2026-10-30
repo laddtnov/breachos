@@ -147,10 +147,7 @@ function renderLeaderboard(data, tab) {
 
     if (isDaily) {
       const diffColor = DIFF_COLORS[entry.difficulty] || '#00f3ff';
-      const time = typeof entry.time_secs === 'number'
-        ? Math.floor(entry.time_secs / 60).toString().padStart(2,'0') + ':' +
-          (entry.time_secs % 60).toString().padStart(2,'0')
-        : '--:--';
+      const time = formatTime(entry.time_secs);
       const rankEl = document.createElement('span');
       rankEl.className = 'lb-rank';
       rankEl.style.color = diffColor;

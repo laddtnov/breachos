@@ -137,12 +137,6 @@ function handleLogout() {
 }
 
 // ── Profile helpers ──
-function _fmtSec(sec) {
-  return sec === null || sec === undefined
-    ? '--:--'
-    : Math.floor(sec / 60).toString().padStart(2, '0') + ':' + (sec % 60).toString().padStart(2, '0');
-}
-
 function _globalLen(name, fallback) {
   return globalThis[name] === undefined ? fallback : globalThis[name].length;
 }
@@ -184,7 +178,7 @@ function renderProfile() {
     const bt = s.bestTimes || {};
     timesEl.innerHTML = ['easy','medium','hard','extreme'].map(d =>
       `<div class="profile-time-item">
-        <span class="profile-time-val">${_fmtSec(bt[d])}</span>
+        <span class="profile-time-val">${formatTime(bt[d])}</span>
         <span class="profile-time-lbl">${d.toUpperCase()}</span>
       </div>`
     ).join('');
