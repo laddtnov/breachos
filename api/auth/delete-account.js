@@ -16,11 +16,32 @@ export default async function handler(req, res) {
   const { data: { user }, error: authError } = await supabase.auth.getUser(token);
   if (authError || !user) return res.status(401).json({ error: 'Invalid or expired token' });
 
-  await supabase.from('profiles').delete().eq('user_id', user.id);
+  // Two deletes across two systems with no transaction between them, so one of
+  // them can fail with the other already done. The profile goes first and now
+  // aborts on failure: nothing has been destroyed at that point, so the player
+  // can simply press delete again.
+  //
+  // Deleting the login first would make the opposite failure the likely one —
+  // the login gone, the stats row left behind with its username still on the
+  // leaderboard, and no way for that player to retry because they can no longer
+  // sign in. For a page that promises a hard delete, leaving the data is the
+  // worse half to drop.
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .delete()
+    .eq('user_id', user.id);
+
+  if (profileError) {
+    console.error('[DELETE-ACCOUNT] Profile delete failed:', user.id, profileError.message);
+    return res.status(500).json({ error: 'Failed to delete account — please try again' });
+  }
 
   const { error: deleteError } = await supabase.auth.admin.deleteUser(user.id);
   if (deleteError) {
-    console.error('[DELETE-ACCOUNT] Failed to delete user:', user.id, deleteError.message);
+    // The stats are already gone and cannot come back, so this is logged loudly
+    // enough to find: the account still exists and needs removing by hand.
+    console.error('[DELETE-ACCOUNT] Profile deleted but user remains — needs manual cleanup:',
+      user.id, deleteError.message);
     return res.status(500).json({ error: 'Failed to delete account — please contact support' });
   }
 

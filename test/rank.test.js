@@ -110,3 +110,67 @@ describe('getUnlockedSkins', () => {
     assert.deepStrictEqual(atNewCeiling, atOldCeiling);
   });
 });
+
+// calculateXP decides every XP award in the game, and the leaderboard ranks on
+// the total it produces. It had no test at all, so any change to the formula —
+// or to one of the bonus ceilings — moved every player's progress silently.
+describe('calculateXP', () => {
+  test('a loss is worth a flat consolation award', () => {
+    assert.strictEqual(r.calculateXP('extreme', 50, 60, 10, false, 9), 5);
+  });
+
+  test('a known win returns a known number', () => {
+    // medium base 50, 10 of 30 moves used -> floor(20/30*50) = 33 move bonus,
+    // 40s -> 50 - 4 = 46 time bonus, 4x combo -> 40. Total 169.
+    assert.strictEqual(r.calculateXP('medium', 10, 30, 40, true, 4), 169);
+  });
+
+  test('scales with difficulty on an otherwise identical win', () => {
+    const args = [10, 30, 40, true, 4];
+    const easy    = r.calculateXP('easy', ...args);
+    const medium  = r.calculateXP('medium', ...args);
+    const hard    = r.calculateXP('hard', ...args);
+    const extreme = r.calculateXP('extreme', ...args);
+
+    assert.ok(easy < medium && medium < hard && hard < extreme,
+      `${easy} ${medium} ${hard} ${extreme}`);
+    assert.strictEqual(extreme - hard, 100);
+  });
+
+  test('treats an unknown difficulty as easy rather than awarding nothing', () => {
+    assert.strictEqual(
+      r.calculateXP('nightmare', 10, 30, 40, true, 4),
+      r.calculateXP('easy', 10, 30, 40, true, 4),
+    );
+  });
+
+  test('never pays a negative bonus for a slow or wasteful win', () => {
+    // Every move used and a very long game: both bonuses floor at zero rather
+    // than subtracting from the base award.
+    assert.strictEqual(r.calculateXP('easy', 30, 30, 9999, true, 0), 20);
+  });
+
+  test('pays no combo bonus below a 2x combo', () => {
+    const noCombo  = r.calculateXP('hard', 10, 30, 40, true, 0);
+    const oneCombo = r.calculateXP('hard', 10, 30, 40, true, 1);
+    const twoCombo = r.calculateXP('hard', 10, 30, 40, true, 2);
+
+    assert.strictEqual(noCombo, oneCombo, 'a 1x combo is not a combo');
+    assert.strictEqual(twoCombo - noCombo, 20);
+  });
+
+  test('defaults the combo to zero when the caller omits it', () => {
+    assert.strictEqual(
+      r.calculateXP('hard', 10, 30, 40, true),
+      r.calculateXP('hard', 10, 30, 40, true, 0),
+    );
+  });
+
+  test('stays inside the per-save sync allowance for one win', () => {
+    // lib/stats-validation.js discards a save claiming more than 50,000 XP. A
+    // single award must sit far below that or an honest win looks forged.
+    const best = r.calculateXP('extreme', 0, 60, 0, true, 100);
+
+    assert.ok(best < 50_000, `one win awarded ${best}`);
+  });
+});

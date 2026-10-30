@@ -33,16 +33,26 @@ export default async function handler(req, res) {
     return res.status(200).json({ sent: 0, message: 'No inactive users found' });
   }
 
-  // Fetch emails from Supabase auth for matched user IDs
-  const { data: { users: authUsers }, error: authError } =
-    await supabase.auth.admin.listUsers({ perPage: 1000 });
+  // Look up only the accounts actually matched.
+  //
+  // This used to call listUsers({ perPage: 1000 }), which fetches a single page
+  // of every account in the project to find the handful of addresses the job
+  // needs. Two problems: past 1000 accounts anyone outside that first page was
+  // silently skipped forever, and the work grew with the user base rather than
+  // with the size of the job. Inactive players are a short list by definition.
+  const lookups = await Promise.all(
+    profiles.map(p => supabase.auth.admin.getUserById(p.user_id)),
+  );
 
-  if (authError) {
-    console.error('[RE-ENGAGE] Auth listUsers failed:', authError.message);
-    return res.status(500).json({ error: 'Auth query failed' });
+  const emailMap = {};
+  for (const [i, { data, error: lookupError }] of lookups.entries()) {
+    const id = profiles[i].user_id;
+    if (lookupError || !data?.user?.email) {
+      console.error('[RE-ENGAGE] No address for user:', id, lookupError?.message || 'no email');
+      continue;
+    }
+    emailMap[id] = data.user.email;
   }
-
-  const emailMap = Object.fromEntries(authUsers.map(u => [u.id, u.email]));
 
   let sent = 0;
   const now = new Date().toISOString();
