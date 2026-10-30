@@ -290,6 +290,17 @@ See [`ROADMAP.md`](ROADMAP.md) for planned features.
 
 ## Changelog
 
+### v1.7.8
+A hygiene sweep for duplicates, stale references, unused ids and security issues. Two findings. No gameplay changes.
+
+**Fixes**
+- **Security:** The two stats fields that were never validated. `sanitizeStats` built every other field key by key, but `gameHistory` was only sliced to 50 entries and `dailyQuests` was kept whenever it was an object — so each of those 50 entries could be an object of any shape and any size, and `profiles.stats` was free storage for whatever fits in a request body. A crafted 100KB payload now stores as 671 bytes. The same fields are a markup sink: `renderGameHistory` interpolates `mode`, `difficulty`, `moves`, `time`, `xp`, `ts` and `combo` straight into `innerHTML`, and the Content-Security-Policy permits `'unsafe-inline'`, so injected markup carrying an event handler would have run. Reach was the author's own dossier — the leaderboard functions return shaped rows and never another player's stats — so this was self-XSS rather than a cross-player hole, but it was the one field nothing checked. Mode and quest ids are now checked by shape rather than against a list, because the mode names live in `js/stats-rules.js` and the quest ids in `js/quests.js`, and a second copy in the validator would only drift
+- **Fix:** Three copies of the `mm:ss` formatter folded into one. `js/auth.js` carried `_fmtSec` and `js/leaderboard.js` inlined the same arithmetic; both now call `formatTime`, which gained the absent-value guard the profile copy had and coerces rather than type-checks, so a save holding the seconds as a string still shows a time
+
+**Internal**
+- **Chore:** Test suite grown from 219 to 232 tests; service worker cache bumped to `breachos-v66`
+- **Chore:** Swept clean with no changes needed — duplicate top-level globals across `js/` (load order is load-bearing there), unreferenced functions, missing `index.html` and service worker precache targets, source files absent from `tools/assets.json`, inline handlers naming undeclared functions, stale domain strings, `eval`, hardcoded tokens, and per-route rate limits and auth checks. `lib/ratelimit.js` reads the client IP from `x-forwarded-for`, which would normally be spoofable; Vercel overwrites that header and does not forward external values, so it was left as is
+
 ### v1.7.7
 Three silent failures found by a repo-wide audit. No gameplay changes.
 
