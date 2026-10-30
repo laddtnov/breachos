@@ -142,12 +142,11 @@ function mergeStats(local, remote) {
     merged[key] = Math.max(Number(local[key]) || 0, Number(remote[key]) || 0);
   }
   for (const key of MERGE_LATEST_DATE) {
-    // YYYY-MM-DD compares correctly as a plain string, and with only two
-    // values there is nothing to sort — just keep the later one.
-    const mine = local[key] || null;
-    const theirs = remote[key] || null;
-    if (mine && theirs) merged[key] = mine > theirs ? mine : theirs;
-    else merged[key] = mine || theirs;
+    // The later of the two, or whichever one exists. Compared as strings with
+    // an explicit comparator: YYYY-MM-DD sorts correctly that way, while
+    // Math.max would coerce a date string to NaN.
+    const dates = [local[key], remote[key]].filter(Boolean).sort((a, b) => a.localeCompare(b));
+    merged[key] = dates.at(-1) ?? null;
   }
 
   merged.bestTimes         = _mergeBestTimes(local.bestTimes, remote.bestTimes);
