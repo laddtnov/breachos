@@ -28,21 +28,128 @@ function clearAuth() {
   localStorage.removeItem(USER_STORE);
 }
 
-// ── Merge: always take the higher value for numeric stats ──
+// ── Merge ──
+//
+// The server and this device may each hold progress the other has never seen,
+// so every stored field needs a rule. Anything without one falls through
+// `{ ...local }`, which on a fresh install means the shipped defaults — that is
+// how signing in on a new phone used to show empty best times, no streaks and
+// no history against a full server profile.
+
+// Counters that only ever climb, so the higher value is the true one.
+const MERGE_HIGHEST = [
+  'xp', 'gamesPlayed', 'gamesWon', 'bestCombo', 'totalMatches', 'bestWave',
+  'bestSurvivalScore', 'dailyCompleted', 'blitzWins', 'perfectWins',
+  'dailyStreak', 'streakFreezes', 'weeklyStreak', 'loginStreak', 'loginBestStreak',
+];
+
+// The dates the streak logic compares against. ISO dates sort as strings, so
+// the later one wins and a streak set on the other device can still continue.
+const MERGE_LATEST_DATE = ['dailyLastDate', 'weeklyLastDate', 'loginLastDate'];
+
+const MERGE_DIFFICULTIES = ['easy', 'medium', 'hard', 'extreme'];
+
+// A best time: lower is better, and null means no time yet rather than zero.
+function _mergeBestTimes(local, remote) {
+  const out = {};
+  for (const d of MERGE_DIFFICULTIES) {
+    const times = [local?.[d], remote?.[d]]
+      .map(Number)
+      .filter(n => Number.isFinite(n) && n > 0);
+    out[d] = times.length ? Math.min(...times) : null;
+  }
+  return out;
+}
+
+// Entries are { time, difficulty }; a save written before that shape settled is
+// a bare number, so both are read the same way the server reads them.
+function _dailyTimeOf(entry) {
+  const raw = entry && typeof entry === 'object' ? entry.time : entry;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function _mergeDailyBestTimes(local, remote) {
+  const out = { ...(remote || {}) };
+  for (const [date, entry] of Object.entries(local || {})) {
+    const mine = _dailyTimeOf(entry);
+    if (mine === null) continue;
+    const theirs = _dailyTimeOf(out[date]);
+    if (theirs === null || mine < theirs) out[date] = entry;
+  }
+  return out;
+}
+
+function _mergeWinCounts(local, remote) {
+  const out = {};
+  for (const d of MERGE_DIFFICULTIES) {
+    out[d] = Math.max(Number(local?.[d]) || 0, Number(remote?.[d]) || 0);
+  }
+  return out;
+}
+
+// Both sides' missions, newest first, deduped on timestamp. Capped at the ten
+// the game keeps so a merge cannot grow the list past what recordGame allows.
+function _mergeGameHistory(local, remote) {
+  const byTs = new Map();
+  for (const entry of [...(remote || []), ...(local || [])]) {
+    if (entry && typeof entry === 'object') byTs.set(entry.ts, entry);
+  }
+  return [...byTs.values()]
+    .sort((a, b) => (Number(b.ts) || 0) - (Number(a.ts) || 0))
+    .slice(0, 10);
+}
+
+// Today's quests. The pool is seeded from the date, so the same date means the
+// same three quests on both devices and the furthest progress is the real one.
+function _mergeDailyQuests(local, remote) {
+  if (!local?.date) return remote || null;
+  if (!remote?.date || local.date > remote.date) return local;
+  if (remote.date > local.date) return remote;
+
+  const progress = { ...(remote.progress || {}) };
+  for (const [id, p] of Object.entries(local.progress || {})) {
+    const theirs = progress[id];
+    progress[id] = {
+      value: Math.max(Number(p?.value) || 0, Number(theirs?.value) || 0),
+      completed: Boolean(p?.completed) || Boolean(theirs?.completed),
+    };
+  }
+  return { date: local.date, progress };
+}
+
 function mergeStats(local, remote) {
   if (!remote || typeof remote !== 'object') return local;
-  const nums = ['xp','gamesPlayed','gamesWon','bestCombo','totalMatches',
-                'bestWave','dailyCompleted','blitzWins','perfectWins','dailyStreak'];
+
   const merged = { ...local };
-  for (const key of nums) {
-    merged[key] = Math.max(local[key] || 0, remote[key] || 0);
+  for (const key of MERGE_HIGHEST) {
+    merged[key] = Math.max(Number(local[key]) || 0, Number(remote[key]) || 0);
   }
+  for (const key of MERGE_LATEST_DATE) {
+    const dates = [local[key], remote[key]].filter(Boolean).sort();
+    merged[key] = dates.length ? dates[dates.length - 1] : null;
+  }
+
+  merged.bestTimes         = _mergeBestTimes(local.bestTimes, remote.bestTimes);
+  merged.dailyBestTimes    = _mergeDailyBestTimes(local.dailyBestTimes, remote.dailyBestTimes);
+  merged.winsPerDifficulty = _mergeWinCounts(local.winsPerDifficulty, remote.winsPerDifficulty);
+  merged.gameHistory       = _mergeGameHistory(local.gameHistory, remote.gameHistory);
+  merged.dailyQuests       = _mergeDailyQuests(local.dailyQuests, remote.dailyQuests);
+
   merged.unlockedAchievements = [
     ...new Set([...(local.unlockedAchievements || []), ...(remote.unlockedAchievements || [])]),
   ];
   merged.unlockedSkins = [
     ...new Set([...(local.unlockedSkins || []), ...(remote.unlockedSkins || [])]),
   ];
+
+  // Derived, never merged: a rank stored on either side could disagree with the
+  // merged XP, and the ladder is the only thing that decides it.
+  if (typeof getRankForXP === 'function') {
+    merged.rank = getRankForXP(merged.xp).name;
+  }
+
+  // These are this device's choices, not progress, so the local pick stands.
   merged.activeSkin       = local.activeSkin;
   merged.activeTheme      = local.activeTheme;
   merged.activeSoundTheme = local.activeSoundTheme;
