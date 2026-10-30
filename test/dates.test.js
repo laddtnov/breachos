@@ -3,12 +3,13 @@
 // The Daily Challenge seeds one board per date and the daily leaderboard ranks
 // that date's times, so "today" has to mean the same thing for every player.
 // Read from the device clock it did not: a player in Auckland and one in
-// California are on different dates for most of a day, so they played different
-// boards while api/leaderboard/daily.js filed both under one UTC date.
+// California are on different calendar days for most of a day, so they played
+// different boards while api/leaderboard/daily.js filed both under one UTC date.
 //
-// These assertions run inside child processes with TZ pinned, because the bug
-// only shows outside UTC — on a UTC runner the old local-clock code and the
-// fixed code agree, and the test would pass either way.
+// Each case runs in a child process per time zone, because the bug only shows
+// outside UTC — on a UTC runner the old local-clock code and the fixed code
+// agree and the assertions would pass either way. The cases are a table rather
+// than written out per zone so the zone loop is the only thing repeated.
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert');
@@ -21,8 +22,14 @@ const ROOT = path.join(__dirname, '..');
 // day from UTC for part of every day.
 const ZONES = ['Pacific/Auckland', 'America/Los_Angeles', 'UTC'];
 
-// Evaluates js/data.js plus the named files in a child process under `tz`, and
-// returns whatever `expr` evaluates to.
+const HELPERS = [
+  'toDateString', 'getTodayString', 'shiftDateString', 'getWeekStartString',
+  'daysUntilWeeklyReset', 'computeWeeklyStreak', 'computeLoginStreak',
+  'getDailyDifficulty',
+].join(', ');
+
+// Evaluates js/data.js plus `files` in a child process under `tz`, and returns
+// whatever `expr` evaluates to.
 function evalUnderTz(tz, files, expr) {
   const script = `
     const fs = require('fs'), vm = require('vm'), path = require('path');
@@ -32,140 +39,92 @@ function evalUnderTz(tz, files, expr) {
       ${JSON.stringify(['js/data.js', ...files])}.map(read).join('\\n'),
       sandbox,
     );
-    const { ${'toDateString, getTodayString, shiftDateString, getWeekStartString, daysUntilWeeklyReset, computeWeeklyStreak, computeLoginStreak, getDailyDifficulty'} } = sandbox;
+    const { ${HELPERS} } = sandbox;
     process.stdout.write(JSON.stringify(${expr}));
   `;
-  const out = execFileSync(process.execPath, ['-e', script], {
+  return JSON.parse(execFileSync(process.execPath, ['-e', script], {
     env: { ...process.env, TZ: tz },
     encoding: 'utf8',
-  });
-  return JSON.parse(out);
+  }));
 }
 
-describe('toDateString — the one date formatter', () => {
-  for (const tz of ZONES) {
-    test(`returns the UTC calendar date in ${tz}`, () => {
-      // 23:30 UTC on the 30th. In Auckland that instant is already the 31st
-      // local; in Los Angeles it is still the 30th. The answer must be the
-      // UTC date in both, or two players get different boards.
-      const got = evalUnderTz(tz, [], `toDateString(new Date('2026-10-30T23:30:00Z'))`);
-      assert.strictEqual(got, '2026-10-30');
-    });
+// Each case: what it proves, which files it needs, the expression, the answer.
+// Every expression returns a JSON value so one assertion covers them all.
+const CASES = {
+  'toDateString — the one date formatter': [
+    // 23:30 UTC on the 30th is already the 31st in Auckland and still the 30th
+    // in Los Angeles. The answer must be the UTC date in both, or two players
+    // get different boards.
+    ['returns the UTC calendar date, not the local one', [],
+      `toDateString(new Date('2026-10-30T23:30:00Z'))`, '2026-10-30'],
+    ['returns the UTC date just after UTC midnight', [],
+      `toDateString(new Date('2026-10-31T00:30:00Z'))`, '2026-10-31'],
+    ['getTodayString agrees with the clock\'s own UTC date', [],
+      `getTodayString() === new Date().toISOString().slice(0, 10)`, true],
+  ],
 
-    test(`returns the UTC date just after UTC midnight in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `toDateString(new Date('2026-10-31T00:30:00Z'))`);
-      assert.strictEqual(got, '2026-10-31');
-    });
+  'shiftDateString — walking days for the streak checks': [
+    ['steps back one day', [], `shiftDateString('2026-10-31', -1)`, '2026-10-30'],
+    ['steps forward one day', [], `shiftDateString('2026-10-31', 1)`, '2026-11-01'],
+    ['crosses a month boundary', [], `shiftDateString('2026-03-01', -1)`, '2026-02-28'],
+    ['crosses a leap day', [], `shiftDateString('2028-03-01', -1)`, '2028-02-29'],
+    ['crosses a year boundary', [], `shiftDateString('2027-01-01', -1)`, '2026-12-31'],
+    // Europe and the Americas both shift their clocks inside this window. A
+    // local shift across a 23- or 25-hour day used to land on the wrong date.
+    ['steps over a daylight-saving change', [],
+      `shiftDateString('2026-03-29', -1)`, '2026-03-28'],
+    ['round-trips a date through a week', [],
+      `shiftDateString(shiftDateString('2026-10-30', -7), 7)`, '2026-10-30'],
+  ],
 
-    test(`getTodayString agrees with the clock's own UTC date in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `[getTodayString(), new Date().toISOString().slice(0, 10)]`);
-      assert.strictEqual(got[0], got[1]);
-    });
-  }
-});
+  'getDailyDifficulty — the same difficulty for everyone': [
+    // 2026-10-30T23:30:00Z is Friday in UTC and Saturday in Auckland. The
+    // rotation is ['easy','medium','hard','extreme','hard','medium','easy']
+    // indexed from Sunday, so UTC Friday is 'medium' and Saturday 'easy'.
+    ['reads the day of week in UTC', ['js/daily.js'],
+      `getDailyDifficulty(new Date('2026-10-30T23:30:00Z'))`, 'medium'],
+  ],
 
-describe('shiftDateString — walking days for the streak checks', () => {
-  for (const tz of ZONES) {
-    test(`steps back one day in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `shiftDateString('2026-10-31', -1)`);
-      assert.strictEqual(got, '2026-10-30');
-    });
+  'getWeekStartString — the weekly board': [
+    ['returns the same UTC Monday all week, then rolls over', ['js/weekly.js'], `[
+      getWeekStartString(new Date('2026-08-17T00:00:00Z')),
+      getWeekStartString(new Date('2026-08-23T23:59:00Z')),
+      getWeekStartString(new Date('2026-08-24T00:00:00Z')),
+    ]`, ['2026-08-17', '2026-08-17', '2026-08-24']],
+    ['crosses a month boundary', ['js/weekly.js'],
+      `getWeekStartString(new Date('2026-09-01T12:00:00Z'))`, '2026-08-31'],
+    // Monday reads 7 so the counter never shows 0; Sunday reads 1.
+    ['counts days to the next reset in UTC', ['js/weekly.js'], `[
+      daysUntilWeeklyReset(new Date('2026-08-17T12:00:00Z')),
+      daysUntilWeeklyReset(new Date('2026-08-23T12:00:00Z')),
+    ]`, [7, 1]],
+    ['continues from the previous week, restarts after a skipped one', ['js/weekly.js'], `[
+      computeWeeklyStreak('2026-08-10', '2026-08-17', 3),
+      computeWeeklyStreak('2026-08-03', '2026-08-17', 3),
+    ]`, [4, 1]],
+  ],
 
-    test(`crosses a month boundary in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `shiftDateString('2026-03-01', -1)`);
-      assert.strictEqual(got, '2026-02-28');
-    });
+  'computeLoginStreak — the login streak': [
+    ['continues from yesterday\'s UTC date', ['js/login-streak.js'],
+      `computeLoginStreak('2026-10-30', '2026-10-31', 5, 0)`,
+      { streak: 6, freezes: 0, freezeUsed: false, counted: true }],
+    ['does not count the same day twice', ['js/login-streak.js'],
+      `computeLoginStreak('2026-10-31', '2026-10-31', 5, 0)`,
+      { streak: 5, freezes: 0, freezeUsed: false, counted: false }],
+    ['spends a freeze across a gap rather than resetting', ['js/login-streak.js'],
+      `computeLoginStreak('2026-10-20', '2026-10-31', 5, 2)`,
+      { streak: 6, freezes: 1, freezeUsed: true, counted: true }],
+  ],
+};
 
-    test(`crosses a leap day in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `shiftDateString('2028-03-01', -1)`);
-      assert.strictEqual(got, '2028-02-29');
-    });
-
-    test(`steps over a daylight-saving change in ${tz}`, () => {
-      // Europe and the Americas both shift clocks inside this window. A local
-      // date that jumps 23 or 25 hours used to land on the wrong day.
-      const got = evalUnderTz(tz, [], `shiftDateString('2026-03-29', -1)`);
-      assert.strictEqual(got, '2026-03-28');
-    });
-
-    test(`round-trips a date through a week in ${tz}`, () => {
-      const got = evalUnderTz(tz, [], `shiftDateString(shiftDateString('2026-10-30', -7), 7)`);
-      assert.strictEqual(got, '2026-10-30');
-    });
-  }
-});
-
-describe('getDailyDifficulty — the same difficulty for everyone', () => {
-  for (const tz of ZONES) {
-    test(`reads the day of week in UTC in ${tz}`, () => {
-      // 2026-10-30T23:30:00Z is a Friday in UTC. Local Auckland is Saturday.
-      // The rotation is ['easy','medium','hard','extreme','hard','medium',
-      // 'easy'] indexed from Sunday, so Friday is 'medium'.
-      const got = evalUnderTz(tz, ['js/daily.js'],
-        `getDailyDifficulty(new Date('2026-10-30T23:30:00Z'))`);
-      assert.strictEqual(got, 'medium');
-    });
-  }
-});
-
-describe('getWeekStartString — the weekly board', () => {
-  for (const tz of ZONES) {
-    test(`returns the same UTC Monday all week in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/weekly.js'], `[
-        getWeekStartString(new Date('2026-08-17T00:00:00Z')),
-        getWeekStartString(new Date('2026-08-23T23:59:00Z')),
-        getWeekStartString(new Date('2026-08-24T00:00:00Z')),
-      ]`);
-      assert.deepStrictEqual(got, ['2026-08-17', '2026-08-17', '2026-08-24']);
-    });
-
-    test(`crosses a month boundary in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/weekly.js'],
-        `getWeekStartString(new Date('2026-09-01T12:00:00Z'))`);
-      assert.strictEqual(got, '2026-08-31');
-    });
-
-    test(`counts days to the next reset in UTC in ${tz}`, () => {
-      // Monday reads 7 so the counter never shows 0; Sunday reads 1.
-      const got = evalUnderTz(tz, ['js/weekly.js'], `[
-        daysUntilWeeklyReset(new Date('2026-08-17T12:00:00Z')),
-        daysUntilWeeklyReset(new Date('2026-08-23T12:00:00Z')),
-      ]`);
-      assert.deepStrictEqual(got, [7, 1]);
-    });
-
-    test(`continues a weekly streak from the previous week in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/weekly.js'], `[
-        computeWeeklyStreak('2026-08-10', '2026-08-17', 3),
-        computeWeeklyStreak('2026-08-03', '2026-08-17', 3),
-      ]`);
-      assert.deepStrictEqual(got, [4, 1], 'a skipped week restarts the streak');
-    });
-  }
-});
-
-describe('computeLoginStreak — the login streak', () => {
-  for (const tz of ZONES) {
-    test(`continues from yesterday's UTC date in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/login-streak.js'],
-        `computeLoginStreak('2026-10-30', '2026-10-31', 5, 0)`);
-      assert.strictEqual(got.streak, 6);
-      assert.strictEqual(got.counted, true);
-    });
-
-    test(`does not count the same day twice in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/login-streak.js'],
-        `computeLoginStreak('2026-10-31', '2026-10-31', 5, 0)`);
-      assert.strictEqual(got.counted, false);
-      assert.strictEqual(got.streak, 5);
-    });
-
-    test(`spends a freeze across a gap rather than resetting in ${tz}`, () => {
-      const got = evalUnderTz(tz, ['js/login-streak.js'],
-        `computeLoginStreak('2026-10-20', '2026-10-31', 5, 2)`);
-      assert.strictEqual(got.streak, 6);
-      assert.strictEqual(got.freezes, 1);
-      assert.strictEqual(got.freezeUsed, true);
-    });
-  }
-});
+for (const [group, cases] of Object.entries(CASES)) {
+  describe(group, () => {
+    for (const [name, files, expr, expected] of cases) {
+      for (const tz of ZONES) {
+        test(`${name} — ${tz}`, () => {
+          assert.deepStrictEqual(evalUnderTz(tz, files, expr), expected);
+        });
+      }
+    }
+  });
+}
