@@ -26,8 +26,13 @@ function getTodayQuests() {
 
 function getOrInitQuestState() {
   const today = getTodayString();
-  if (playerStats.dailyQuests?.date === today) {
-    return playerStats.dailyQuests;
+  // The progress map is checked, not assumed: this object is returned straight
+  // to four call sites that index it, and a save written before v1.7.8 — when
+  // the server stored dailyQuests as whatever object arrived — can hold
+  // anything under that key, including null.
+  const stored = playerStats.dailyQuests;
+  if (stored?.date === today && stored.progress && typeof stored.progress === 'object') {
+    return stored;
   }
   const quests = getTodayQuests();
   const progress = {};

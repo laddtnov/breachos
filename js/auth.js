@@ -70,7 +70,7 @@ function _dailyTimeOf(entry) {
 }
 
 function _mergeDailyBestTimes(local, remote) {
-  const out = { ...(remote || {}) };
+  const out = { ...remote };  // spreading null or undefined already yields {}
   for (const [date, entry] of Object.entries(local || {})) {
     const mine = _dailyTimeOf(entry);
     if (mine === null) continue;
@@ -100,15 +100,31 @@ function _mergeGameHistory(local, remote) {
     .slice(0, 10);
 }
 
+// A quest state with a usable progress map, or null.
+//
+// Before v1.7.8 the server stored dailyQuests as whatever object arrived, so a
+// save from then can hold any shape under that key. getOrInitQuestState hands
+// the stored object straight back when its date matches today and four call
+// sites in js/quests.js then index state.progress, so a null there throws in
+// the quests modal rather than reading as empty.
+function _questState(state) {
+  if (!state?.date) return null;
+  const progress = state.progress;
+  return {
+    date: state.date,
+    progress: progress && typeof progress === 'object' ? progress : {},
+  };
+}
+
 // Today's quests. The pool is seeded from the date, so the same date means the
 // same three quests on both devices and the furthest progress is the real one.
 function _mergeDailyQuests(local, remote) {
-  if (!local?.date) return remote || null;
-  if (!remote?.date || local.date > remote.date) return local;
-  if (remote.date > local.date) return remote;
+  if (!local?.date) return _questState(remote);
+  if (!remote?.date || local.date > remote.date) return _questState(local);
+  if (remote.date > local.date) return _questState(remote);
 
-  const progress = { ...(remote.progress || {}) };
-  for (const [id, p] of Object.entries(local.progress || {})) {
+  const progress = { ..._questState(remote).progress };
+  for (const [id, p] of Object.entries(_questState(local).progress)) {
     const theirs = progress[id];
     progress[id] = {
       value: Math.max(Number(p?.value) || 0, Number(theirs?.value) || 0),
@@ -126,8 +142,12 @@ function mergeStats(local, remote) {
     merged[key] = Math.max(Number(local[key]) || 0, Number(remote[key]) || 0);
   }
   for (const key of MERGE_LATEST_DATE) {
-    const dates = [local[key], remote[key]].filter(Boolean).sort();
-    merged[key] = dates.length ? dates[dates.length - 1] : null;
+    // YYYY-MM-DD compares correctly as a plain string, and with only two
+    // values there is nothing to sort — just keep the later one.
+    const mine = local[key] || null;
+    const theirs = remote[key] || null;
+    if (mine && theirs) merged[key] = mine > theirs ? mine : theirs;
+    else merged[key] = mine || theirs;
   }
 
   merged.bestTimes         = _mergeBestTimes(local.bestTimes, remote.bestTimes);

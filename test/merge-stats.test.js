@@ -184,6 +184,41 @@ describe('mergeStats — a device that is ahead of the server', () => {
   });
 });
 
+describe('mergeStats — a malformed quest state', () => {
+  // Before v1.7.8 the server stored dailyQuests as whatever object arrived, so
+  // a save from then can hold any shape under that key. getOrInitQuestState
+  // hands the stored object straight back when its date matches today, and four
+  // call sites in js/quests.js then index state.progress — so a null there is a
+  // TypeError in the quests modal, not a cosmetic problem.
+  test('never returns a quest state whose progress is not an object', () => {
+    const cases = [
+      [{ date: '2026-10-29', progress: null }, {}],
+      [{}, { date: '2026-10-29', progress: null }],
+      [{ date: '2026-10-28', progress: null }, { date: '2026-10-29', progress: null }],
+      [{ date: '2026-10-29', progress: 'nope' }, { date: '2026-10-29', progress: 7 }],
+    ];
+
+    for (const [localQuests, remoteQuests] of cases) {
+      const merged = auth.mergeStats(
+        { ...freshLocal(), dailyQuests: localQuests },
+        { ...fullRemote(), dailyQuests: remoteQuests },
+      );
+      assert.strictEqual(typeof merged.dailyQuests.progress, 'object',
+        `progress was ${JSON.stringify(merged.dailyQuests)}`);
+      assert.notStrictEqual(merged.dailyQuests.progress, null);
+    }
+  });
+
+  test('still reports no quest state at all when neither side has one', () => {
+    const merged = auth.mergeStats(
+      { ...freshLocal(), dailyQuests: null },
+      { ...fullRemote(), dailyQuests: null },
+    );
+
+    assert.strictEqual(merged.dailyQuests, null);
+  });
+});
+
 describe('mergeStats — nothing to merge', () => {
   test('returns the local stats untouched when there is no remote profile', () => {
     const local = freshLocal();
