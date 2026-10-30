@@ -7,29 +7,21 @@ const WEEKLY_COUNTDOWN = 120;
 const WEEKLY_XP_MULTIPLIER = 2;
 const WEEKLY_STREAK_XP = 25;
 
-function _toDateString(d) {
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
-}
-
-// Monday of the given date's week, as YYYY-MM-DD — the seed for that week's board.
+// Monday of the given date's week, as YYYY-MM-DD — the seed for that week's
+// board. UTC throughout, like every other date: the board has to be the same
+// one for every player, and it used to turn over at each device's own midnight.
 function getWeekStartString(now = new Date()) {
-  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); // Mon=0 … Sun=6
-  return _toDateString(d);
+  return shiftDateString(toDateString(now), -((now.getUTCDay() + 6) % 7)); // Mon=0 … Sun=6
 }
 
 // Days until the next Monday. Returns 7 on a Monday so the counter never reads 0.
 function daysUntilWeeklyReset(now = new Date()) {
-  return 7 - ((now.getDay() + 6) % 7);
+  return 7 - ((now.getUTCDay() + 6) % 7);
 }
 
 // Streak continues only when the immediately preceding week was completed.
 function computeWeeklyStreak(lastWeeklyDate, thisWeekStart, currentStreak) {
-  const prev = new Date(thisWeekStart + 'T00:00:00');
-  prev.setDate(prev.getDate() - 7);
-  return lastWeeklyDate === _toDateString(prev) ? (currentStreak || 0) + 1 : 1;
+  return lastWeeklyDate === shiftDateString(thisWeekStart, -7) ? (currentStreak || 0) + 1 : 1;
 }
 
 function isWeeklyCompleted() {

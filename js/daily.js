@@ -14,8 +14,10 @@ function seededShuffle(array, rng) {
 // Difficulty cycles by day-of-week (0=Sun)
 const DAILY_DIFFICULTIES = ['easy', 'medium', 'hard', 'extreme', 'hard', 'medium', 'easy'];
 
-function getDailyDifficulty() {
-  return DAILY_DIFFICULTIES[new Date().getDay()];
+// UTC day-of-week, so the rotation turns over with the board rather than hours
+// apart from it. `now` is injectable for the tests.
+function getDailyDifficulty(now = new Date()) {
+  return DAILY_DIFFICULTIES[now.getUTCDay()];
 }
 
 function isDailyCompleted() {
@@ -64,11 +66,7 @@ function startDailyChallenge() {
 
 // ── Streak update helper ──
 function _processDailyStreak(today) {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  const yStr = d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
+  const yStr = shiftDateString(today, -1);
 
   let freezeUsed = false;
   if (playerStats.dailyLastDate === yStr) {

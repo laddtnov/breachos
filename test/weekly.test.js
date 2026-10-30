@@ -1,6 +1,14 @@
 // Pure-logic tests for the Weekly Challenge and Login Streak.
 // The browser files are plain global scripts, so each is evaluated in a vm
 // sandbox and its top-level function declarations are read off the context.
+//
+// js/data.js is prepended because both files date their work with the shared
+// toDateString / shiftDateString helpers that live there.
+//
+// Every fixture below is an explicit UTC instant. These used to be local-midnight
+// dates like `new Date(2026, 7, 17)`, which name a different calendar day either
+// side of UTC — exactly the bug these functions were fixed for. See
+// test/dates.test.js for the TZ-pinned checks.
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert');
@@ -9,11 +17,14 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 function loadGlobals(relPath, extraGlobals = {}) {
-  const src = fs.readFileSync(path.join(__dirname, '..', relPath), 'utf8');
+  const read = rel => fs.readFileSync(path.join(__dirname, '..', rel), 'utf8');
   const sandbox = { console, Math, Date, JSON, String, Number, Array, Object, ...extraGlobals };
-  vm.runInNewContext(src, sandbox);
+  vm.runInNewContext(read('js/data.js') + '\n' + read(relPath), sandbox);
   return sandbox;
 }
+
+// Midday UTC, so the instant names the same calendar day in every time zone.
+const utc = isoDate => new Date(isoDate + 'T12:00:00Z');
 
 const weekly = loadGlobals('js/weekly.js');
 const streak = loadGlobals('js/login-streak.js');
@@ -21,48 +32,48 @@ const streak = loadGlobals('js/login-streak.js');
 describe('getWeekStartString', () => {
   test('returns the same Monday for every day of one week', () => {
     // Mon 2026-08-17 through Sun 2026-08-23 all belong to the week of the 17th.
-    const monday = new Date(2026, 7, 17);
-    const sunday = new Date(2026, 7, 23);
+    const monday = utc('2026-08-17');
+    const sunday = utc('2026-08-23');
 
     assert.strictEqual(weekly.getWeekStartString(monday), '2026-08-17');
     assert.strictEqual(weekly.getWeekStartString(sunday), '2026-08-17');
   });
 
   test('rolls to the next Monday once a new week begins', () => {
-    const nextMonday = new Date(2026, 7, 24);
+    const nextMonday = utc('2026-08-24');
     assert.strictEqual(weekly.getWeekStartString(nextMonday), '2026-08-24');
   });
 
   test('crosses a month boundary correctly', () => {
     // Tue 2026-09-01 belongs to the week starting Mon 2026-08-31.
-    const tuesday = new Date(2026, 8, 1);
+    const tuesday = utc('2026-09-01');
     assert.strictEqual(weekly.getWeekStartString(tuesday), '2026-08-31');
   });
 
   test('crosses a year boundary correctly', () => {
     // Fri 2027-01-01 belongs to the week starting Mon 2026-12-28.
-    const newYearsDay = new Date(2027, 0, 1);
+    const newYearsDay = utc('2027-01-01');
     assert.strictEqual(weekly.getWeekStartString(newYearsDay), '2026-12-28');
   });
 
   test('pads single-digit months and days to two characters', () => {
-    const march = new Date(2026, 2, 5); // Thu 2026-03-05, week of Mon 2026-03-02
+    const march = utc('2026-03-05'); // Thu 2026-03-05, week of Mon 2026-03-02
     assert.strictEqual(weekly.getWeekStartString(march), '2026-03-02');
   });
 });
 
 describe('daysUntilWeeklyReset', () => {
   test('reports a full week when today is Monday', () => {
-    assert.strictEqual(weekly.daysUntilWeeklyReset(new Date(2026, 7, 17)), 7);
+    assert.strictEqual(weekly.daysUntilWeeklyReset(utc('2026-08-17')), 7);
   });
 
   test('reports one day when today is Sunday', () => {
-    assert.strictEqual(weekly.daysUntilWeeklyReset(new Date(2026, 7, 23)), 1);
+    assert.strictEqual(weekly.daysUntilWeeklyReset(utc('2026-08-23')), 1);
   });
 
   test('never reports zero on any day of the week', () => {
     for (let day = 17; day <= 23; day++) {
-      const days = weekly.daysUntilWeeklyReset(new Date(2026, 7, day));
+      const days = weekly.daysUntilWeeklyReset(utc(`2026-08-${day}`));
       assert.ok(days >= 1, `day ${day} produced ${days}, expected at least 1`);
       assert.ok(days <= 7, `day ${day} produced ${days}, expected at most 7`);
     }
